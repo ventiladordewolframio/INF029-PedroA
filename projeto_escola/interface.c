@@ -1,10 +1,13 @@
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "ansi_escapes.h"
+
+// add arquivo databaseLoad.c
+// add arquivo databaseWrite.c
+// para lidar com as funcoes necessarias para isso
 
 // ANSI colors
 // |    red \x1b[0;31m
@@ -43,14 +46,17 @@ struct disciplina {
     char professor[128];
 };
 
-#define num_alunos 20
-#define num_professores 10
+#define num_alunos 5
+#define num_professores 5
 #define num_disciplinas 5
+int qtdAluno = 0;
+int qtdProfessor = 0;
 
 struct aluno alunos[num_alunos];
 struct professor professores[num_professores];
 struct disciplina disciplinas[num_disciplinas];
 
+void clear();
 void writeDatabase();
 void readDatabase();
 int interfaceCad();
@@ -72,9 +78,10 @@ int main(void) {
         puts("\x1b[0;31m(s) sair\x1b[0;0m");
         puts("\x1b[0;32m(c) acessar interface de cadastros\x1b[0;0m");
         puts("\x1b[0;32m(r) acessar interface de relatorios\x1b[0;0m");
-        printf("\x1b[0;36m[INFO]: Escolha:\x1b[0;0m ");
+        printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
         char op;
         scanf(" %c", &op);
+        clear();
 
         switch (op) {
             case 's':  // sai da aplicação
@@ -98,11 +105,27 @@ int main(void) {
     restoreConsole();
     return 0;
 }
-
+void clear(void) {
+    while (getchar() != '\n');
+}
 void writeDatabase() {
 }
 void readDatabase() {
 }
+void printAlunosObj() {
+    for (int i = 0; i < num_alunos; i++) {
+        printf("\x1b[0;36m[INFO]: aluno \"%d\" nome:\x1b[0;0m ", i);
+        printf("\"");
+        for (int c = 0; c < (sizeof(&alunos[i].nome[c]) / sizeof(char)); c++) {
+            printf("%c", alunos[i].nome[c]);
+        }
+        printf("\"");
+        printf("\n");
+    }
+}
+
+
+
 int interfaceCad() {
     bool sair_cad = 0;
     while (!sair_cad) {
@@ -117,9 +140,10 @@ int interfaceCad() {
         puts("\x1b[0;32m(a) aluno\x1b[0;0m");
         puts("\x1b[0;32m(p) professor\x1b[0;0m");
         puts("\x1b[0;32m(d) disciplina\x1b[0;0m");
-        printf("\x1b[0;36m[INFO]: Escolha:\x1b[0;0m ");
+        printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
         char op;
         scanf(" %c", &op);
+        clear();
 
         switch (op) {
             case 's':  // sai da aplicação
@@ -127,22 +151,17 @@ int interfaceCad() {
                 break;
 
             case 'a':  // alunos
-            printf("\n");
+                printf("\n");
                 for (int i = 0; i < num_alunos; i++) {
-                    printf("\x1b[0;36m[INFO]: Insira o Nome do aluno matricula \"%d\":\x1b[0;0m\n ", i);
+                    printf("\x1b[0;36m[INFO]: Matricula \"%d\", Nome: \x1b[0;0m\n", i);
                     char nome[256];
                     fgets(nome, 256, stdin);
+                    nome[strcspn(nome, "\n")] = 0;
                     strcpy(alunos[i].nome, nome);
                 }
-                for (int i = 0; i < num_alunos; i++) {
-                    printf("\x1b[0;36m[INFO]: aluno \"%d\" nome:\x1b[0;0m ", i);
-                    printf("\"");
-                    for (int c = 0; c < (sizeof(&alunos[i].nome[c])/sizeof(char)); c++) {
-                        printf("%c", alunos[i].nome[c]);
-                    }
-                    printf("\"");
-                    printf("\n");
-                }
+
+                printAlunosObj();
+
                 break;
 
             case 'p':  // professores
@@ -170,9 +189,10 @@ int interfaceRel() {
         puts("\x1b[0;36m\\_| \\_\\___|_|\\__,_|\\__\\___/|_|  |_|\\___/|___/\x1b[0;0m");
         puts("\x1b[0;36m______________________________________________\x1b[0;0m");
         puts("\x1b[0;31m(s) sair\x1b[0;0m");
-        printf("\x1b[0;36m[INFO]: Escolha:\x1b[0;0m ");
+        printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
         char op;
         scanf(" %c", &op);
+        clear();
 
         switch (op) {
             case 's':  // sai da aplicação
