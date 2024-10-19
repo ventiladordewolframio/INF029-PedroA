@@ -35,6 +35,8 @@ struct disciplina {
 #define MAX_num_professores 5
 #define MAX_num_disciplinas 5
 
+#define MAX_char_nome 256
+
 extern struct aluno alunos[MAX_num_alunos];
 extern struct professor professores[MAX_num_professores];
 extern struct disciplina disciplinas[MAX_num_disciplinas];

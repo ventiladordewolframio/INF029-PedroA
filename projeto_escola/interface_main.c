@@ -1,13 +1,14 @@
 #include "interface_main.h"
-#include "interface_cadastro.h"
-#include "interface_relatorio.h"
 
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 #include "ansi_escapes.h"
+#include "interface_cadastro.h"
+#include "interface_relatorio.h"
 
 // add arquivo databaseLoad.c
 // add arquivo databaseWrite.c
@@ -20,7 +21,6 @@
 // |   cyan \x1b[0;36m
 // |  blank \x1b[0;0m
 
-
 int qtd_aluno = 0;
 int qtd_professor = 0;
 int qtd_disciplina = 0;
@@ -29,18 +29,16 @@ struct aluno alunos[MAX_num_alunos];
 struct professor professores[MAX_num_professores];
 struct disciplina disciplinas[MAX_num_disciplinas];
 
-
 void clear();
-
 
 int main(void) {
     bool sair = 0;
-
+    SetConsoleOutputCP(CP_UTF8);
     setupConsole();
 
     while (!sair) {
         puts("\x1b[0;36m _____      _             __                 _____              _       \x1b[0;0m");
-        puts("\x1b[0;36m|_   _|    | |           / _|               |  ___|            | |  v0.5\x1b[0;0m");
+        puts("\x1b[0;36m|_   _|    | |           / _|               |  ___|            | | v0.5.2\x1b[0;0m");
         puts("\x1b[0;36m  | | _ __ | |_ ___ _ __| |_ __ _  ___ ___  | |__ ___  ___ ___ | | __ _ \x1b[0;0m");
         puts("\x1b[0;36m  | || '_ \\| __/ _ \\ '__|  _/ _` |/ __/ _ \\ |  __/ __|/ __/ _ \\| |/ _` |\x1b[0;0m");
         puts("\x1b[0;36m _| || | | | ||  __/ |  | || (_| | (_|  __/ | |__\\__ \\ (_| (_) | | (_| |\x1b[0;0m");
@@ -82,17 +80,14 @@ void clear(void) {
 }
 
 void printAlunosObj() {
+    puts("\x1b[0;36m[INFO]: Relatorio Alunos Raw:\x1b[0;0m");
     for (int i = 0; i < MAX_num_alunos; i++) {
-        printf("\x1b[0;36m[INFO]: aluno \"%d\" nome:\x1b[0;0m ", i);
-        printf("\"");
-        for (int c = 0; c < (sizeof(&alunos[i].nome[c]) / sizeof(char)); c++) {
-            printf("%c", alunos[i].nome[c]);
-        }
-        printf("\"");
+        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
+        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
+        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
+        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+        printf("\x1b[0;36m├─CPF: \"%d\"\x1b[0;0m\n", alunos[i].cpf);
+
         printf("\n");
     }
 }
-
-
-
-
