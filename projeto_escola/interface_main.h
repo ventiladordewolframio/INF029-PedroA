@@ -3,7 +3,7 @@
 
 struct data {
     unsigned long long int timestamp;
-    int ano;
+    unsigned long long int ano;
     int mes;
     int dia;
 };
@@ -13,7 +13,7 @@ struct aluno {
     char nome[256];
     char sexo;
     struct data nascimento;
-    int cpf;
+    unsigned long long int cpf;
 };
 
 struct professor {
@@ -21,7 +21,7 @@ struct professor {
     char nome[256];
     char sexo;
     struct data nascimento;
-    int cpf;
+    unsigned long long int cpf;
 };
 
 struct disciplina {

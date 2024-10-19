@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 
 #include "ansi_escapes.h"
 #include "interface_cadastro.h"
@@ -30,10 +29,12 @@ struct professor professores[MAX_num_professores];
 struct disciplina disciplinas[MAX_num_disciplinas];
 
 void clear();
+void eraseObjVariables();
 
 int main(void) {
     bool sair = 0;
     setupConsole();
+    eraseObjVariables();
 
     while (!sair) {
         puts("\x1b[0;36m╔════════════════════════════════════════════════════════════════════════╗           \x1b[0;0m");
@@ -85,9 +86,18 @@ void printAlunosObj() {
         printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
         printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
         printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
-        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
-        printf("\x1b[0;36m├─CPF: \"%d\"\x1b[0;0m\n", alunos[i].cpf);
+        printf("\x1b[0;36m├─Nascimento: \"%llu/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+        printf("\x1b[0;36m├─CPF: \"%llu\"\x1b[0;0m\n", alunos[i].cpf);
 
         printf("\n");
+    }
+}
+
+void eraseObjVariables() {
+    for (int i = 0; i < MAX_num_alunos; i++) {
+        alunos[i].nascimento.ano = 0;
+        alunos[i].nascimento.mes = 0;
+        alunos[i].nascimento.dia = 0;
+        alunos[i].cpf = 0;
     }
 }
