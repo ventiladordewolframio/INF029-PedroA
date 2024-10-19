@@ -21,9 +21,13 @@
 // |  blank \x1b[0;0m
 
 
+int qtd_aluno = 0;
+int qtd_professor = 0;
+int qtd_disciplina = 0;
 
-
-
+struct aluno alunos[MAX_num_alunos];
+struct professor professores[MAX_num_professores];
+struct disciplina disciplinas[MAX_num_disciplinas];
 
 
 void clear();
@@ -36,7 +40,7 @@ int main(void) {
 
     while (!sair) {
         puts("\x1b[0;36m _____      _             __                 _____              _       \x1b[0;0m");
-        puts("\x1b[0;36m|_   _|    | |           / _|               |  ___|            | |  v0.4\x1b[0;0m");
+        puts("\x1b[0;36m|_   _|    | |           / _|               |  ___|            | |  v0.5\x1b[0;0m");
         puts("\x1b[0;36m  | | _ __ | |_ ___ _ __| |_ __ _  ___ ___  | |__ ___  ___ ___ | | __ _ \x1b[0;0m");
         puts("\x1b[0;36m  | || '_ \\| __/ _ \\ '__|  _/ _` |/ __/ _ \\ |  __/ __|/ __/ _ \\| |/ _` |\x1b[0;0m");
         puts("\x1b[0;36m _| || | | | ||  __/ |  | || (_| | (_|  __/ | |__\\__ \\ (_| (_) | | (_| |\x1b[0;0m");
