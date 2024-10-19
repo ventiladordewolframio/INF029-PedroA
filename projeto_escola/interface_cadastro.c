@@ -15,13 +15,14 @@ int interfaceCadDisciplina();
 int interfaceCad() {
     bool sair_cad = 0;   // pra falar a real esse bool acaba não sendo necessário
     while (!sair_cad) {  // poderia ser substituido por um while(true){}
-        puts("\x1b[0;36m _____           _           _                   \x1b[0;0m");
-        puts("\x1b[0;36m/  __ \\         | |         | |                 \x1b[0;0m");
-        puts("\x1b[0;36m| /  \\/ __ _  __| | __ _ ___| |_ _ __ ___       \x1b[0;0m");
-        puts("\x1b[0;36m| |    / _` |/ _` |/ _` / __| __| '__/ _ \\      \x1b[0;0m");
-        puts("\x1b[0;36m| \\__/\\ (_| | (_| | (_| \\__ \\ |_| | | (_) |  \x1b[0;0m");
-        puts("\x1b[0;36m \\____/\\__,_|\\__,_|\\__,_|___/\\__|_|  \\___/ \x1b[0;0m");
-        puts("\x1b[0;36m____________________________________________     \x1b[0;0m");
+        puts("\x1b[0;36m╔═══════════════════════════════════════════╗\x1b[0;0m");
+        puts("\x1b[0;36m║ _____           _           _             ║   \x1b[0;0m");
+        puts("\x1b[0;36m║/  __ \\         | |         | |            ║   \x1b[0;0m");
+        puts("\x1b[0;36m║| /  \\/ __ _  __| | __ _ ___| |_ _ __ ___  ║   \x1b[0;0m");
+        puts("\x1b[0;36m║| |    / _` |/ _` |/ _` / __| __| '__/ _ \\ ║   \x1b[0;0m");
+        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | (_| \\__ \\ |_| | | (_) |║  \x1b[0;0m");
+        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_|\\__,_|___/\\__|_|  \\___/ ║ \x1b[0;0m");
+        puts("\x1b[0;36m╚═══════════════════════════════════════════╝    \x1b[0;0m");
         puts("\x1b[0;31m(s) sair - (Interface Escola)                    \x1b[0;0m");
         puts("\x1b[0;32m(a) aluno                                        \x1b[0;0m");
         puts("\x1b[0;32m(p) professor                                    \x1b[0;0m");
@@ -57,14 +58,15 @@ int interfaceCad() {
 int interfaceCadAluno() {
     bool sair_cad_aluno = 0;   // pra falar a real esse bool acaba não sendo necessário
     while (!sair_cad_aluno) {  // poderia ser substituido por um while(true){}
-        puts("\x1b[0;36m _____           _  ___  _                                         \x1b[0;0m");
-        puts("\x1b[0;36m/  __ \\         | |/ _ \\| |                                      \x1b[0;0m");
-        puts("\x1b[0;36m| /  \\/ __ _  __| / /_\\ \\ |_   _ _ __   ___                     \x1b[0;0m");
-        puts("\x1b[0;36m| |    / _` |/ _` |  _  | | | | | '_ \\ / _ \\                     \x1b[0;0m");
-        puts("\x1b[0;36m| \\__/\\ (_| | (_| | | | | | |_| | | | | (_) |                    \x1b[0;0m");
-        puts("\x1b[0;36m \\____/\\__,_|\\__,_\\_| |_/_|\\__,_|_| |_|\\___/                 \x1b[0;0m");
-        puts("\x1b[0;36m_____________________________________________                      \x1b[0;0m");
-        printf("\x1b[0;31m(s) sair do menu de cadastro de alunos                           \x1b[0;0m\n");
+        puts("\x1b[0;36m╔═════════════════════════════════════════════╗                \x1b[0;0m");
+        puts("\x1b[0;36m║ _____           _  ___  _                   ║                 \x1b[0;0m");
+        puts("\x1b[0;36m║/  __ \\         | |/ _ \\| |                  ║                 \x1b[0;0m");
+        puts("\x1b[0;36m║| /  \\/ __ _  __| / /_\\ \\ |_   _ _ __   ___  ║                 \x1b[0;0m");
+        puts("\x1b[0;36m║| |    / _` |/ _` |  _  | | | | | '_ \\ / _ \\ ║                 \x1b[0;0m");
+        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | | | | | |_| | | | | (_) |║                 \x1b[0;0m");
+        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_\\_| |_/_|\\__,_|_| |_|\\___/ ║                 \x1b[0;0m");
+        puts("\x1b[0;36m╚═════════════════════════════════════════════╝                   \x1b[0;0m");
+        printf("\x1b[0;31m(s) sair - (Cadastro)                           \x1b[0;0m\n");
         if (qtd_aluno == MAX_num_alunos) {
             printf("\x1b[0;31m(i) Inserir dados de uma nova Matricula: (CHEIO) (%d/%d)     \x1b[0;0m\n", qtd_aluno, qtd_aluno);
         } else {
