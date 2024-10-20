@@ -47,7 +47,7 @@ int main(void) {
         puts("\x1b[0;36m╚════════════════════════════════════════════════════════════════════════╝\x1b[0;0m");
         puts("\x1b[0;31m(s) sair\x1b[0;0m");
         puts("\x1b[0;32m(c) acessar interface de cadastros\x1b[0;0m");
-        puts("\x1b[0;32m(r) acessar interface de relatorios\x1b[0;0m");
+        puts("\x1b[0;32m(r) acessar interface de relatórios\x1b[0;0m");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
         char op;
         scanf(" %c", &op);
@@ -67,7 +67,7 @@ int main(void) {
                 break;
 
             default:  // erro na operacao escolhida
-                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" nao existe\n", op);
+                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" não existe\n", op);
                 break;
         }
     }
@@ -81,7 +81,7 @@ void clear(void) {
 }
 
 void printAlunosObj() {
-    puts("\x1b[0;36m[INFO]: Relatorio Alunos Raw:\x1b[0;0m");
+    puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m");
     for (int i = 0; i < MAX_num_alunos; i++) {
         printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
         printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
