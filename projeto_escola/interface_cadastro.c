@@ -13,8 +13,7 @@ int interfaceCadProfessor();
 int interfaceCadDisciplina();
 
 int interfaceCad() {
-    bool sair_cad = 0;   // pra falar a real esse bool acaba não sendo necessário
-    while (!sair_cad) {  // poderia ser substituido por um while(true){}
+    while (true) {
         puts("\x1b[0;36m╔═══════════════════════════════════════════╗\x1b[0;0m");
         puts("\x1b[0;36m║ _____           _           _             ║   \x1b[0;0m");
         puts("\x1b[0;36m║/  __ \\         | |         | |            ║   \x1b[0;0m");
@@ -49,15 +48,103 @@ int interfaceCad() {
                 break;
 
             default:  // erro na operacao escolhida
-                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" nao existe\n", op);
+                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" não existe\n", op);
                 break;
         }
     }
 }
 
+void alunoInputNome(bool EDITAR_DADOS) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    bool error = false;
+    while (true) {
+        printf("\x1b[0;36m[INPUT]:            Nome: \x1b[0;0m");
+        char nome[MAX_char_nome];
+        fgets(nome, MAX_char_nome, stdin);
+
+        if (nome[0] == '\n') {
+            if (EDITAR_DADOS == false) {
+                printf("\x1b[0;31m[ERRO]: Nome não pode ser vazio\x1b[0;0m\n");
+                continue;
+            } else {
+                printf("\x1b[0;36m[INFO]: Nome não sera modificado\x1b[0;0m\n");
+                break;
+            }
+        }
+
+        nome[strcspn(nome, "\n")] = 0;  // roubei do teu replit :) obg
+        strcpy(alunos[qtd_aluno].nome, nome);
+        break;
+    }
+}
+
+void alunoInputSexo(bool EDITAR_DADOS) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    while (true) {
+        printf("\x1b[0;36m[INPUT]:       Sexo(M/F): \x1b[0;0m");  //* INSERIR SEXO (lá ele)
+        char sexo = getchar();
+        //scanf(" %c", &sexo);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();              // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+
+        if (sexo == '\n') {
+            if (EDITAR_DADOS == false) {
+                printf("\x1b[0;31m[ERRO]: Sexo não pode ser vazio\x1b[0;0m\n");
+                continue;
+            } else {
+                printf("\x1b[0;36m[INFO]: Sexo não sera modificado\x1b[0;0m\n");
+                break;
+            }
+        }
+
+        if (sexo == 'm') {
+            sexo = 'M';
+        }
+        if (sexo == 'f') {
+            sexo = 'F';
+        }
+
+        if (!(sexo == 'M' || sexo == 'F')) {
+            printf("\x1b[0;31m[ERRO]: Sexo invalido, insira (M/F)\x1b[0;0m\n");
+            continue;
+        }
+
+        alunos[qtd_aluno].sexo = sexo;
+        break;
+    }
+}
+
+void alunoInputNascimento(bool EDITAR_DADOS) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    while (true) {
+        printf("\x1b[0;36m[INPUT]: Nascimento(ano): \x1b[0;0m");  //* INSERIR NASCIMENTO (ANO)
+        int ano;
+        scanf(" %d", &ano);                                       // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                                                  // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+        alunos[qtd_aluno].nascimento.ano = ano;                   // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer ano ser inserido
+        printf("\x1b[0;36m[INPUT]: Nascimento(mes): \x1b[0;0m");  //* INSERIR NASCIMENTO (MES)
+        int mes;
+        scanf(" %d", &mes);                                       // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                                                  // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+        alunos[qtd_aluno].nascimento.mes = mes;                   // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer mes ser inserido
+        printf("\x1b[0;36m[INPUT]: Nascimento(dia): \x1b[0;0m");  //* INSERIR NASCIMENTO
+        int dia;
+        scanf(" %d", &dia);                      // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                                 // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+        alunos[qtd_aluno].nascimento.dia = dia;  // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer dia ser inserido
+        break;
+    }
+}
+
+void alunoInputCPF(bool EDITAR_DADOS) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    while (true) {
+        printf("\x1b[0;36m[INPUT]:             CPF: \x1b[0;0m");  //* INSERIR CPF
+        int cpf;
+        scanf(" %d", &cpf);           // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                      // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+        alunos[qtd_aluno].cpf = cpf;  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
+        break;
+    }
+}
+
 int interfaceCadAluno() {
-    bool sair_cad_aluno = 0;   // pra falar a real esse bool acaba não sendo necessário
-    while (!sair_cad_aluno) {  // poderia ser substituido por um while(true){}
+    while (true) {
         puts("\x1b[0;36m╔═════════════════════════════════════════════╗                    \x1b[0;0m");
         puts("\x1b[0;36m║ _____           _  ___  _                   ║                    \x1b[0;0m");
         puts("\x1b[0;36m║/  __ \\         | |/ _ \\| |                  ║                  \x1b[0;0m");
@@ -85,56 +172,22 @@ int interfaceCadAluno() {
                 return 0;
                 break;
 
-            case 'i':                               // inserir dados de uma nova matricula
-                if (qtd_aluno == MAX_num_alunos) {  // se as matriculas definidas estiverem cheias, impedir o commando de rodar
+            case 'i':  // inserir dados de uma nova matricula
+                if (qtd_aluno == MAX_num_alunos) {
                     break;
                 }
-                printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_aluno);  //* INSERIR NOME
-                printf("\x1b[0;36m[INPUT]:            Nome: \x1b[0;0m");
-                char nome[MAX_char_nome];
-                fgets(nome, MAX_char_nome, stdin);
-                nome[strcspn(nome, "\n")] = 0;  // roubei do teu replit :) obg
-                strcpy(alunos[qtd_aluno].nome, nome);
-
-                printf("\x1b[0;36m[INPUT]:       Sexo(M/F): \x1b[0;0m");  //* INSERIR SEXO (lá ele)
-                char sexo;
-                scanf(" %c", &sexo);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
-                clear();              // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
-                if (sexo == 'M' || sexo == 'F') {
-                    alunos[qtd_aluno].sexo = sexo;
-                } else {
-                    printf("\x1b[0;31m[ERRO]: Sexo invalido, insira (M/F)\x1b[0;0m\n");
-                    break;
-                }
-
-                printf("\x1b[0;36m[INPUT]: Nascimento(ano): \x1b[0;0m");  //* INSERIR NASCIMENTO (ANO)
-                char ano;
-                scanf(" %d", &ano);                                       // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
-                clear();                                                  // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
-                alunos[qtd_aluno].nascimento.ano = ano;                   // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer ano ser inserido
-                printf("\x1b[0;36m[INPUT]: Nascimento(mes): \x1b[0;0m");  //* INSERIR NASCIMENTO (MES)
-                char mes;
-                scanf(" %d", &mes);                                       // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
-                clear();                                                  // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
-                alunos[qtd_aluno].nascimento.mes = mes;                   // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer mes ser inserido
-                printf("\x1b[0;36m[INPUT]: Nascimento(dia): \x1b[0;0m");  //* INSERIR NASCIMENTO
-                char dia;
-                scanf(" %d", &dia);                      // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
-                clear();                                 // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
-                alunos[qtd_aluno].nascimento.dia = dia;  // TODO eu deveria adicionar uma verificação aqui para impedir de qualquer dia ser inserido
-
-                printf("\x1b[0;36m[INPUT]:             CPF: \x1b[0;0m");  //* INSERIR CPF
-                char cpf;
-                scanf(" %d", &cpf);           // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
-                clear();                      // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
-                alunos[qtd_aluno].cpf = cpf;  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
-
+                printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_aluno);
+                alunoInputNome(false);
+                alunoInputSexo(false);
+                alunoInputNascimento(false);
+                alunoInputCPF(false);
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 qtd_aluno++;
                 break;
 
             case 'e':  // editar dados de uma matricula
                        // TODO se o usuario deixar em branco, não mudar o valor. caso contrario muda para oq for escrito
+
                 break;
 
             case 'l':  // listar matriculas
@@ -143,7 +196,7 @@ int interfaceCadAluno() {
                 break;
 
             default:  // erro na operacao escolhida
-                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" nao existe\n", op);
+                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" não existe\n", op);
                 break;
         }
     }
