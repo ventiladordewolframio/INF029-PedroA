@@ -29,12 +29,12 @@ struct professor professores[MAX_num_professores];
 struct disciplina disciplinas[MAX_num_disciplinas];
 
 void clear();
-void eraseObjVariables();
+void clearObjVariables();
 
 int main(void) {
     bool sair = 0;
     setupConsole();
-    eraseObjVariables();
+    clearObjVariables();
 
     while (!sair) {
         puts("\x1b[0;36m╔════════════════════════════════════════════════════════════════════════╗           \x1b[0;0m");
@@ -93,7 +93,7 @@ void printAlunosObj() {
     }
 }
 
-void eraseObjVariables() {
+void clearObjVariables() {
     for (int i = 0; i < MAX_num_alunos; i++) {
         alunos[i].nascimento.ano = 0;
         alunos[i].nascimento.mes = 0;
