@@ -1,10 +1,10 @@
 #ifndef DISCIPLINA_H
 #define DISCIPLINA_H
 
-#include "professor.h"
 #include "aluno.h"
+#include "professor.h"
 
-#define TAM_DISCIPLINA 10    
+#define TAM_DISCIPLINA 10
 #define MAX_NOME_DISCIPLINA 100
 #define MAX_CODIGO 10
 
@@ -18,14 +18,14 @@
 #define DISCIPLINA_INVALIDA -6
 
 typedef struct {
-    char codigo[MAX_CODIGO]; 
-    char nome[MAX_NOME_DISCIPLINA]; 
+    char codigo[MAX_CODIGO];
+    char nome[MAX_NOME_DISCIPLINA];
     Professor listaProfessor[TAM_PROFESSOR];
     int numProfessores;
     Aluno listaAluno[TAM_ALUNO];
-    int numAluno;
+    int numAluno;  //! acredito que nao é necessário salvar uma variavel aqui com o numero deles, ja q é so acessado quando pede um relatório e precisaria de fazer um update toda hora se mudar os alunos, entao pq não so calcular na hora msm e printar?
     int semestre;
-    int ativo;
+    int ativo;  //! oq o .ativo na disciplina realmente significa?
 } Disciplina;
 
 // Protótipos das funções

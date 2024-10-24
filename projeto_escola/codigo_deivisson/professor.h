@@ -2,11 +2,12 @@
 #define PROFESSOR_H
 
 #include "data.h"
+//! a formatação automatica dnv vai causar certas linhas constarem como modificadas mas as nao tem comentários não foram modificadas de qualquer forma
 
-#define TAM_PROFESSOR 3     
-#define MAX_NOME 100         
-#define MAX_CPF 13          
-#define MAX_SEXO 2   
+#define TAM_PROFESSOR 3
+#define MAX_NOME 100
+#define MAX_CPF 13
+#define MAX_SEXO 2
 #define TRUE 1
 #define FALSE 0
 
@@ -25,9 +26,9 @@ typedef struct {
     int matricula;
     char nome[MAX_NOME];
     char cpf[MAX_CPF];
-    char sexo;              
-    DataNascimento data;    
-    int ativo;             
+    char sexo;
+    DataNascimento data;
+    int ativo;
 } Professor;
 
 // Protótipos das funções

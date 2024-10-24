@@ -1,7 +1,9 @@
-#include <stdio.h>
-#include <ctype.h>  // Necessário para usar toupper()
-#include <string.h>  // Necessário para usar strcmp e strcpy
 #include "disciplina.h"
+
+#include <ctype.h>  // Necessário para usar toupper() //!ok
+#include <stdio.h>
+#include <string.h>  // Necessário para usar strcmp e strcpy
+//! a formatação automatica dnv vai causar certas linhas constarem como modificadas mas as nao tem comentários não foram modificadas de qualquer forma
 
 int menuDisciplina() {
     int opcao;
@@ -36,11 +38,11 @@ int cadastrarDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
     } else {
         getchar();
         printf("Digite o código da disciplina:\n");
-        char codigo[MAX_CODIGO]; 
+        char codigo[MAX_CODIGO];
         fgets(codigo, MAX_CODIGO, stdin);
         codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
         int i = 0;
-        while(codigo[i] != '\0') {
+        while (codigo[i] != '\0') {
             codigo[i] = toupper(codigo[i]);
             i++;
         }
@@ -79,8 +81,8 @@ void listarDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
             if (listaDisciplina[i].ativo == TRUE) {
                 printf("Código: %s\n", listaDisciplina[i].codigo);
                 printf("Nome: %s\n", listaDisciplina[i].nome);
-                printf("Semestre: %d\n", listaDisciplina[i].semestre);
-            }
+                printf("Semestre: %d\n", listaDisciplina[i].semestre); //! verdade ele menciona semestre no pdf mas ate agora eu nao achei em especifico um uso para ele?
+            }                                                          //! tipo, as disciplinas sao diferentes pro semestre?entao o semestre em si nem é muito necessário
         }
     }
 }
@@ -92,11 +94,11 @@ int atualizarCodigoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
     } else {
         getchar();
         printf("Digite o código da disciplina:\n");
-        char codigo[MAX_CODIGO]; 
+        char codigo[MAX_CODIGO];
         fgets(codigo, MAX_CODIGO, stdin);
         codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
         int i = 0;
-        while(codigo[i] != '\0') {
+        while (codigo[i] != '\0') {
             codigo[i] = toupper(codigo[i]);
             i++;
         }
@@ -106,7 +108,7 @@ int atualizarCodigoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
                 printf("Digite o novo código:\n");
                 char novoCodigo[MAX_CODIGO];
                 fgets(novoCodigo, MAX_CODIGO, stdin);
-                novoCodigo[strcspn(novoCodigo, "\n")] = 0; // Remove o '\n'
+                novoCodigo[strcspn(novoCodigo, "\n")] = 0;  // Remove o '\n'
                 // Atualiza o código
                 strcpy(listaDisciplina[i].codigo, novoCodigo);
                 return ATUALIZACAO_DISCIPLINA_SUCESSO;
@@ -119,15 +121,15 @@ int atualizarCodigoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
 int atualizarNomeDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
     if (qtdDisciplina == 0) {
         printf("-- Não há disciplinas cadastradas --\n");
-        return DISCIPLINA_INEXISTENTE; // Adicionei um retorno aqui
+        return DISCIPLINA_INEXISTENTE;  // Adicionei um retorno aqui
     } else {
         getchar();
         printf("Digite o código da disciplina:\n");
-        char codigo[MAX_CODIGO]; 
+        char codigo[MAX_CODIGO];
         fgets(codigo, MAX_CODIGO, stdin);
         codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
         int i = 0;
-        while(codigo[i] != '\0') {
+        while (codigo[i] != '\0') {
             codigo[i] = toupper(codigo[i]);
             i++;
         }
@@ -154,11 +156,11 @@ int atualizarSemestreDisciplina(Disciplina listaDisciplina[], int qtdDisciplina)
     } else {
         getchar();
         printf("Digite o código da disciplina:\n");
-        char codigo[MAX_CODIGO]; 
+        char codigo[MAX_CODIGO];
         fgets(codigo, MAX_CODIGO, stdin);
         codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
         int i = 0;
-        while(codigo[i] != '\0') {
+        while (codigo[i] != '\0') {
             codigo[i] = toupper(codigo[i]);
             i++;
         }
@@ -180,11 +182,11 @@ int atualizarSemestreDisciplina(Disciplina listaDisciplina[], int qtdDisciplina)
 int excluirDisciplina(Disciplina listaDisciplina[], int qtdDisciplina) {
     getchar();
     printf("Digite o código da disciplina:\n");
-    char codigo[MAX_CODIGO]; 
+    char codigo[MAX_CODIGO];
     fgets(codigo, MAX_CODIGO, stdin);
     codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
     int i = 0;
-    while(codigo[i] != '\0') {
+    while (codigo[i] != '\0') {
         codigo[i] = toupper(codigo[i]);
         i++;
     }
@@ -213,11 +215,11 @@ int adicionarProfessorDisciplina(Disciplina listaDisciplina[], int qtdDisciplina
     // Solicita o código da disciplina
     getchar();
     printf("Digite o código da disciplina:\n");
-    char codigo[MAX_CODIGO]; 
+    char codigo[MAX_CODIGO];
     fgets(codigo, MAX_CODIGO, stdin);
     codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
     int i = 0;
-    while(codigo[i] != '\0') {
+    while (codigo[i] != '\0') {
         codigo[i] = toupper(codigo[i]);
         i++;
     }
@@ -234,7 +236,7 @@ int adicionarProfessorDisciplina(Disciplina listaDisciplina[], int qtdDisciplina
     if (indiceDisciplina == -1) {
         return DISCIPLINA_INVALIDA;
     }
-    
+
     // Solicita a matrícula do professor
     int matriculaProfessor;
     printf("Digite a matrícula do professor:\n");
@@ -256,7 +258,7 @@ int adicionarProfessorDisciplina(Disciplina listaDisciplina[], int qtdDisciplina
     // Adiciona o professor à lista de professores da disciplina
     listaDisciplina[indiceDisciplina].listaProfessor[listaDisciplina[indiceDisciplina].numProfessores] = listaProfessor[indiceProfessor];
     listaDisciplina[indiceDisciplina].numProfessores++;
-    
+
     return ATUALIZACAO_DISCIPLINA_SUCESSO;
 }
 
@@ -269,17 +271,17 @@ int adicionarAlunoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina, Al
     // Solicita o código da disciplina
     getchar();
     printf("Digite o código da disciplina:\n");
-    char codigo[MAX_CODIGO]; 
+    char codigo[MAX_CODIGO];
     fgets(codigo, MAX_CODIGO, stdin);
     codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
     int i = 0;
-    while(codigo[i] != '\0') {
+    while (codigo[i] != '\0') {
         codigo[i] = toupper(codigo[i]);
         i++;
     }
 
     // Busca a disciplina pelo código
-    int indiceDisciplina = -1; 
+    int indiceDisciplina = -1;
     for (int i = 0; i < qtdDisciplina; i++) {
         if (strcmp(listaDisciplina[i].codigo, codigo) == 0 && listaDisciplina[i].ativo == TRUE) {
             indiceDisciplina = i;
@@ -303,7 +305,7 @@ int adicionarAlunoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina, Al
     scanf("%d", &matriculaAluno);
 
     // Busca o aluno pela matrícula
-    int indiceAluno = -1; 
+    int indiceAluno = -1;
     for (int i = 0; i < qtdAluno; i++) {
         if (listaAluno[i].matricula == matriculaAluno && listaAluno[i].ativo == TRUE) {
             indiceAluno = i;
@@ -331,11 +333,11 @@ int listarAlunoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina, Aluno
         // Solicita o código da disciplina
         getchar();
         printf("Digite o código da disciplina:\n");
-        char codigo[MAX_CODIGO]; 
+        char codigo[MAX_CODIGO];
         fgets(codigo, MAX_CODIGO, stdin);
         codigo[strcspn(codigo, "\n")] = 0;  // Remove o '\n' no final da string
         int i = 0;
-        while(codigo[i] != '\0') {
+        while (codigo[i] != '\0') {
             codigo[i] = toupper(codigo[i]);
             i++;
         }
@@ -382,4 +384,3 @@ int listarAlunoDisciplina(Disciplina listaDisciplina[], int qtdDisciplina, Aluno
     }
     return ATUALIZACAO_DISCIPLINA_SUCESSO;
 }
-

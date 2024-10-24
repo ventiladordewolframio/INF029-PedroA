@@ -40,16 +40,16 @@ int main() {
                 }
                 case 1: {
                     int retorno = cadastrarAluno(listaAluno, qtdAluno);
-                    if (retorno == LISTA_CHEIA)
-                        printf("Lista de alunos cheia\n");
-                    else if (retorno == MATRICULA_INVALIDA)
-                        printf("Matrícula inválida\n");
-                    else if (retorno == MATRICULA_EXISTENTE)
-                        printf("Matrícula já existente\n");
-                    else if (retorno == CPF_EXISTENTE)
-                        printf("CPF já existente\n");
-                    else if (retorno == SEXO_INVALIDO)
-                        printf("Sexo inválido\n");
+                    if (retorno == LISTA_CHEIA)              //! o print de erros já está incluso nas funções que pegam a entrada
+                        printf("Lista de alunos cheia\n");   //! ^^
+                    else if (retorno == MATRICULA_INVALIDA)  //! ^^
+                        printf("Matrícula inválida\n");      //! ^^
+                    else if (retorno == MATRICULA_EXISTENTE) //! ^^
+                        printf("Matrícula já existente\n");  //! ^^
+                    else if (retorno == CPF_EXISTENTE)       //! ^^
+                        printf("CPF já existente\n");        //! ^^
+                    else if (retorno == SEXO_INVALIDO)       //! ^^
+                        printf("Sexo inválido\n");           //! ^^
                     else {
                         printf("Aluno cadastrado com sucesso\n");
                         qtdAluno++;

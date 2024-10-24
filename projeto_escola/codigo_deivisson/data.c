@@ -1,31 +1,32 @@
-#include <stdio.h>
-#include <string.h>  // Necessário para usar strcmp e strcpy
 #include "data.h"
 
+#include <stdio.h>
+#include <string.h>  // Necessário para usar strcmp e strcpy
+//! a formatação automatica dnv vai causar certas linhas constarem como modificadas mas as nao tem comentários não foram modificadas de qualquer forma
 int verificarBissexto(int ano) {
-    if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)){
+    if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
         return BISSEXTO_TRUE;
-    }else{
-      return BISSEXTO_FALSE;
+    } else {
+        return BISSEXTO_FALSE;
     }
 }
 
-int validarData(int dia, int mes, int ano) {
+int validarData(int dia, int mes, int ano) {  //! vou roubar isso tudo tá otimo, colocarei no  interface_cadastro.c pq as entradas sao validadas todas lá
     // Verifica se o mês é válido (entre 1 e 12)
     if (mes < 1 || mes > 12) {
         return DATA_INVALIDA;
     }
-  
+
     // Meses com 31 dias
     int max_dias_mes;
     if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
-         max_dias_mes = 31;
+        max_dias_mes = 31;
     }
     // Meses com 30 dias
     else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
         max_dias_mes = 30;
     }
-    //Fevereiro
+    // Fevereiro
     else if (mes == 2) {
         int retorno;
         retorno = verificarBissexto(ano);
@@ -35,14 +36,14 @@ int validarData(int dia, int mes, int ano) {
             max_dias_mes = 28;
         }
     }
-    if(dia >= 1 && dia <= max_dias_mes)
-      return DATA_VALIDA;
+    if (dia >= 1 && dia <= max_dias_mes)
+        return DATA_VALIDA;
     else
-      return DATA_INVALIDA;
+        return DATA_INVALIDA;
 }
 
 // Função para ler e validar a data de nascimento
-DataNascimento lerDataNascimento() {
+DataNascimento lerDataNascimento() {  //! essa funçaõ ja vai estar dentro das que recebe as entradas
     int dia, mes, ano;
     int dataValida = FALSE;
     int retorno;
