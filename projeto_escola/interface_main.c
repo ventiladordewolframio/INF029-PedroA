@@ -45,9 +45,11 @@ int main(void) {
         puts("\x1b[0;36m║ _| || | | | ||  __/ |  | || (_| | (_|  __/ | |__\\__ \\ (_| (_) | | (_| |║         \x1b[0;0m");
         puts("\x1b[0;36m║ \\___/_| |_|\\__\\___|_|  |_| \\__,_|\\___\\___| \\____/___/\\___\\___/|_|\\__,_|║ \x1b[0;0m");
         puts("\x1b[0;36m╚════════════════════════════════════════════════════════════════════════╝\x1b[0;0m");
+        printf("\n");
         puts("\x1b[0;31m(s) sair\x1b[0;0m");
         puts("\x1b[0;32m(c) acessar interface de cadastros\x1b[0;0m");
         puts("\x1b[0;32m(r) acessar interface de relatórios\x1b[0;0m");
+        printf("\n");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
         char op;
         scanf(" %c", &op);
@@ -81,13 +83,13 @@ void clear(void) {
 }
 
 void printAlunosObj() {
-    puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m");
+    puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_alunos; i++) {
         printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
         printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
         printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
-        printf("\x1b[0;36m├─Nascimento: \"%llu/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
-        printf("\x1b[0;36m├─CPF: \"%llu\"\x1b[0;0m\n", alunos[i].cpf);
+        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
 
         printf("\n");
     }
@@ -98,6 +100,5 @@ void clearObjVariables() {
         alunos[i].nascimento.ano = 0;
         alunos[i].nascimento.mes = 0;
         alunos[i].nascimento.dia = 0;
-        alunos[i].cpf = 0;
-    }
+        }
 }
