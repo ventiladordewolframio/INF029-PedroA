@@ -18,7 +18,7 @@ int interfaceRel() {
         puts("\x1b[0;36m| |\\ \\  __/ | (_| | || (_) | |  | | (_) \\__ \\\x1b[0;0m");
         puts("\x1b[0;36m\\_| \\_\\___|_|\\__,_|\\__\\___/|_|  |_|\\___/|___/\x1b[0;0m");
         puts("\x1b[0;36m______________________________________________\x1b[0;0m");
-        puts("\x1b[0;31m(s) sair\x1b[0;0m");
+        puts("\x1b[0;31m(s)  sair - (Interface Escola)\x1b[0;0m");
         printf("\n");
         puts("\x1b[0;32m(0)  listar alunos\x1b[0;0m");
         puts("\x1b[0;32m(1)  listar professores\x1b[0;0m");
@@ -37,12 +37,32 @@ int interfaceRel() {
         puts("\x1b[0;32m(12) listar alunos matriculados em menos de 3 disciplinas\x1b[0;0m");
         puts("\x1b[0;32m(13) listar disciplinas que extrapolam 40 vagas\x1b[0;0m");  // listar tambem o nome do(s) proessor(es) que da essas disciplinas
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");
-        char op;
-        scanf(" %d", &op);
+
+        char c1, c2;
+        scanf(" %c", &c1);
+        scanf("%c", &c2);
         clear();
 
+        //printf("|%c|%c|", c1, c2);
+        int op;
+
+        if (c2 == '\n') {
+            char int1 = c1;
+            op = int1 - '0';
+            //printf("|first %d|", op);
+        } else {
+            char int1 = c1;
+            int op0 = int1 - '0';
+            char int2 = c2;
+            int op1 = int2 - '0';
+            op = (op0 * 10) + op1;
+            //printf("|second %d|", op);
+        }
+
+        //printf(" op: %d ", op);
+
         switch (op) {
-            case 's':  // sai da aplicação
+            case 67:  // sai da aplicação
                 return 0;
                 break;
 
