@@ -95,10 +95,36 @@ void printAlunosObj() {
     }
 }
 
+void printProfessoresObj() {
+    puts("\x1b[0;36m[INFO]: Relatório Professores Raw:\x1b[0;0m\n");
+    for (int i = 0; i < MAX_num_professores; i++) {
+        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
+        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", professores[i].nome);
+        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", professores[i].sexo);
+        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", professores[i].nascimento.ano, professores[i].nascimento.mes, professores[i].nascimento.dia);
+        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", professores[i].cpf);
+
+        printf("\n");
+    }
+}
+
+void printDisciplinasObj() {
+    puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m\n");
+    for (int i = 0; i < MAX_num_alunos; i++) {
+        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
+        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
+        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
+        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
+
+        printf("\n");
+    }
+}
+
 void clearObjVariables() {
     for (int i = 0; i < MAX_num_alunos; i++) {
         alunos[i].nascimento.ano = 0;
         alunos[i].nascimento.mes = 0;
         alunos[i].nascimento.dia = 0;
-        }
+    }
 }

@@ -44,9 +44,11 @@ int interfaceCad() {
                 break;
 
             case 'p':  // professores
+                interfaceCadProfessor();
                 break;
 
             case 'd':  // disciplinas
+                interfaceCadDisciplina();
                 break;
 
             default:  // erro na operacao escolhida
@@ -56,7 +58,7 @@ int interfaceCad() {
     }
 }
 
-void alunoInputNome(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+void inputNome(bool EDITAR_DADOS, char *OBJ_nome) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         printf("\x1b[0;36m[INPUT]:            Nome: \x1b[0;0m");
         char nome[MAX_char_nome];
@@ -73,12 +75,12 @@ void alunoInputNome(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entrad
         }
 
         nome[strcspn(nome, "\n")] = 0;  // roubei do teu replit :) obg
-        strcpy(alunos[matricula].nome, nome);
+        strcpy(OBJ_nome, nome);
         break;
     }
 }
 
-void alunoInputSexo(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+void inputSexo(bool EDITAR_DADOS, char *OBJ_sexo) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         printf("\x1b[0;36m[INPUT]:       Sexo(M/F): \x1b[0;0m");  //* INSERIR SEXO (lá ele)
         char sexo = getchar();
@@ -103,7 +105,7 @@ void alunoInputSexo(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entrad
             continue;
         }
 
-        alunos[matricula].sexo = sexo;
+        *OBJ_sexo = sexo;
         break;
     }
 }
@@ -145,7 +147,7 @@ int validarData(int dia, int mes, int ano) {
         return false;
 }
 
-void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+void inputNascimento(bool EDITAR_DADOS, int *OBJ_ano, int *OBJ_mes, int *OBJ_dia) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         if (EDITAR_DADOS) {
             printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
@@ -163,7 +165,7 @@ void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro 
                 break;
             }
         }
-        alunos[matricula].nascimento.ano = ano;
+        *OBJ_ano = ano;
 
         if (EDITAR_DADOS) {
             printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
@@ -175,7 +177,7 @@ void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro 
         if (mes == 0) {
             if (EDITAR_DADOS == false) {
                 printf("\x1b[0;31m[ERRO]: DATA INVÁLIDA: Mês não pode ser zero\x1b[0;0m\n");
-                alunos[matricula].nascimento.ano = 0;  // lembrar zerar variáveis assim que errar algo
+                *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
                 continue;
             } else {
                 printf("\x1b[0;36m[INFO]: Mês não sera modificado\x1b[0;0m\n");
@@ -184,10 +186,10 @@ void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro 
         }
         if (mes < 1 || mes > 12) {
             printf("\x1b[0;31m[ERRO]: DATA INVÁLIDA: Mês inválido\x1b[0;0m\n");
-            alunos[matricula].nascimento.ano = 0;  // lembrar zerar variáveis assim que errar algo
+            *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
             continue;
         }
-        alunos[matricula].nascimento.mes = mes;
+        *OBJ_mes = mes;
 
         if (EDITAR_DADOS) {
             printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
@@ -199,8 +201,8 @@ void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro 
         if (dia == 0) {
             if (EDITAR_DADOS == false) {
                 printf("\x1b[0;31m[ERRO]: DATA INVÁLIDA: Dia não pode ser zero\x1b[0;0m\n");
-                alunos[matricula].nascimento.ano = 0;  // lembrar zerar variáveis assim que errar algo
-                alunos[matricula].nascimento.mes = 0;  // lembrar zerar variáveis assim que errar algo
+                *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
+                *OBJ_mes = 0;  // lembrar zerar variáveis assim que errar algo
                 continue;
             } else {
                 printf("\x1b[0;36m[INFO]: Dia não sera modificado\x1b[0;0m\n");
@@ -209,16 +211,16 @@ void alunoInputNascimento(bool EDITAR_DADOS, int matricula) {  // se verdadeiro 
         }
         if (!(validarData(dia, mes, ano))) {
             printf("\x1b[0;31m[ERRO]: DATA INVÁLIDA: Dia não existe\x1b[0;0m\n");
-            alunos[matricula].nascimento.ano = 0;  // lembrar zerar variáveis assim que errar algo
-            alunos[matricula].nascimento.mes = 0;  // lembrar zerar variáveis assim que errar algo
+            *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
+            *OBJ_mes = 0;  // lembrar zerar variáveis assim que errar algo
             continue;
         }
-        alunos[matricula].nascimento.dia = dia;
+        *OBJ_dia = dia;
         break;
     }
 }
 
-void alunoInputCPF(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         printf("\x1b[0;36m[INPUT]:             CPF: \x1b[0;0m");  //* INSERIR CPF
         char cpf[12];
@@ -238,7 +240,7 @@ void alunoInputCPF(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entrada
         bool CPF_CARACTERES_INVALIDOS = false;
         for (int i = 0; i < 11; i++) {
             char c = cpf[i];
-            //printf("%d / ", c); //! precisei de printar os valores brutos dos char pq tava tendo problema com os valores não inicializados quando não é inserido um cpf do tamanho total
+            // printf("%d / ", c); //! precisei de printar os valores brutos dos char pq tava tendo problema com os valores não inicializados quando não é inserido um cpf do tamanho total
             if (!((c >= '0') && (c <= '9'))) {
                 CPF_CARACTERES_INVALIDOS = true;
             };
@@ -251,20 +253,20 @@ void alunoInputCPF(bool EDITAR_DADOS, int matricula) {  // se verdadeiro entrada
 
         // todo ADICIONAR AQUI CÓDIGO VERIFICAÇÃO DE CPF SEGUNDO A NORMA
 
-        strcpy(alunos[matricula].cpf, cpf);  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
+        strcpy(OBJ_cpf, cpf);  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
         break;
     }
 }
 
-int userInputMatricula() {
+int inputID(int MAX_num, char ID_name[]) {
     while (true) {
-        printf("\x1b[0;36m[INPUT]: Matricula: \x1b[0;0m");
-        int matricula;
-        scanf(" %d", &matricula);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        printf("\x1b[0;36m[INPUT]: %s: \x1b[0;0m",ID_name);
+        int id;
+        scanf(" %d", &id);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
 
-        if (!((matricula < MAX_num_alunos) && (matricula >= 0))) {
-            printf("\x1b[0;31m[ERRO]: Matricula inválida, Aluno não existente\x1b[0;0m\n");
+        if (!((id < MAX_num) && (id >= 0))) {
+            printf("\x1b[0;31m[ERRO]: %s inválida, não existente\x1b[0;0m\n",ID_name);
             continue;
         }
 
@@ -272,7 +274,7 @@ int userInputMatricula() {
 
         printf("\x1b[0;36m[INFO]: Insira os novos valores das variáveis e deixe em branco caso não deseje altera-los\x1b[0;0m\n");
 
-        return matricula;
+        return id;
     }
 }
 
@@ -311,20 +313,20 @@ int interfaceCadAluno() {
                     break;
                 }
                 printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_aluno);
-                alunoInputNome(false, qtd_aluno);
-                alunoInputSexo(false, qtd_aluno);
-                alunoInputNascimento(false, qtd_aluno);
-                alunoInputCPF(false, qtd_aluno);
+                inputNome(false, alunos[qtd_aluno].nome);
+                inputSexo(false, &alunos[qtd_aluno].sexo);
+                inputNascimento(false, &alunos[qtd_aluno].nascimento.ano, &alunos[qtd_aluno].nascimento.mes, &alunos[qtd_aluno].nascimento.dia);
+                inputCPF(false, alunos[qtd_aluno].cpf);
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 qtd_aluno++;
                 break;
 
             case 'e':  // editar dados de uma matricula
-                int tmp_matricula = userInputMatricula();
-                alunoInputNome(true, tmp_matricula);
-                alunoInputSexo(true, tmp_matricula);
-                alunoInputNascimento(true, tmp_matricula);
-                alunoInputCPF(true, tmp_matricula);
+                int tmp_matricula = inputID(MAX_num_alunos,"Matricula");
+                inputNome(true, alunos[tmp_matricula].nome);
+                inputSexo(true, &alunos[tmp_matricula].sexo);
+                inputNascimento(true, &alunos[tmp_matricula].nascimento.ano, &alunos[tmp_matricula].nascimento.mes, &alunos[tmp_matricula].nascimento.dia);
+                inputCPF(true, alunos[tmp_matricula].cpf);
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
@@ -341,7 +343,128 @@ int interfaceCadAluno() {
 }
 
 int interfaceCadProfessor() {
+    while (true) {
+        puts("\x1b[0;36m╔══════════════════════════════════════════════════════════════╗                    \x1b[0;0m");
+        puts("\x1b[0;36m║ _____           _______           __                         ║");
+        puts("\x1b[0;36m║/  __ \\         | | ___ \\         / _|                        ║");
+        puts("\x1b[0;36m║| /  \\/ __ _  __| | |_/ / __ ___ | |_ ___  ___ ___  ___  _ __ ║");
+        puts("\x1b[0;36m║| |    / _` |/ _` |  __/ '__/ _ \\|  _/ _ \\/ __/ __|/ _ \\| '__|║");
+        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | |  | | | (_) | ||  __/\\__ \\__ \\ (_) | |   ║");
+        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_\\_|  |_|  \\___/|_| \\___||___/___/\\___/|_|   ║");
+        puts("\x1b[0;36m╚══════════════════════════════════════════════════════════════╝                    \x1b[0;0m");
+        printf("\n");
+        printf("\x1b[0;31m(s) sair - (Cadastro)                                            \x1b[0;0m\n");
+        if (qtd_professor == MAX_num_professores) {
+            printf("\x1b[0;31m(i) Inserir dados de uma nova Matricula: (CHEIO) (%d/%d)     \x1b[0;0m\n", qtd_professor, qtd_professor);
+        } else {
+            printf("\x1b[0;32m(i) Inserir dados de uma nova Matricula: (%d)                \x1b[0;0m\n", qtd_professor);
+        }
+        printf("\x1b[0;32m(e) Editar dados de uma Matricula                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(l) listar matriculas                                            \x1b[0;0m\n");
+        printf("\n");
+        printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
+        char op;                                         // operação
+        scanf(" %c", &op);                               // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                                         // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+
+        switch (op) {
+            case 's':  // sai da aplicação
+                return 0;
+                break;
+
+            case 'i':  // inserir dados de uma nova matricula
+                if (qtd_professor == MAX_num_professores) {
+                    break;
+                }
+                printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_professor);
+                inputNome(false, professores[qtd_professor].nome);
+                inputSexo(false, &professores[qtd_professor].sexo);
+                inputNascimento(false, &professores[qtd_professor].nascimento.ano, &professores[qtd_professor].nascimento.mes, &professores[qtd_professor].nascimento.dia);
+                inputCPF(false, professores[qtd_professor].cpf);
+                qtd_professor++;
+                break;
+
+            case 'e':  // editar dados de uma matricula
+                int tmp_matricula = inputID(MAX_num_professores,"Matricula");
+                inputNome(true, professores[tmp_matricula].nome);
+                inputSexo(true, &professores[tmp_matricula].sexo);
+                inputNascimento(true, &professores[tmp_matricula].nascimento.ano, &professores[tmp_matricula].nascimento.mes, &professores[tmp_matricula].nascimento.dia);
+                inputCPF(true, professores[tmp_matricula].cpf);
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                break;
+
+            case 'l':  // listar matriculas
+                // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
+                printProfessoresObj();
+                break;
+
+            default:  // erro na operacao escolhida
+                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" não existe\n", op);
+                break;
+        }
+    }
 }
 
 int interfaceCadDisciplina() {
+    while (true) {
+        puts("\x1b[0;36m╔═════════════════════════════════════════════╗                    \x1b[0;0m");
+        puts("\x1b[0;36m║ _____           _  ___  _                   ║                    \x1b[0;0m");
+        puts("\x1b[0;36m║/  __ \\         | |/ _ \\| |                  ║                  \x1b[0;0m");
+        puts("\x1b[0;36m║| /  \\/ __ _  __| / /_\\ \\ |_   _ _ __   ___  ║                 \x1b[0;0m");
+        puts("\x1b[0;36m║| |    / _` |/ _` |  _  | | | | | '_ \\ / _ \\ ║                  \x1b[0;0m");
+        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | | | | | |_| | | | | (_) |║                  \x1b[0;0m");
+        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_\\_| |_/_|\\__,_|_| |_|\\___/ ║              \x1b[0;0m");
+        puts("\x1b[0;36m╚═════════════════════════════════════════════╝                    \x1b[0;0m");
+        printf("\n");
+        printf("\x1b[0;31m(s) sair - (Cadastro)                                            \x1b[0;0m\n");
+        if (qtd_aluno == MAX_num_alunos) {
+            printf("\x1b[0;31m(i) Inserir dados de uma nova Matricula: (CHEIO) (%d/%d)     \x1b[0;0m\n", qtd_aluno, qtd_aluno);
+        } else {
+            printf("\x1b[0;32m(i) Inserir dados de uma nova Matricula: (%d)                \x1b[0;0m\n", qtd_aluno);
+        }
+        printf("\x1b[0;32m(e) Editar dados de uma Matricula                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(l) listar matriculas                                            \x1b[0;0m\n");
+        printf("\n");
+        printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
+        char op;                                         // operação
+        scanf(" %c", &op);                               // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        clear();                                         // limpa o stdin, pois o scanf pode deixar caracteres sem seres escaneados
+
+        switch (op) {
+            case 's':  // sai da aplicação
+                return 0;
+                break;
+
+            case 'i':  // inserir dados de uma nova matricula
+                if (qtd_aluno == MAX_num_alunos) {
+                    break;
+                }
+                printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_aluno);
+                // inputNome(false, alunos[qtd_aluno].nome);
+                // inputSexo(false, qtd_aluno);
+                // inputNascimento(false, qtd_aluno);
+                // inputCPF(false, qtd_aluno);
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                qtd_aluno++;
+                break;
+
+            case 'e':  // editar dados de uma matricula
+                int tmp_matricula = inputID(MAX_num_disciplinas,"Código");
+                // inputNome(true, alunos[qtd_aluno].nome);
+                // inputSexo(true, tmp_matricula);
+                // inputNascimento(true, tmp_matricula);
+                // inputCPF(true, tmp_matricula);
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                break;
+
+            case 'l':  // listar matriculas
+                // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
+                printAlunosObj();
+                break;
+
+            default:  // erro na operacao escolhida
+                printf("\x1b[0;31m[ERRO]: Escolha \"%c\" não existe\n", op);
+                break;
+        }
+    }
 }
