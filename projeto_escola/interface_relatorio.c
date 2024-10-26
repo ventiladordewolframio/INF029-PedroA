@@ -130,7 +130,7 @@ int interfaceRel() {
     }
 }
 
-int listarAlunoPorSexo(aluno alunos[], int qtd_aluno) {
+void listarAlunoPorSexo(aluno alunos[], int qtd_aluno) {
     if(qtd_aluno == 0){
         printf("Sem alunos cadastrados\n");
     }else {
