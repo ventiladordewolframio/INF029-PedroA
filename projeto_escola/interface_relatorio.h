@@ -2,5 +2,6 @@
 #define INTERFACE_RELATORIO_H
 
 int interfaceRel();
+void listarProfessoresPorSexo();
 
 #endif
