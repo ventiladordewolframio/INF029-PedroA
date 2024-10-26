@@ -84,7 +84,7 @@ int interfaceRel() {
                 break;
 
             case 4:  // listar alunos por sexo
-                //! inserir chamada de funcao aqui
+                listarAlunoPorSexo(alunos, qtd_aluno);
                 break;
 
             case 5:  // listar alunos por nome
@@ -96,7 +96,7 @@ int interfaceRel() {
                 break;
 
             case 7:  // listar professores por sexo
-                listarProfessoresPorSexo();
+                
                 break;
 
             case 8:  // listar professores por nome
@@ -130,19 +130,38 @@ int interfaceRel() {
     }
 }
 
-void listarProfessoresPorSexo() {
-    printf("Insira o sexo (M ou F)\n");
-    char sexo;
-    scanf("%c", &sexo);
-    sexo = toupper(sexo);
+int listarAlunoPorSexo(aluno alunos[], int qtd_aluno) {
+    if(qtd_aluno == 0){
+        printf("Sem alunos cadastrados\n");
+    }else {
+        getchar();
+        printf("Digite o sexo a ser listado (M ou F)");
+        char sexo;
+        scanf(" %c", &sexo);
+        sexo = toupper(sexo);
         
-    printf("Lista de Professores do sexo %c:\n", sexo);
-    for (int i = 0; i < qtd_professor; i++) {
-        if (professores[i].ativo && professores[i].sexo == sexo) {
-            printf("Professor #%d\n", i + 1);
-            printf("Matrícula: %d\n", professores[i].matricula);
-            printf("Nome: %s\n", professores[i].nome);
-            printf("Data de Nascimento: %02d/%02d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
-            printf("CPF: %s\n\n", professores[i].cpf);
-        }
+        if(sexo == 'M'){
+            printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
+            for(int i=0; i<qtd_aluno; i++){
+                if (alunos[i].ativo == TRUE && alunos[i].sexo == 'M') {
+                    printf("Matrícula: %d\n", alunos[i].matricula);
+                    printf("Nome: %s\n", alunos[i].nome);
+                    printf("CPF: %s\n", alunos[i].cpf);
+                    printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
+                }
+            }
+        } else if(sexo == 'F'){
+            printf("\n--LISTA DE ALUNAS DO SEXO FEMININO--\n\n");
+            for(int i=0; i<qtd_aluno; i++){
+                if (alunos[i].ativo == TRUE && alunos[i].sexo == 'F') {
+                    printf("Matrícula: %d\n", alunos[i].matricula);
+                    printf("Nome: %s\n", alunos[i].nome);
+                    printf("CPF: %s\n", alunos[i].cpf);
+                    printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
+                }
+            }
+            
+        } else {
+            printf("Sexo inválido! Digite M ou F\n");
     }
+}
