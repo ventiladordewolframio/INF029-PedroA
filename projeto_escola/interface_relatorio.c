@@ -84,7 +84,7 @@ int interfaceRel() {
                 break;
 
             case 4:  // listar alunos por sexo
-                listarProfessoresPorSexo();
+                //! inserir chamada de funcao aqui
                 break;
 
             case 5:  // listar alunos por nome
@@ -96,7 +96,7 @@ int interfaceRel() {
                 break;
 
             case 7:  // listar professores por sexo
-                //! inserir chamada de funcao aqui
+                listarProfessoresPorSexo();
                 break;
 
             case 8:  // listar professores por nome
@@ -128,21 +128,21 @@ int interfaceRel() {
                 break;
         }
     }
-    void listarProfessoresPorSexo() {
-        printf("Insira o sexo (M ou F)\n");
-        char sexo;
-        scanf("%c", &sexo);
-        sexo = toupper(sexo);
+}
+
+void listarProfessoresPorSexo() {
+    printf("Insira o sexo (M ou F)\n");
+    char sexo;
+    scanf("%c", &sexo);
+    sexo = toupper(sexo);
         
-        printf("Lista de Professores do sexo %c:\n", sexo);
-        for (int i = 0; i < qtd_professor; i++) {
-            if (professores[i].ativo && professores[i].sexo == sexo) {
-                printf("Professor #%d\n", i + 1);
-                printf("Matrícula: %d\n", professores[i].matricula);
-                printf("Nome: %s\n", professores[i].nome);
-                printf("Data de Nascimento: %02d/%02d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
-                printf("CPF: %s\n\n", professores[i].cpf);
-            }
+    printf("Lista de Professores do sexo %c:\n", sexo);
+    for (int i = 0; i < qtd_professor; i++) {
+        if (professores[i].ativo && professores[i].sexo == sexo) {
+            printf("Professor #%d\n", i + 1);
+            printf("Matrícula: %d\n", professores[i].matricula);
+            printf("Nome: %s\n", professores[i].nome);
+            printf("Data de Nascimento: %02d/%02d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
+            printf("CPF: %s\n\n", professores[i].cpf);
         }
     }
-}
