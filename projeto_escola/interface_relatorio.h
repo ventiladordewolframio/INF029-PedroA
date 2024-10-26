@@ -2,5 +2,6 @@
 #define INTERFACE_RELATORIO_H
 
 int interfaceRel();
-void listarAlunoPorSexo(alunos, qtd_aluno);
+void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno);
+
 #endif
