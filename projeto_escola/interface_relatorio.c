@@ -84,7 +84,6 @@ int interfaceRel() {
                 break;
 
             case 4:  // listar alunos por sexo
-                Printf("Insira o sexo (M ou F)\n");
                 listarProfessoresPorSexo();
                 break;
 
@@ -129,8 +128,12 @@ int interfaceRel() {
                 break;
         }
     }
-    void listarProfessoresPorSexo(char sexo) {
+    void listarProfessoresPorSexo() {
+        printf("Insira o sexo (M ou F)\n");
+        char sexo;
+        scanf("%c", &sexo);
         sexo = toupper(sexo);
+        
         printf("Lista de Professores do sexo %c:\n", sexo);
         for (int i = 0; i < qtd_professor; i++) {
             if (professores[i].ativo && professores[i].sexo == sexo) {
