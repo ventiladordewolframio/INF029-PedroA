@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "ansi_escapes.h"
 #include "interface_main.h"
@@ -83,7 +84,8 @@ int interfaceRel() {
                 break;
 
             case 4:  // listar alunos por sexo
-                //! inserir chamada de funcao aqui
+                Printf("Insira o sexo (M ou F)\n");
+                listarProfessoresPorSexo();
                 break;
 
             case 5:  // listar alunos por nome
@@ -125,6 +127,19 @@ int interfaceRel() {
             default:  // erro na operacao escolhida
                 printf("\x1b[0;31m[ERRO]: Escolha \"%d\" nao existe\n", op);
                 break;
+        }
+    }
+    void listarProfessoresPorSexo(char sexo) {
+        sexo = toupper(sexo);
+        printf("Lista de Professores do sexo %c:\n", sexo);
+        for (int i = 0; i < qtd_professor; i++) {
+            if (professores[i].ativo && professores[i].sexo == sexo) {
+                printf("Professor #%d\n", i + 1);
+                printf("Matrícula: %d\n", professores[i].matricula);
+                printf("Nome: %s\n", professores[i].nome);
+                printf("Data de Nascimento: %02d/%02d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
+                printf("CPF: %s\n\n", professores[i].cpf);
+            }
         }
     }
 }
