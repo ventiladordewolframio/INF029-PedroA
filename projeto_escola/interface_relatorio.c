@@ -143,7 +143,7 @@ int listarAlunoPorSexo(aluno alunos[], int qtd_aluno) {
         if(sexo == 'M'){
             printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
             for(int i=0; i<qtd_aluno; i++){
-                if (alunos[i].ativo == TRUE && alunos[i].sexo == 'M') {
+                if (alunos[i].sexo == 'M') {
                     printf("Matrícula: %d\n", alunos[i].matricula);
                     printf("Nome: %s\n", alunos[i].nome);
                     printf("CPF: %s\n", alunos[i].cpf);
@@ -153,7 +153,7 @@ int listarAlunoPorSexo(aluno alunos[], int qtd_aluno) {
         } else if(sexo == 'F'){
             printf("\n--LISTA DE ALUNAS DO SEXO FEMININO--\n\n");
             for(int i=0; i<qtd_aluno; i++){
-                if (alunos[i].ativo == TRUE && alunos[i].sexo == 'F') {
+                if (alunos[i].sexo == 'F') {
                     printf("Matrícula: %d\n", alunos[i].matricula);
                     printf("Nome: %s\n", alunos[i].nome);
                     printf("CPF: %s\n", alunos[i].cpf);
