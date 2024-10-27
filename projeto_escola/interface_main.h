@@ -42,6 +42,7 @@ struct disciplina {
     char nome[MAX_char_nome];
     int id;
     int semestre;
+    int vaga_preenchida; //criei para contar número de alunos em uma disciplina
 };
 
 extern struct aluno alunos[MAX_num_alunos];
