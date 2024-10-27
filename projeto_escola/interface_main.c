@@ -86,11 +86,18 @@ void printAlunosObj() {
     puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_alunos; i++) {
         printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
-        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
-        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
-        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
-
+        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
+        printf("\x1b[0;36m├──Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
+        printf("\x1b[0;36m├──Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+        printf("\x1b[0;36m├──CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
+        printf("\x1b[0;36m├──disciplinas: \"");
+        for (int j = 0; j < MAX_num_disciplinas; j++) {
+            if (alunos[i].disciplinas[j]) {
+                printf("%s, ", disciplinas[j].nome);
+            }
+        }
+        printf("\"\x1b[0;0m\n");
+        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", alunos[i].ativo ? "true" : "false");
         printf("\n");
     }
 }
@@ -99,24 +106,29 @@ void printProfessoresObj() {
     puts("\x1b[0;36m[INFO]: Relatório Professores Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_professores; i++) {
         printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", professores[i].nome);
-        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", professores[i].sexo);
-        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", professores[i].nascimento.ano, professores[i].nascimento.mes, professores[i].nascimento.dia);
-        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", professores[i].cpf);
+        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", professores[i].nome);
+        printf("\x1b[0;36m├──Sexo: \"%c\"\x1b[0;0m\n", professores[i].sexo);
+        printf("\x1b[0;36m├──Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", professores[i].nascimento.ano, professores[i].nascimento.mes, professores[i].nascimento.dia);
+        printf("\x1b[0;36m├──CPF: \"%s\"\x1b[0;0m\n", professores[i].cpf);
+        printf("\x1b[0;36m├──disciplinas: \"");
+        for (int j = 0; j < MAX_num_disciplinas; j++) {
+            if (professores[i].disciplinas[j]) {
+                printf("%s, ", disciplinas[j].nome);
+            }
+        }
+        printf("\"\x1b[0;0m\n");
+        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", professores[i].ativo ? "true" : "false");
 
         printf("\n");
     }
 }
 
 void printDisciplinasObj() {
-    puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m\n");
-    for (int i = 0; i < MAX_num_alunos; i++) {
-        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├─Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
-        printf("\x1b[0;36m├─Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
-        printf("\x1b[0;36m├─Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
-        printf("\x1b[0;36m├─CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
-
+    puts("\x1b[0;36m[INFO]: Relatório Disciplinas Raw:\x1b[0;0m\n");
+    for (int i = 0; i < MAX_num_disciplinas; i++) {
+        printf("\x1b[0;36m┌Código \"%d\"\x1b[0;0m\n", i);
+        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", disciplinas[i].nome);
+        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", disciplinas[i].ativo ? "true" : "false");
         printf("\n");
     }
 }
@@ -127,14 +139,18 @@ void startObjVariables() {
         alunos[i].nascimento.mes = 0;
         alunos[i].nascimento.dia = 0;
         alunos[i].matricula = i;
+        alunos[i].ativo = false;
     }
     for (int i = 0; i < MAX_num_professores; i++) {
         professores[i].nascimento.ano = 0;
         professores[i].nascimento.mes = 0;
         professores[i].nascimento.dia = 0;
         professores[i].matricula = i;
+        professores[i].ativo = false;
     }
     for (int i = 0; i < MAX_num_disciplinas; i++) {
+        disciplinas[i].vaga_preenchida = 0;
+        disciplinas[i].ativo = false;
         disciplinas[i].id = i;
     }
 }

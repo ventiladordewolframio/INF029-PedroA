@@ -1,10 +1,10 @@
 #include "interface_relatorio.h"
 
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "ansi_escapes.h"
 #include "interface_main.h"
@@ -44,23 +44,23 @@ int interfaceRel() {
         scanf("%c", &c2);
         clear();
 
-        //printf("|%c|%c|", c1, c2);
+        // printf("|%c|%c|", c1, c2);
         int op;
 
         if (c2 == '\n') {
             char int1 = c1;
             op = int1 - '0';
-            //printf("|first %d|", op);
+            // printf("|first %d|", op);
         } else {
             char int1 = c1;
             int op0 = int1 - '0';
             char int2 = c2;
             int op1 = int2 - '0';
             op = (op0 * 10) + op1;
-            //printf("|second %d|", op);
+            // printf("|second %d|", op);
         }
 
-        //printf(" op: %d ", op);
+        // printf(" op: %d ", op);
 
         switch (op) {
             case 67:  // sai da aplicação
@@ -131,27 +131,27 @@ int interfaceRel() {
 }
 
 void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
-    if(qtd_aluno == 0){
+    if (qtd_aluno == 0) {
         printf("Sem alunos cadastrados\n");
-    }else {
+    } else {
         printf("Digite o sexo a ser listado (M ou F)");
         char sexo;
         scanf(" %c", &sexo);
         sexo = toupper(sexo);
-        
-        if(sexo == 'M'){
+
+        if (sexo == 'M') {
             printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
-            for(int i=0; i<qtd_aluno; i++){
+            for (int i = 0; i < qtd_aluno; i++) {
                 if (alunos[i].sexo == 'M') {
-                    printf("Matrícula: %d\n", alunos[i].matricula);// a matricula aqui sempre sera igual a "i" mas acredito que so por via das duvidas vale a pena iniciar as variaveis .matricula com os numeros reais, n custa nada e fica mais legivel na hora
+                    printf("Matrícula: %d\n", alunos[i].matricula);  // a matricula aqui sempre sera igual a "i" mas acredito que so por via das duvidas vale a pena iniciar as variaveis .matricula com os numeros reais, n custa nada e fica mais legivel na hora
                     printf("Nome: %s\n", alunos[i].nome);
                     printf("CPF: %s\n", alunos[i].cpf);
                     printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
                 }
             }
-        } else if(sexo == 'F'){
+        } else if (sexo == 'F') {
             printf("\n--LISTA DE ALUNAS DO SEXO FEMININO--\n\n");
-            for(int i=0; i<qtd_aluno; i++){
+            for (int i = 0; i < qtd_aluno; i++) {
                 if (alunos[i].sexo == 'F') {
                     printf("Matrícula: %d\n", alunos[i].matricula);
                     printf("Nome: %s\n", alunos[i].nome);
@@ -159,27 +159,27 @@ void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
                     printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
                 }
             }
-            
+
         } else {
             printf("Sexo inválido! Digite M ou F\n");
         }
     }
 }
-//não entendi ainda como usar ponteiros então vou ter que repetir a função pra professor :(
-//ah e tentei substituir as entradas pelos inputs, mas nao deu certo (os ponteiros!!!)
+// não entendi ainda como usar ponteiros então vou ter que repetir a função pra professor :(
+// ah e tentei substituir as entradas pelos inputs, mas nao deu certo (os ponteiros!!!)
 
 void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
-    if(qtd_professor == 0){
+    if (qtd_professor == 0) {
         printf("Sem professores cadastrados\n");
-    }else {
+    } else {
         printf("Digite o sexo a ser listado (M ou F)");
         char sexo;
         scanf(" %c", &sexo);
         sexo = toupper(sexo);
 
-        if(sexo == 'M'){
+        if (sexo == 'M') {
             printf("\n--LISTA DE PROF. DO SEXO MASCULINO--\n\n");
-            for(int i=0; i<qtd_professor; i++){
+            for (int i = 0; i < qtd_professor; i++) {
                 if (alunos[i].sexo == 'M') {
                     printf("Matrícula: %d\n", professores[i].matricula);
                     printf("Nome: %s\n", professores[i].nome);
@@ -187,9 +187,9 @@ void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
                     printf("Data de nascimento: %d/%d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
                 }
             }
-        } else if(sexo == 'F'){
+        } else if (sexo == 'F') {
             printf("\n--LISTA DE PROF. DO SEXO FEMININO--\n\n");
-            for(int i=0; i<qtd_professor; i++){
+            for (int i = 0; i < qtd_professor; i++) {
                 if (professores[i].sexo == 'F') {
                     printf("Matrícula: %d\n", professores[i].matricula);
                     printf("Nome: %s\n", professores[i].nome);
@@ -204,41 +204,41 @@ void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
     }
 }
 
-int listarAniversariante(struct aluno alunos[], struct professor professores[], int qtd_aluno, int qtd_professor){
-    if(qtd_aluno == 0 && qtd_professor == 0){
+int listarAniversariante(struct aluno alunos[], struct professor professores[], int qtd_aluno, int qtd_professor) {
+    if (qtd_aluno == 0 && qtd_professor == 0) {
         printf("Não exitem alunos ou professores cadastradoss\n");
-    } else{
+    } else {
         printf("Insira o mês (em algarismo) para buscar aniversariantes\n");
         int mes;
         scanf("%d", &mes);
-    
-        if(mes < 1 || mes > 12){
+
+        if (mes < 1 || mes > 12) {
             printf("Mês inválido! Digite um mês entre 1 e 12\n");
         } else {
             int qtdAniversariante = 0;
-            if(qtd_aluno > 0){
+            if (qtd_aluno > 0) {
                 printf("\n----------ALUNOS ANIVERSARIANTES----------\n");
-                for(int i=0; i<qtd_aluno; i++){
-                    if(alunos[i].ativo == true && alunos[i].nascimento.mes == mes){
+                for (int i = 0; i < qtd_aluno; i++) {
+                    if (alunos[i].ativo == true && alunos[i].nascimento.mes == mes) {
                         printf("\nNome: %s\n", alunos[i].nome);
                         printf("Mátricula: %d\n", alunos[i].matricula);
                         qtdAniversariante++;
                     }
                 }
             }
-            if(qtd_professor > 0){
+            if (qtd_professor > 0) {
                 printf("\n----------PROFESSORES ANIVERSARIANTES----------\n");
-                for(int i=0; i<qtd_professor; i++){
-                    if(professores[i].ativo == true && professores[i].nascimento.mes == mes){
+                for (int i = 0; i < qtd_professor; i++) {
+                    if (professores[i].ativo == true && professores[i].nascimento.mes == mes) {
                         printf("\nNome: %s\n", professores[i].nome);
                         printf("Mátricula: %d\n", professores[i].matricula);
                         qtdAniversariante++;
                     }
                 }
             }
-            if(qtdAniversariante == 0)
+            if (qtdAniversariante == 0)
                 printf("Não há aniversariantes nesse mês\n");
-            else 
+            else
                 printf("\nListagem concluída!\n");
         }
     }
@@ -247,38 +247,53 @@ int listarAniversariante(struct aluno alunos[], struct professor professores[], 
 void listarAlunoComMenosDeTresDisciplinas(struct aluno alunos[], int qtd_aluno) {
     int listados = 0;
     int j = 0;
-    while(j < qtd_aluno){
+    while (j < qtd_aluno) {
         int qtdDisciplinas = 0;
         for (int i = 0; i < MAX_num_disciplinas; i++) {
             if (alunos[j].disciplinas[i]) {
                 qtdDisciplinas++;
             }
         }
-        if (qtdDisciplinas < 3){
+        if (qtdDisciplinas < 3) {
             printf("Nome: %s\n", alunos[j].nome);
             printf("Matrícula: %d\n", alunos[j].matricula);
             listados++;
         }
         j++;
     }
-    if(listados == 0){
+    if (listados == 0) {
         printf("Não há alunos com menos de 3 disciplinas\n");
     }
 }
 
-void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int qtd_disciplina){
-    if(qtd_disciplina == 0){
+void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int qtd_disciplina) {
+    if (qtd_disciplina == 0) {
         printf("Não há disciplinas cadastradas\n");
     } else {
-        int qtdExtrapoladas = 0;
-        for(int i=0; i<qtd_disciplina; i++){
-            if(disciplinas[i].vaga_preenchida > 40)
+        int disciplinaExtrapolada = false;
+        for (int i = 0; i < MAX_num_disciplinas; i++) {  //! melhor testar para o max e verificar se está ativo depois pq da para editar uma q nao foi oficialmente cadastrada e inserir os dados normalmente(mas talvez seja melhor impedir q isso aconteça?)
+            if (!disciplinas[i].ativo) {
+                continue;
+            }
+            //! acho melhor varrer o obj de alunos e contabilizar nas disciplinas localmente aqui do que depender da variavel.vaga_preenchida pq se um aluno for removido teria de re-calcular esse valor. e tbm esse valor so eh útil para listar aqui por enquanto. mas vou manter caso façamos algo q precise depois
+            int tmp_vaga_preenchida = 0;
+            for (int a = 0; a < MAX_num_alunos; a++) {
+                if (!alunos[a].ativo) {
+                    continue;
+                }
+                if (alunos[a].disciplinas[i]) {
+                    tmp_vaga_preenchida++;
+                }
+            }
+            disciplinas[i].vaga_preenchida = tmp_vaga_preenchida;
+            //! ah no interface_main.c na funcao startObjVariables() não tem nada iniciando as variaveis .vaga_preenchida como = 0; entao causa ficar na memória um numero aleatorio
+            if (disciplinas[i].vaga_preenchida > 40) {//!ah acho q vc esqueceu as chaves aqui, eu bem q tava me perguntando pq so printava a linha código (pq so essa linha eu ainda nao sei mas eh isso)
                 printf("Disciplina: %s\n", disciplinas[i].nome);
                 printf("Código: %d\n", disciplinas[i].id);
-                qtdExtrapoladas++;
+                disciplinaExtrapolada = true;
+            }
         }
-        if(qtdExtrapoladas == 0)
+        if (disciplinaExtrapolada == false)
             printf("Não há disciplinas com mais de 40 vagas\n");
     }
-
 }

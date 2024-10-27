@@ -10,7 +10,6 @@
 #define MAX_char_nome 256
 #define MAX_char_cpf 9
 
-
 struct data {
     unsigned long long int timestamp;  //! desnecessário
     int ano;
@@ -41,8 +40,9 @@ struct professor {
 struct disciplina {
     char nome[MAX_char_nome];
     int id;
-    int semestre;
-    int vaga_preenchida; //criei para contar número de alunos em uma disciplina
+    int semestre;  //! existe essa variavel aqui mas como a gente usa ela? serve para oq o semestre?
+    bool ativo;
+    int vaga_preenchida;  // criei para contar número de alunos em uma disciplina
 };
 
 extern struct aluno alunos[MAX_num_alunos];
@@ -56,5 +56,6 @@ extern int qtd_disciplina;
 void clear();           // temporario solucao, depois criar arquivo de funções de utilidade
 void printAlunosObj();  // o mesmo do de cima
 void printProfessoresObj();
+void printDisciplinasObj();
 
 #endif

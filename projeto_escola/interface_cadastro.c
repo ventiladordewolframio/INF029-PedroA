@@ -258,15 +258,94 @@ void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vaz
     }
 }
 
+void inputDisciplinas(bool EDITAR_DADOS, bool *OBJ_disciplinas, char nome_do_obj[]) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    while (true) {
+        printf("\x1b[0;36m[INPUT]:     Disciplinas: \x1b[0;0m\n");
+        if (qtd_disciplina == 0) {
+            printf("\x1b[0;33m[WARNING]: Nenhuma disciplina cadastrada, pulando entradas. \x1b[0;0m\n");
+            break;
+        }
+        for (int i = 0; i < MAX_num_disciplinas; i++) {
+            if (!disciplinas[i].ativo) {
+                continue;
+            }
+
+            printf("\x1b[0;36m[INPUT]: Insira (y/n) se o %s da disciplina %s: \x1b[0;0m", nome_do_obj, disciplinas[i].nome);
+            char disciplina_bool_input = getchar();
+            clear();
+
+            if (disciplina_bool_input == '\n') {
+                if (EDITAR_DADOS == false) {
+                    printf("\x1b[0;31m[ERRO]: Entrada não pode ser vazia\x1b[0;0m\n");//!tem bug aqui
+                    continue;
+                } else {
+                    printf("\x1b[0;36m[INFO]: Disciplina não sera modificada\x1b[0;0m\n");
+                    break;
+                }
+            }
+
+            if (disciplina_bool_input == 'Y' || disciplina_bool_input == 'N') {
+                disciplina_bool_input = tolower(disciplina_bool_input);
+            }
+
+            if (!(disciplina_bool_input == 'y' || disciplina_bool_input == 'n')) {
+                printf("\x1b[0;31m[ERRO]: Entrada invalida, insira (y/n)\x1b[0;0m\n");
+                continue;
+            }
+
+            if (disciplina_bool_input == 'y') {
+                OBJ_disciplinas[i] = true;
+            } else {
+                OBJ_disciplinas[i] = false;
+            }
+        }
+        break;
+    }
+}
+
+void inputAtivo(bool EDITAR_DADOS, bool *OBJ_ativo, char texto_do_obj[]) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
+    while (true) {
+        printf("\x1b[0;36m[INPUT]: Insira (y/n) se %s:\x1b[0;0m", texto_do_obj);
+        char ativo_bool_input = getchar();
+        clear();
+
+        if (ativo_bool_input == '\n') {
+            if (EDITAR_DADOS == false) {
+                printf("\x1b[0;31m[ERRO]: Entrada não pode ser vazia\x1b[0;0m\n");
+                continue;
+            } else {
+                printf("\x1b[0;36m[INFO]: Atividade não sera modificada\x1b[0;0m\n");
+                break;
+            }
+        }
+
+        if (ativo_bool_input == 'Y' || ativo_bool_input == 'N') {
+            ativo_bool_input = tolower(ativo_bool_input);
+        }
+
+        if (!(ativo_bool_input == 'y' || ativo_bool_input == 'n')) {
+            printf("\x1b[0;31m[ERRO]: Entrada invalida, insira (y/n)\x1b[0;0m\n");
+            continue;
+        }
+
+        if (ativo_bool_input == 'y') {
+            *OBJ_ativo = true;
+        } else {
+            *OBJ_ativo = false;
+        }
+        break;
+    }
+}
+
 int inputID(int MAX_num, char ID_name[]) {
     while (true) {
-        printf("\x1b[0;36m[INPUT]: %s: \x1b[0;0m",ID_name);
+        printf("\x1b[0;36m[INPUT]: %s: \x1b[0;0m", ID_name);
         int id;
         scanf(" %d", &id);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
 
         if (!((id < MAX_num) && (id >= 0))) {
-            printf("\x1b[0;31m[ERRO]: %s inválida, não existente\x1b[0;0m\n",ID_name);
+            printf("\x1b[0;31m[ERRO]: %s inválida, não existente\x1b[0;0m\n", ID_name);
             continue;
         }
 
@@ -317,16 +396,22 @@ int interfaceCadAluno() {
                 inputSexo(false, &alunos[qtd_aluno].sexo);
                 inputNascimento(false, &alunos[qtd_aluno].nascimento.ano, &alunos[qtd_aluno].nascimento.mes, &alunos[qtd_aluno].nascimento.dia);
                 inputCPF(false, alunos[qtd_aluno].cpf);
+                inputDisciplinas(false, alunos[qtd_aluno].disciplinas, "aluno tem aula");
+                alunos[qtd_aluno].ativo = true;
+                printf("\x1b[0;36m[Aluno matriculado com sucesso]\x1b[0;0m\n");
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 qtd_aluno++;
                 break;
 
             case 'e':  // editar dados de uma matricula
-                int tmp_matricula = inputID(MAX_num_alunos,"Matricula");
+                int tmp_matricula = inputID(MAX_num_alunos, "Matricula");
                 inputNome(true, alunos[tmp_matricula].nome);
                 inputSexo(true, &alunos[tmp_matricula].sexo);
                 inputNascimento(true, &alunos[tmp_matricula].nascimento.ano, &alunos[tmp_matricula].nascimento.mes, &alunos[tmp_matricula].nascimento.dia);
                 inputCPF(true, alunos[tmp_matricula].cpf);
+                inputDisciplinas(true, alunos[tmp_matricula].disciplinas, "aluno tem aula");
+                inputAtivo(true, &alunos[tmp_matricula].ativo, "o aluno continua matriculado na escola");
+                printf("\x1b[0;36m[Aluno editado com sucesso]\x1b[0;0m\n");
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
@@ -381,15 +466,22 @@ int interfaceCadProfessor() {
                 inputSexo(false, &professores[qtd_professor].sexo);
                 inputNascimento(false, &professores[qtd_professor].nascimento.ano, &professores[qtd_professor].nascimento.mes, &professores[qtd_professor].nascimento.dia);
                 inputCPF(false, professores[qtd_professor].cpf);
+                inputDisciplinas(false, professores[qtd_professor].disciplinas, "professor dá aula");
+                professores[qtd_professor].ativo = true;
                 qtd_professor++;
+                printf("\x1b[0;36m[Professor matriculado com sucesso]\x1b[0;0m\n");
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
             case 'e':  // editar dados de uma matricula
-                int tmp_matricula = inputID(MAX_num_professores,"Matricula");
+                int tmp_matricula = inputID(MAX_num_professores, "Matricula");
                 inputNome(true, professores[tmp_matricula].nome);
                 inputSexo(true, &professores[tmp_matricula].sexo);
                 inputNascimento(true, &professores[tmp_matricula].nascimento.ano, &professores[tmp_matricula].nascimento.mes, &professores[tmp_matricula].nascimento.dia);
                 inputCPF(true, professores[tmp_matricula].cpf);
+                inputDisciplinas(true, professores[tmp_matricula].disciplinas, "professor dá aula");
+                inputAtivo(true, &professores[tmp_matricula].ativo, "o professor continua trabalhando na escola");
+                printf("\x1b[0;36m[Professor editado com sucesso]\x1b[0;0m\n");
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
@@ -407,23 +499,25 @@ int interfaceCadProfessor() {
 
 int interfaceCadDisciplina() {
     while (true) {
-        puts("\x1b[0;36m╔═════════════════════════════════════════════╗                    \x1b[0;0m");
-        puts("\x1b[0;36m║ _____           _  ___  _                   ║                    \x1b[0;0m");
-        puts("\x1b[0;36m║/  __ \\         | |/ _ \\| |                  ║                  \x1b[0;0m");
-        puts("\x1b[0;36m║| /  \\/ __ _  __| / /_\\ \\ |_   _ _ __   ___  ║                 \x1b[0;0m");
-        puts("\x1b[0;36m║| |    / _` |/ _` |  _  | | | | | '_ \\ / _ \\ ║                  \x1b[0;0m");
-        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | | | | | |_| | | | | (_) |║                  \x1b[0;0m");
-        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_\\_| |_/_|\\__,_|_| |_|\\___/ ║              \x1b[0;0m");
-        puts("\x1b[0;36m╚═════════════════════════════════════════════╝                    \x1b[0;0m");
+        puts("\x1b[0;36m╔════════════════════════════════════════════════════════════╗                    \x1b[0;0m");
+        puts("\x1b[0;36m║ _____           _______ _          _       _ _             ║                   \x1b[0;0m");
+        puts("\x1b[0;36m║/  __ \\         | |  _  (_)        (_)     | (_)            ║                   \x1b[0;0m");
+        puts("\x1b[0;36m║| /  \\/ __ _  __| | | | |_ ___  ___ _ _ __ | |_ _ __   __ _ ║                   \x1b[0;0m");
+        puts("\x1b[0;36m║| |    / _` |/ _` | | | | / __|/ __| | '_ \\| | | '_ \\ / _` |║                   \x1b[0;0m");
+        puts("\x1b[0;36m║| \\__/\\ (_| | (_| | |/ /| \\__ \\ (__| | |_) | | | | | | (_| |║                   \x1b[0;0m");
+        puts("\x1b[0;36m║ \\____/\\__,_|\\__,_|___/ |_|___/\\___|_| .__/|_|_|_| |_|\\__,_|║                   \x1b[0;0m");
+        puts("\x1b[0;36m║                                     | |                    ║                   \x1b[0;0m");
+        puts("\x1b[0;36m║                                     |_|                    ║                   \x1b[0;0m");
+        puts("\x1b[0;36m╚════════════════════════════════════════════════════════════╝                    \x1b[0;0m");
         printf("\n");
         printf("\x1b[0;31m(s) sair - (Cadastro)                                            \x1b[0;0m\n");
-        if (qtd_aluno == MAX_num_alunos) {
-            printf("\x1b[0;31m(i) Inserir dados de uma nova Matricula: (CHEIO) (%d/%d)     \x1b[0;0m\n", qtd_aluno, qtd_aluno);
+        if (qtd_disciplina == MAX_num_disciplinas) {
+            printf("\x1b[0;31m(i) Inserir dados de uma nova Disciplina: (CHEIO) (%d/%d)     \x1b[0;0m\n", qtd_disciplina, qtd_disciplina);
         } else {
-            printf("\x1b[0;32m(i) Inserir dados de uma nova Matricula: (%d)                \x1b[0;0m\n", qtd_aluno);
+            printf("\x1b[0;32m(i) Inserir dados de uma nova Disciplina: (%d)                \x1b[0;0m\n", qtd_disciplina);
         }
-        printf("\x1b[0;32m(e) Editar dados de uma Matricula                                \x1b[0;0m\n");
-        printf("\x1b[0;32m(l) listar matriculas                                            \x1b[0;0m\n");
+        printf("\x1b[0;32m(e) Editar dados de uma Disciplina                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(l) listar Disciplinas                                            \x1b[0;0m\n");
         printf("\n");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
         char op;                                         // operação
@@ -436,30 +530,28 @@ int interfaceCadDisciplina() {
                 break;
 
             case 'i':  // inserir dados de uma nova matricula
-                if (qtd_aluno == MAX_num_alunos) {
+                if (qtd_disciplina == MAX_num_disciplinas) {
                     break;
                 }
-                printf("\x1b[0;36m[INFO]:        Matricula: \"%d\"\x1b[0;0m\n", qtd_aluno);
-                // inputNome(false, alunos[qtd_aluno].nome);
-                // inputSexo(false, qtd_aluno);
-                // inputNascimento(false, qtd_aluno);
-                // inputCPF(false, qtd_aluno);
+                printf("\x1b[0;36m[INFO]:        Disciplina: \"%d\"\x1b[0;0m\n", qtd_disciplina);
+                inputNome(false, disciplinas[qtd_disciplina].nome);
+                disciplinas[qtd_disciplina].ativo = true;
+                qtd_disciplina++;
+                printf("\x1b[0;36m[Disciplina criada com sucesso]\x1b[0;0m\n");
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
-                qtd_aluno++;
                 break;
 
             case 'e':  // editar dados de uma matricula
-                int tmp_matricula = inputID(MAX_num_disciplinas,"Código");
-                // inputNome(true, alunos[qtd_aluno].nome);
-                // inputSexo(true, tmp_matricula);
-                // inputNascimento(true, tmp_matricula);
-                // inputCPF(true, tmp_matricula);
+                int tmp_id = inputID(MAX_num_disciplinas, "Código");
+                inputNome(true, disciplinas[tmp_id].nome);
+                inputAtivo(true, &professores[tmp_id].ativo, "a disciplina continua sendo ensinada na escola");
+                printf("\x1b[0;36m[Disciplina editada com sucesso]\x1b[0;0m\n");
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
             case 'l':  // listar matriculas
                 // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
-                printAlunosObj();
+                printDisciplinasObj();
                 break;
 
             default:  // erro na operacao escolhida
