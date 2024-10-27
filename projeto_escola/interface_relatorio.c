@@ -143,7 +143,7 @@ void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
             printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
             for(int i=0; i<qtd_aluno; i++){
                 if (alunos[i].sexo == 'M') {
-                    printf("Matrícula: %d\n", alunos[i].matricula);
+                    printf("Matrícula: %d\n", alunos[i].matricula);// a matricula aqui sempre sera igual a "i" mas acredito que so por via das duvidas vale a pena iniciar as variaveis .matricula com os numeros reais, n custa nada e fica mais legivel na hora
                     printf("Nome: %s\n", alunos[i].nome);
                     printf("CPF: %s\n", alunos[i].cpf);
                     printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
