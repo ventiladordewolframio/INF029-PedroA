@@ -9,16 +9,36 @@
 #include "ansi_escapes.h"
 #include "interface_main.h"
 
+//! por algum motivo APENAS as funcoes novas tavam dando problema com areferencia?? sendo que as outras nao precisaram de aparecer aqui antes de serem usadas??? vai saber
+void listarAlunos();
+void listarProfessores();
+void listarDisciplinas();
+void listarUmaDisciplina();
+
+void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno);
+void listarAlunosOrdenadosPorNome(struct aluno alunos[], int qtd_aluno);
+void listarAlunosOrdenadosPorDataNascimento(struct aluno alunos[], int qtd_aluno);
+
+void listarProfessorPorSexo(struct professor professores[], int qtd_professor);
+void listarProfessoresOrdenadosPorNome(struct professor professores[], int qtd_professor);
+void listarProfessoresOrdenadosPorDataNascimento(struct professor professores[], int qtd_professor);
+
+int listarAniversariante(struct aluno alunos[], struct professor professores[], int qtd_aluno, int qtd_professor);
+void listarAlunoComMenosDeTresDisciplinas(struct aluno alunos[], int qtd_aluno);
+void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int qtd_disciplina);
+void listarPessoas();
+
 int interfaceRel() {
     bool sair_rel = 0;
     while (!sair_rel) {
-        puts("\x1b[0;36m______     _       _             _           \x1b[0;0m");
-        puts("\x1b[0;36m| ___ \\   | |     | |           (_)          \x1b[0;0m");
-        puts("\x1b[0;36m| |_/ /___| | __ _| |_ ___  _ __ _  ___  ___ \x1b[0;0m");
-        puts("\x1b[0;36m|    // _ \\ |/ _` | __/ _ \\| '__| |/ _ \\/ __|\x1b[0;0m");
-        puts("\x1b[0;36m| |\\ \\  __/ | (_| | || (_) | |  | | (_) \\__ \\\x1b[0;0m");
-        puts("\x1b[0;36m\\_| \\_\\___|_|\\__,_|\\__\\___/|_|  |_|\\___/|___/\x1b[0;0m");
-        puts("\x1b[0;36m______________________________________________\x1b[0;0m");
+        puts("\x1b[0;36m╔════════════════════════════════════════════════╗\x1b[0;0m");
+        puts("\x1b[0;36m║______     _       _             _           \x1b[0;0m");
+        puts("\x1b[0;36m║| ___ \\   | |     | |           (_)          \x1b[0;0m");
+        puts("\x1b[0;36m║| |_/ /___| | __ _| |_ ___  _ __ _  ___  ___ \x1b[0;0m");
+        puts("\x1b[0;36m║|    // _ \\ |/ _` | __/ _ \\| '__| |/ _ \\/ __|\x1b[0;0m");
+        puts("\x1b[0;36m║| |\\ \\  __/ | (_| | || (_) | |  | | (_) \\__ \\\x1b[0;0m");
+        puts("\x1b[0;36m║\\_| \\_\\___|_|\\__,_|\\__\\___/|_|  |_|\\___/|___/\x1b[0;0m");
+        puts("\x1b[0;36m╚════════════════════════════════════════════════╝\x1b[0;0m");
         puts("\x1b[0;31m(s)  sair - (Interface Escola)\x1b[0;0m");
         printf("\n");
         puts("\x1b[0;32m(0)  listar alunos\x1b[0;0m");
@@ -68,19 +88,19 @@ int interfaceRel() {
                 break;
 
             case 0:  // listar alunos
-                //! inserir chamada de funcao aqui
+                listarAlunos();
                 break;
 
             case 1:  // listar professores
-                //! inserir chamada de funcao aqui
+                listarProfessores();
                 break;
 
             case 2:  // listar disciplinas
-                //! inserir chamada de funcao aqui
+                listarDisciplinas();
                 break;
 
             case 3:  // listar uma disciplina
-                //! inserir chamada de funcao aqui
+                listarUmaDisciplina();
                 break;
 
             case 4:  // listar alunos por sexo
@@ -88,11 +108,11 @@ int interfaceRel() {
                 break;
 
             case 5:  // listar alunos por nome
-                //! inserir chamada de funcao aqui
+                listarAlunosOrdenadosPorNome(alunos, qtd_aluno);
                 break;
 
             case 6:  // listar alunos por data de nascimento
-                //! inserir chamada de funcao aqui
+                listarAlunosOrdenadosPorDataNascimento(alunos, qtd_aluno);
                 break;
 
             case 7:  // listar professores por sexo
@@ -100,11 +120,11 @@ int interfaceRel() {
                 break;
 
             case 8:  // listar professores por nome
-                //! inserir chamada de funcao aqui
+                listarProfessoresOrdenadosPorNome(professores, qtd_professor);
                 break;
 
             case 9:  // listar professores por data de nascimento
-                //! inserir chamada de funcao aqui
+                listarProfessoresOrdenadosPorDataNascimento(professores, qtd_professor);
                 break;
 
             case 10:  // listar aniversariantes do mês
@@ -112,7 +132,7 @@ int interfaceRel() {
                 break;
 
             case 11:  // listar pessoas (buscar)
-                //! inserir chamada de funcao aqui
+                listarPessoas();
                 break;
 
             case 12:  // listar alunos matriculados em menos de 3 disciplinas
@@ -130,11 +150,81 @@ int interfaceRel() {
     }
 }
 
+void listarAlunos() {
+    if (qtd_aluno == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem alunos cadastrados\x1b[0;0m\n");
+        return;
+    }
+    printf("\n--LISTA DE ALUNOS--\n\n");
+    for (int i = 0; i < MAX_num_alunos; i++) {
+        if (alunos[i].ativo) {
+            printFormatAlunoData(i);
+        }
+    }
+}
+
+void listarProfessores() {
+    if (qtd_professor == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem professores cadastrados\x1b[0;0m\n");
+        return;
+    }
+    printf("\n--LISTA DE PROFESSORES--\n\n");
+    for (int i = 0; i < MAX_num_professores; i++) {
+        if (professores[i].ativo) {
+            printFormatProfessorData(i);
+        }
+    }
+}
+
+void listarDisciplinas() {
+    if (qtd_disciplina == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem disciplinas cadastrados\x1b[0;0m\n");
+        return;
+    }
+    printf("\n--LISTA DE Disciplinas--\n\n");
+    for (int i = 0; i < MAX_num_disciplinas; i++) {
+        if (disciplinas[i].ativo) {
+            printFormatDisciplinaData(i);
+        }
+    }
+}
+
+void listarUmaDisciplina() {
+    if (qtd_disciplina == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem disciplinas cadastrados\x1b[0;0m\n");
+        return;
+    }
+
+    printf("\x1b[0;36m[INPUT]: Disciplina(Código): \x1b[0;0m");
+    int id;
+    scanf(" %d", &id);
+    clear();
+
+    if (id > MAX_num_disciplinas) {
+        printf("\x1b[0;31m[ERROR]: Disciplina inválida!, a disciplina escolhida não existe\x1b[0;0m\n");
+        return;
+    }
+
+    printf("\n--DISCIPLINA--\n\n");
+    printFormatDisciplinaData(id);
+
+    printf("\n--ALUNOS--\n\n");
+    for (int i = 0; i < MAX_num_alunos; i++) {
+        if (!alunos[i].ativo) {
+            continue;
+        }
+        if (!alunos[i].disciplinas[id]) {
+            continue;
+        }
+        printFormatAlunoData(i);
+    }
+}
+
 void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
     if (qtd_aluno == 0) {
-        printf("Sem alunos cadastrados\n");
+        printf("\x1b[0;33m[WARNING]: Sem alunos cadastrados\x1b[0;0m\n");
     } else {
-        printf("Digite o sexo a ser listado (M ou F)");
+        printf("\x1b[0;36m[INPUT]: Digite o sexo a ser listado (M ou F)\x1b[0;0m");
         char sexo;
         scanf(" %c", &sexo);
         sexo = toupper(sexo);
@@ -143,36 +233,78 @@ void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
             printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
             for (int i = 0; i < qtd_aluno; i++) {
                 if (alunos[i].sexo == 'M') {
-                    printf("Matrícula: %d\n", alunos[i].matricula);  // a matricula aqui sempre sera igual a "i" mas acredito que so por via das duvidas vale a pena iniciar as variaveis .matricula com os numeros reais, n custa nada e fica mais legivel na hora
-                    printf("Nome: %s\n", alunos[i].nome);
-                    printf("CPF: %s\n", alunos[i].cpf);
-                    printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
+                    printFormatAlunoData(i);  //! método com formatação unificada dos commandos
                 }
             }
         } else if (sexo == 'F') {
             printf("\n--LISTA DE ALUNAS DO SEXO FEMININO--\n\n");
             for (int i = 0; i < qtd_aluno; i++) {
                 if (alunos[i].sexo == 'F') {
-                    printf("Matrícula: %d\n", alunos[i].matricula);
-                    printf("Nome: %s\n", alunos[i].nome);
-                    printf("CPF: %s\n", alunos[i].cpf);
-                    printf("Data de nascimento: %d/%d/%d\n", alunos[i].nascimento.dia, alunos[i].nascimento.mes, alunos[i].nascimento.ano);
+                    printFormatAlunoData(i);
                 }
             }
 
         } else {
-            printf("Sexo inválido! Digite M ou F\n");
+            printf("\x1b[0;31m[ERROR]: Sexo inválido! Digite M ou F\x1b[0;0m\n");
         }
     }
 }
 // não entendi ainda como usar ponteiros então vou ter que repetir a função pra professor :(
 // ah e tentei substituir as entradas pelos inputs, mas nao deu certo (os ponteiros!!!)
 
+void listarAlunosOrdenadosPorNome(struct aluno alunos[], int qtd_aluno) {
+    if (qtd_aluno == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem alunos cadastrados\x1b[0;0m\n");
+        return;
+    }
+
+    // Ordenação por nome
+    for (int i = 0; i < qtd_aluno - 1; i++) {
+        for (int j = i + 1; j < qtd_aluno; j++) {
+            if (strcmp(alunos[i].nome, alunos[j].nome) > 0) {
+                struct aluno temp = alunos[i];
+                alunos[i] = alunos[j];
+                alunos[j] = temp;
+            }
+        }
+    }
+
+    printf("\n--LISTA DE ALUNOS ORDENADOS POR NOME--\n\n");
+    for (int i = 0; i < qtd_aluno; i++) {
+        printFormatAlunoData(i);
+    }
+}
+
+void listarAlunosOrdenadosPorDataNascimento(struct aluno alunos[], int qtd_aluno) {
+    if (qtd_aluno == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem alunos cadastrados\x1b[0;0m\n");
+        return;
+    }
+
+    // Ordenação por data de nascimento
+    for (int i = 0; i < qtd_aluno - 1; i++) {
+        for (int j = i + 1; j < qtd_aluno; j++) {
+            if (alunos[i].nascimento.ano > alunos[j].nascimento.ano ||
+                (alunos[i].nascimento.ano == alunos[j].nascimento.ano && alunos[i].nascimento.mes > alunos[j].nascimento.mes) ||
+                (alunos[i].nascimento.ano == alunos[j].nascimento.ano && alunos[i].nascimento.mes == alunos[j].nascimento.mes && alunos[i].nascimento.dia > alunos[j].nascimento.dia)) {
+                struct aluno temp = alunos[i];
+                alunos[i] = alunos[j];
+                alunos[j] = temp;
+            }
+        }
+    }
+
+    printf("\n--LISTA DE ALUNOS ORDENADOS POR DATA DE NASCIMENTO--\n\n");
+    for (int i = 0; i < qtd_aluno; i++) {
+        printFormatAlunoData(i);
+    }
+}
+
 void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
     if (qtd_professor == 0) {
-        printf("Sem professores cadastrados\n");
+        printf("\x1b[0;33m[WARNING]: Sem professores cadastrados\x1b[0;0m\n");
     } else {
-        printf("Digite o sexo a ser listado (M ou F)");
+        printf("\x1b[0;36m[INPUT]: Digite o sexo a ser listado (M ou F)\x1b[0;0m");
         char sexo;
         scanf(" %c", &sexo);
         sexo = toupper(sexo);
@@ -181,65 +313,105 @@ void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
             printf("\n--LISTA DE PROF. DO SEXO MASCULINO--\n\n");
             for (int i = 0; i < qtd_professor; i++) {
                 if (alunos[i].sexo == 'M') {
-                    printf("Matrícula: %d\n", professores[i].matricula);
-                    printf("Nome: %s\n", professores[i].nome);
-                    printf("CPF: %s\n", professores[i].cpf);
-                    printf("Data de nascimento: %d/%d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
+                    printFormatProfessorData(i);
                 }
             }
         } else if (sexo == 'F') {
             printf("\n--LISTA DE PROF. DO SEXO FEMININO--\n\n");
             for (int i = 0; i < qtd_professor; i++) {
                 if (professores[i].sexo == 'F') {
-                    printf("Matrícula: %d\n", professores[i].matricula);
-                    printf("Nome: %s\n", professores[i].nome);
-                    printf("CPF: %s\n", professores[i].cpf);
-                    printf("Data de nascimento: %d/%d/%d\n", professores[i].nascimento.dia, professores[i].nascimento.mes, professores[i].nascimento.ano);
+                    printFormatProfessorData(i);
                 }
             }
 
         } else {
-            printf("Sexo inválido! Digite M ou F\n");
+            printf("\x1b[0;31m[ERROR]: Sexo inválido! Digite M ou F\x1b[0;0m\n");
         }
+    }
+}
+
+void listarProfessoresOrdenadosPorNome(struct professor professores[], int qtd_professor) {
+    if (qtd_professor == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem professores cadastrados\x1b[0;0m\n");
+        return;
+    }
+
+    // Ordenação por nome
+    for (int i = 0; i < qtd_professor - 1; i++) {
+        for (int j = i + 1; j < qtd_professor; j++) {
+            if (strcmp(professores[i].nome, professores[j].nome) > 0) {
+                struct professor temp = professores[i];
+                professores[i] = professores[j];
+                professores[j] = temp;
+            }
+        }
+    }
+
+    printf("\n--LISTA DE PROFESSORES ORDENADOS POR NOME--\n\n");
+    for (int i = 0; i < qtd_professor; i++) {
+        printFormatProfessorData(i);
+    }
+}
+
+void listarProfessoresOrdenadosPorDataNascimento(struct professor professores[], int qtd_professor) {
+    if (qtd_professor == 0) {
+        printf("\x1b[0;33m[WARNING]: Sem professores cadastrados\x1b[0;0m\n");
+        return;
+    }
+
+    // Ordenação por data de nascimento
+    for (int i = 0; i < qtd_professor - 1; i++) {
+        for (int j = i + 1; j < qtd_professor; j++) {
+            if (professores[i].nascimento.ano > professores[j].nascimento.ano ||
+                (professores[i].nascimento.ano == professores[j].nascimento.ano && professores[i].nascimento.mes > professores[j].nascimento.mes) ||
+                (professores[i].nascimento.ano == professores[j].nascimento.ano && professores[i].nascimento.mes == professores[j].nascimento.mes && professores[i].nascimento.dia > professores[j].nascimento.dia)) {
+                struct professor temp = professores[i];
+                professores[i] = professores[j];
+                professores[j] = temp;
+            }
+        }
+    }
+
+    printf("\n--LISTA DE PROFESSORES ORDENADOS POR DATA DE NASCIMENTO--\n\n");
+    for (int i = 0; i < qtd_professor; i++) {
+        printFormatProfessorData(i);
     }
 }
 
 int listarAniversariante(struct aluno alunos[], struct professor professores[], int qtd_aluno, int qtd_professor) {
     if (qtd_aluno == 0 && qtd_professor == 0) {
-        printf("Não exitem alunos ou professores cadastradoss\n");
+        printf("\x1b[0;33m[WARNING]: Não exitem alunos ou professores cadastradoss\x1b[0;0m\n");
     } else {
-        printf("Insira o mês (em algarismo) para buscar aniversariantes\n");
+        printf("\x1b[0;36m[INPUT]: Insira o mês (em algarismo) para buscar aniversariantes\x1b[0;0m\n");
         int mes;
         scanf("%d", &mes);
 
         if (mes < 1 || mes > 12) {
-            printf("Mês inválido! Digite um mês entre 1 e 12\n");
+            printf("\x1b[0;31m[ERROR]:Mês inválido! Digite um mês entre 1 e 12\x1b[0;0m\n");
         } else {
             int qtdAniversariante = 0;
             if (qtd_aluno > 0) {
-                printf("\n----------ALUNOS ANIVERSARIANTES----------\n");
+                printf("\n--ALUNOS ANIVERSARIANTES--\n");
                 for (int i = 0; i < qtd_aluno; i++) {
                     if (alunos[i].ativo == true && alunos[i].nascimento.mes == mes) {
-                        printf("\nNome: %s\n", alunos[i].nome);
-                        printf("Mátricula: %d\n", alunos[i].matricula);
+                        printFormatAlunoData(i);
                         qtdAniversariante++;
                     }
                 }
             }
             if (qtd_professor > 0) {
-                printf("\n----------PROFESSORES ANIVERSARIANTES----------\n");
+                printf("\n--PROFESSORES ANIVERSARIANTES--\n");
                 for (int i = 0; i < qtd_professor; i++) {
                     if (professores[i].ativo == true && professores[i].nascimento.mes == mes) {
-                        printf("\nNome: %s\n", professores[i].nome);
-                        printf("Mátricula: %d\n", professores[i].matricula);
+                        printFormatProfessorData(i);
                         qtdAniversariante++;
                     }
                 }
             }
             if (qtdAniversariante == 0)
-                printf("Não há aniversariantes nesse mês\n");
+                printf("\x1b[0;36m[INFO]: Não há aniversariantes nesse mês\x1b[0;0m\n");
             else
-                printf("\nListagem concluída!\n");
+                printf("\n[Listagem concluída!]\n");
         }
     }
 }
@@ -255,20 +427,19 @@ void listarAlunoComMenosDeTresDisciplinas(struct aluno alunos[], int qtd_aluno) 
             }
         }
         if (qtdDisciplinas < 3) {
-            printf("Nome: %s\n", alunos[j].nome);
-            printf("Matrícula: %d\n", alunos[j].matricula);
+            printFormatAlunoData(j);
             listados++;
         }
         j++;
     }
     if (listados == 0) {
-        printf("Não há alunos com menos de 3 disciplinas\n");
+        printf("\x1b[0;36m[INFO]: Não há alunos com menos de 3 disciplinas\x1b[0;0m\n");
     }
 }
 
 void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int qtd_disciplina) {
     if (qtd_disciplina == 0) {
-        printf("Não há disciplinas cadastradas\n");
+        printf("\x1b[0;33m[WARNING]: Não há disciplinas cadastradas\x1b[0;0m\n");
     } else {
         int disciplinaExtrapolada = false;
         for (int i = 0; i < MAX_num_disciplinas; i++) {  //! melhor testar para o max e verificar se está ativo depois pq da para editar uma q nao foi oficialmente cadastrada e inserir os dados normalmente(mas talvez seja melhor impedir q isso aconteça?)
@@ -287,13 +458,39 @@ void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int 
             }
             disciplinas[i].vaga_preenchida = tmp_vaga_preenchida;
             //! ah no interface_main.c na funcao startObjVariables() não tem nada iniciando as variaveis .vaga_preenchida como = 0; entao causa ficar na memória um numero aleatorio
-            if (disciplinas[i].vaga_preenchida > 40) {//!ah acho q vc esqueceu as chaves aqui, eu bem q tava me perguntando pq so printava a linha código (pq so essa linha eu ainda nao sei mas eh isso)
-                printf("Disciplina: %s\n", disciplinas[i].nome);
-                printf("Código: %d\n", disciplinas[i].id);
+            if (disciplinas[i].vaga_preenchida > 40) {  //! ah acho q vc esqueceu as chaves aqui, eu bem q tava me perguntando pq so printava a linha código (pq so essa linha eu ainda nao sei mas eh isso)
+                printFormatDisciplinaData(i);
                 disciplinaExtrapolada = true;
             }
         }
         if (disciplinaExtrapolada == false)
-            printf("Não há disciplinas com mais de 40 vagas\n");
+            printf("\x1b[0;36m[INFO]: Não há disciplinas com mais de 40 vagas\x1b[0;0m\n");
+    }
+}
+
+void listarPessoas() {
+    printf("\x1b[0;36m[INPUT]: buscar por: \x1b[0;0m");
+    char word[MAX_char_nome];
+    fgets(word, MAX_char_nome, stdin);
+    word[strcspn(word, "\n")] = 0;
+    clear();
+
+    if (word[0] == '\n' || word[1] == '\n' || word[2] == '\n') {
+        printf("\x1b[0;31m[ERROR]: A palavra de busca não pode ser menor que 3 caracteres\x1b[0;0m\n");
+        return;
+    }
+
+    printf("\n--ALUNOS--\n");
+    for (int i = 0; i < MAX_num_alunos; i++) {
+        if (strstr(alunos[i].nome, word) != NULL) {
+            printFormatAlunoData(i);
+        }
+    }
+
+    printf("\n--PROFESSORES--\n");
+    for (int i = 0; i < MAX_num_professores; i++) {
+        if (strstr(professores[i].nome, word) != NULL) {
+            printFormatProfessorData(i);
+        }
     }
 }

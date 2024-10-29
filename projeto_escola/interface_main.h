@@ -54,6 +54,9 @@ extern int qtd_professor;
 extern int qtd_disciplina;
 
 void clear();           // temporario solucao, depois criar arquivo de funções de utilidade
+void printFormatAlunoData(int i);
+void printFormatProfessorData(int i);
+void printFormatDisciplinaData(int i);
 void printAlunosObj();  // o mesmo do de cima
 void printProfessoresObj();
 void printDisciplinasObj();

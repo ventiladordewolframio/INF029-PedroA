@@ -38,7 +38,7 @@ int main(void) {
 
     while (!sair) {
         puts("\x1b[0;36m╔════════════════════════════════════════════════════════════════════════╗           \x1b[0;0m");
-        puts("\x1b[0;36m║ _____      _             __                 _____              _ v0.5.6║           \x1b[0;0m");
+        puts("\x1b[0;36m║ _____      _             __                 _____              _ v1.3.0║           \x1b[0;0m");
         puts("\x1b[0;36m║|_   _|    | |           / _|               |  ___|            | |      ║           \x1b[0;0m");
         puts("\x1b[0;36m║  | | _ __ | |_ ___ _ __| |_ __ _  ___ ___  | |__ ___  ___ ___ | | __ _ ║           \x1b[0;0m");
         puts("\x1b[0;36m║  | || '_ \\| __/ _ \\ '__|  _/ _` |/ __/ _ \\ |  __/ __|/ __/ _ \\| |/ _` |║       \x1b[0;0m");
@@ -82,54 +82,71 @@ void clear(void) {
     while (getchar() != '\n');
 }
 
+void printFormatAlunoData(int i) {
+    printf("\x1b[0;36mMatricula \"%d\"\x1b[0;0m\n", alunos[i].matricula);
+    printf("\x1b[0;36m├──Nome       : \"%s\"\x1b[0;0m\n", alunos[i].nome);
+    printf("\x1b[0;36m├──Sexo       : \"%c\"\x1b[0;0m\n", alunos[i].sexo);
+    printf("\x1b[0;36m├──Nascimento : \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
+    printf("\x1b[0;36m├──CPF        : \"%s\"\x1b[0;0m\n", alunos[i].cpf);
+    printf("\x1b[0;36m├──disciplinas: \"");
+    for (int j = 0; j < MAX_num_disciplinas; j++) {
+        if (alunos[i].disciplinas[j]) {
+            printf("%s", disciplinas[j].nome);
+            if (j != MAX_num_disciplinas - 2) {
+                printf(", ");
+            }
+        }
+    }
+    printf("\"\x1b[0;0m\n");
+    printf("\x1b[0;36m└──ativo      : \"%s\"\x1b[0;0m\n", alunos[i].ativo ? "true" : "false");
+    printf("\n");
+}
+
+void printFormatProfessorData(int i) {
+    printf("\x1b[0;36mMatricula \"%d\"\x1b[0;0m\n", professores[i].matricula);
+    printf("\x1b[0;36m├──Nome       : \"%s\"\x1b[0;0m\n", professores[i].nome);
+    printf("\x1b[0;36m├──Sexo       : \"%c\"\x1b[0;0m\n", professores[i].sexo);
+    printf("\x1b[0;36m├──Nascimento : \"%d/%d/%d\"\x1b[0;0m\n", professores[i].nascimento.ano, professores[i].nascimento.mes, professores[i].nascimento.dia);
+    printf("\x1b[0;36m├──CPF        : \"%s\"\x1b[0;0m\n", professores[i].cpf);
+    printf("\x1b[0;36m├──disciplinas: \"");
+    for (int j = 0; j < MAX_num_disciplinas; j++) {
+        if (professores[i].disciplinas[j]) {
+            printf("%s", disciplinas[j].nome);
+            if (j != MAX_num_disciplinas - 2) {
+                printf(", ");
+            }
+        }
+    }
+    printf("\"\x1b[0;0m\n");
+    printf("\x1b[0;36m└──ativo      : \"%s\"\x1b[0;0m\n", professores[i].ativo ? "true" : "false");
+    printf("\n");
+}
+
+void printFormatDisciplinaData(int i) {
+    printf("\x1b[0;36mCódigo \"%d\"\x1b[0;0m\n", disciplinas[i].id);
+    printf("\x1b[0;36m├──Nome : \"%s\"\x1b[0;0m\n", disciplinas[i].nome);
+    printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", disciplinas[i].ativo ? "true" : "false");
+    printf("\n");
+}
+
 void printAlunosObj() {
     puts("\x1b[0;36m[INFO]: Relatório Alunos Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_alunos; i++) {
-        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", alunos[i].nome);
-        printf("\x1b[0;36m├──Sexo: \"%c\"\x1b[0;0m\n", alunos[i].sexo);
-        printf("\x1b[0;36m├──Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", alunos[i].nascimento.ano, alunos[i].nascimento.mes, alunos[i].nascimento.dia);
-        printf("\x1b[0;36m├──CPF: \"%s\"\x1b[0;0m\n", alunos[i].cpf);
-        printf("\x1b[0;36m├──disciplinas: \"");
-        for (int j = 0; j < MAX_num_disciplinas; j++) {
-            if (alunos[i].disciplinas[j]) {
-                printf("%s, ", disciplinas[j].nome);
-            }
-        }
-        printf("\"\x1b[0;0m\n");
-        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", alunos[i].ativo ? "true" : "false");
-        printf("\n");
+        printFormatAlunoData(i);
     }
 }
 
 void printProfessoresObj() {
     puts("\x1b[0;36m[INFO]: Relatório Professores Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_professores; i++) {
-        printf("\x1b[0;36m┌Matricula \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", professores[i].nome);
-        printf("\x1b[0;36m├──Sexo: \"%c\"\x1b[0;0m\n", professores[i].sexo);
-        printf("\x1b[0;36m├──Nascimento: \"%d/%d/%d\"\x1b[0;0m\n", professores[i].nascimento.ano, professores[i].nascimento.mes, professores[i].nascimento.dia);
-        printf("\x1b[0;36m├──CPF: \"%s\"\x1b[0;0m\n", professores[i].cpf);
-        printf("\x1b[0;36m├──disciplinas: \"");
-        for (int j = 0; j < MAX_num_disciplinas; j++) {
-            if (professores[i].disciplinas[j]) {
-                printf("%s, ", disciplinas[j].nome);
-            }
-        }
-        printf("\"\x1b[0;0m\n");
-        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", professores[i].ativo ? "true" : "false");
-
-        printf("\n");
+        printFormatProfessorData(i);
     }
 }
 
 void printDisciplinasObj() {
     puts("\x1b[0;36m[INFO]: Relatório Disciplinas Raw:\x1b[0;0m\n");
     for (int i = 0; i < MAX_num_disciplinas; i++) {
-        printf("\x1b[0;36m┌Código \"%d\"\x1b[0;0m\n", i);
-        printf("\x1b[0;36m├──Nome: \"%s\"\x1b[0;0m\n", disciplinas[i].nome);
-        printf("\x1b[0;36m└──ativo: \"%s\"\x1b[0;0m\n", disciplinas[i].ativo ? "true" : "false");
-        printf("\n");
+        printFormatDisciplinaData(i);
     }
 }
 
