@@ -4,12 +4,12 @@ funcionalidades em uma Escola, mas você deve focar no que é pedido. Caso tenha
 pode evoluir sua solução para adicionar mais funcionalidades.
 Funcionalidades solicitadas:
 
-- Cadastros
++ Cadastros
     + Cadastro de Alunos (Matrícula, Nome, Sexo, Data Nascimento, CPF) .
     + Cadastro de Professores (Matrícula, Nome, Sexo, Data Nascimento, CPF).
     + Cadastro de Disciplinas (Nome, Código, Semestre, Professor)
         + Inserir/Excluir aluno de uma disciplina
-- Relatórios
++ Relatórios
     + Listar Alunos
     + Listar Professores
     + Listar Disciplinas (dados da disciplina sem os alunos)
@@ -26,5 +26,5 @@ Funcionalidades solicitadas:
     + Lista de Disciplinas, com nome do professor, que extrapolam 40 vagas.
 
 Observação:
-- Por Cadastro entenda Incluir, excluir, atualizar
-- Valide todos os campos necessários (ex. Data nascimento, CPF)
++ Por Cadastro entenda Incluir, excluir, atualizar
++ Valide todos os campos necessários (ex. Data nascimento, CPF)

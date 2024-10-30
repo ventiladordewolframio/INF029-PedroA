@@ -8,6 +8,7 @@
 
 #include "ansi_escapes.h"
 #include "interface_main.h"
+#include "interface_relatorio.h"
 
 int interfaceCadAluno();
 int interfaceCadProfessor();
@@ -60,6 +61,9 @@ int interfaceCad() {
 
 void inputNome(bool EDITAR_DADOS, char *OBJ_nome) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
+        if (EDITAR_DADOS) {
+            printf("\x1b[0;36m[INFO]: Pressione \"Enter\" para não alterar o valor\x1b[0;0m\n");
+        }
         printf("\x1b[0;36m[INPUT]:            Nome: \x1b[0;0m");
         char nome[MAX_char_nome];
         fgets(nome, MAX_char_nome, stdin);
@@ -69,7 +73,7 @@ void inputNome(bool EDITAR_DADOS, char *OBJ_nome) {  // se verdadeiro entradas v
                 printf("\x1b[0;31m[ERROR]: Nome não pode ser vazio\x1b[0;0m\n");
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Nome não sera modificado\x1b[0;0m\n");
+                printf("\n\x1b[0;33m[WARNING]: Nome não sera modificado\x1b[0;0m\n");
                 break;
             }
         }
@@ -82,6 +86,9 @@ void inputNome(bool EDITAR_DADOS, char *OBJ_nome) {  // se verdadeiro entradas v
 
 void inputSexo(bool EDITAR_DADOS, char *OBJ_sexo) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
+        if (EDITAR_DADOS) {
+            printf("\x1b[0;36m[INFO]: Pressione \"Enter\" para não alterar o valor\x1b[0;0m\n");
+        }
         printf("\x1b[0;36m[INPUT]:       Sexo(M/F): \x1b[0;0m");  //* INSERIR SEXO (lá ele)
         char sexo = getchar();
         clear();
@@ -91,7 +98,7 @@ void inputSexo(bool EDITAR_DADOS, char *OBJ_sexo) {  // se verdadeiro entradas v
                 printf("\x1b[0;31m[ERROR]: Sexo não pode ser vazio\x1b[0;0m\n");
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Sexo não sera modificado\x1b[0;0m\n");
+                printf("\x1b[0;33m[WARNING]: Sexo não sera modificado\x1b[0;0m\n");
                 break;
             }
         }
@@ -150,54 +157,76 @@ int validarData(int dia, int mes, int ano) {
 void inputNascimento(bool EDITAR_DADOS, int *OBJ_ano, int *OBJ_mes, int *OBJ_dia) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         if (EDITAR_DADOS) {
-            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
+            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");
         }
         printf("\x1b[0;36m[INPUT]: Nascimento(ano): \x1b[0;0m");  //* INSERIR NASCIMENTO (ANO)
-        int ano;
-        scanf(" %d", &ano);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        int ano = 0;
+        bool modificar_ano = true;
+        int flag = scanf(" %d", &ano);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
+
+        if (flag != 1) {
+            printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Data apenas pode ser um número\x1b[0;0m\n");
+            continue;
+        }
         if (ano == 0) {
             if (EDITAR_DADOS == false) {
                 printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Ano não pode ser zero\x1b[0;0m\n");
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Ano não sera modificado\x1b[0;0m\n");
-                break;
+                printf("\n\x1b[0;33m[WARNING]: Ano não sera modificado\x1b[0;0m\n");
+                modificar_ano = false;
             }
         }
-        *OBJ_ano = ano;
+        if (modificar_ano) {
+            *OBJ_ano = ano;
+        }
 
         if (EDITAR_DADOS) {
-            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
+            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");
         }
         printf("\x1b[0;36m[INPUT]: Nascimento(mes): \x1b[0;0m");  //* INSERIR NASCIMENTO (MES)
-        int mes;
-        scanf(" %d", &mes);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        int mes = 0;
+        bool modificar_mes = true;
+        flag = scanf(" %d", &mes);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
+
+        if (flag != 1) {
+            printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Data apenas pode ser um número\x1b[0;0m\n");
+            continue;
+        }
         if (mes == 0) {
             if (EDITAR_DADOS == false) {
                 printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Mês não pode ser zero\x1b[0;0m\n");
                 *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Mês não sera modificado\x1b[0;0m\n");
-                break;
+                printf("\n\x1b[0;33m[WARNING]: Mês não sera modificado\x1b[0;0m\n");
+                modificar_mes = false;
             }
         }
-        if (mes < 1 || mes > 12) {
-            printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Mês inválido\x1b[0;0m\n");
-            *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
-            continue;
+        if (modificar_mes) {
+            if (mes < 1 || mes > 12) {
+                printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Mês inválido\x1b[0;0m\n");
+                *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
+                continue;
+            }
+            *OBJ_mes = mes;
         }
-        *OBJ_mes = mes;
 
         if (EDITAR_DADOS) {
-            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");  //! precisa disso por causa do SCANF()
+            printf("\x1b[0;36m[INFO]: Digite \"0\" para não alterar o valor\x1b[0;0m\n");
         }
         printf("\x1b[0;36m[INPUT]: Nascimento(dia): \x1b[0;0m");  //* INSERIR NASCIMENTO (DIA)
-        int dia;
-        scanf(" %d", &dia);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        int dia = 0;
+        bool modificar_dia = true;
+        flag = scanf(" %d", &dia);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
+
+        if (flag != 1) {
+            printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Data apenas pode ser um número\x1b[0;0m\n");
+            continue;
+        }
         if (dia == 0) {
             if (EDITAR_DADOS == false) {
                 printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Dia não pode ser zero\x1b[0;0m\n");
@@ -205,17 +234,19 @@ void inputNascimento(bool EDITAR_DADOS, int *OBJ_ano, int *OBJ_mes, int *OBJ_dia
                 *OBJ_mes = 0;  // lembrar zerar variáveis assim que errar algo
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Dia não sera modificado\x1b[0;0m\n");
-                break;
+                printf("\n\x1b[0;33m[WARNING]: Dia não sera modificado\x1b[0;0m\n");
+                modificar_dia = false;
             }
         }
-        if (!(validarData(dia, mes, ano))) {
-            printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Dia não existe\x1b[0;0m\n");
-            *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
-            *OBJ_mes = 0;  // lembrar zerar variáveis assim que errar algo
-            continue;
+        if (modificar_dia) {
+            if (!(validarData(dia, mes, ano))) {
+                printf("\x1b[0;31m[ERROR]: DATA INVÁLIDA: Dia não existe\x1b[0;0m\n");
+                *OBJ_ano = 0;  // lembrar zerar variáveis assim que errar algo
+                *OBJ_mes = 0;  // lembrar zerar variáveis assim que errar algo
+                continue;
+            }
+            *OBJ_dia = dia;
         }
-        *OBJ_dia = dia;
         break;
     }
 }
@@ -226,7 +257,7 @@ bool validarCpf(const char cpf[MAX_char_cpf]) {
 
     // calcular o primeiro dígito verificador (dezena)
     for (int i = 0, j = 10; i < 9; i++, j--) {
-        dezenaVerificadora += (cpf[i] - '0') * j; // - '0' para transformar char em int
+        dezenaVerificadora += (cpf[i] - '0') * j;  // - '0' para transformar char em int
     }
     dezenaVerificadora = 11 - (dezenaVerificadora % 11);
     if (dezenaVerificadora > 9) {
@@ -242,7 +273,6 @@ bool validarCpf(const char cpf[MAX_char_cpf]) {
     }
 
     if (dezenaVerificadora == (cpf[9] - '0') && unidadeVerificadora == (cpf[10] - '0')) {
-        printf("CPF válido\n");
         return true;
     } else
         return false;
@@ -250,6 +280,9 @@ bool validarCpf(const char cpf[MAX_char_cpf]) {
 
 void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
+        if (EDITAR_DADOS) {
+            printf("\x1b[0;36m[INFO]: Pressione \"Enter\" para não alterar o valor\x1b[0;0m\n");
+        }
         printf("\x1b[0;36m[INPUT]:             CPF: \x1b[0;0m");  //* INSERIR CPF
         char cpf[12];
         fgets(cpf, 12, stdin);
@@ -259,7 +292,7 @@ void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vaz
                 printf("\x1b[0;31m[ERROR]: CPF não pode ser vazio\x1b[0;0m\n");
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: CPF não sera modificado\x1b[0;0m\n");
+                printf("\x1b[0;33m[WARNING]: CPF não sera modificado\x1b[0;0m\n");
                 break;
             }
         }
@@ -268,7 +301,6 @@ void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vaz
         bool CPF_CARACTERES_INVALIDOS = false;
         for (int i = 0; i < 11; i++) {
             char c = cpf[i];
-            // printf("%d / ", c); //! precisei de printar os valores brutos dos char pq tava tendo problema com os valores não inicializados quando não é inserido um cpf do tamanho total
             if (!((c >= '0') && (c <= '9'))) {
                 CPF_CARACTERES_INVALIDOS = true;
             };
@@ -279,13 +311,12 @@ void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vaz
             continue;
         }
 
-        // todo ADICIONAR AQUI CÓDIGO VERIFICAÇÃO DE CPF SEGUNDO A NORMA
         if (!validarCpf(cpf)) {
             printf("\x1b[0;31m[ERRO]: CPF inválido. CPF não segue as normas da federação! Insira um CPF válido\x1b[0;0m\n");
             continue;
         }
 
-        strcpy(OBJ_cpf, cpf);  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
+        strcpy(OBJ_cpf, cpf);
         break;
     }
 }
@@ -302,33 +333,38 @@ void inputDisciplinas(bool EDITAR_DADOS, bool *OBJ_disciplinas, char nome_do_obj
                 continue;
             }
 
+            bool modificar_disciplina = true;
+            if (EDITAR_DADOS) {
+                printf("\x1b[0;36m[INFO]: Pressione \"Enter\" para não alterar o valor\x1b[0;0m\n");
+            }
             printf("\x1b[0;36m[INPUT]: Insira (y/n) se o %s da disciplina %s: \x1b[0;0m", nome_do_obj, disciplinas[i].nome);
             char disciplina_bool_input = getchar();
             clear();
 
             if (disciplina_bool_input == '\n') {
                 if (EDITAR_DADOS == false) {
-                    printf("\x1b[0;31m[ERROR]: Entrada não pode ser vazia\x1b[0;0m\n");//!tem bug aqui
-                    continue;
+                    printf("\x1b[0;31m[ERROR]: Entrada não pode ser vazia\x1b[0;0m\n");
+                    i = 0;
                 } else {
-                    printf("\x1b[0;36m[INFO]: Disciplina não sera modificada\x1b[0;0m\n");
-                    break;
+                    printf("\x1b[0;33m[WARNING]: Disciplina não sera modificada\x1b[0;0m\n");
+                    modificar_disciplina = false;
                 }
             }
+            if (modificar_disciplina) {
+                if (disciplina_bool_input == 'Y' || disciplina_bool_input == 'N') {
+                    disciplina_bool_input = tolower(disciplina_bool_input);
+                }
 
-            if (disciplina_bool_input == 'Y' || disciplina_bool_input == 'N') {
-                disciplina_bool_input = tolower(disciplina_bool_input);
-            }
+                if (!(disciplina_bool_input == 'y' || disciplina_bool_input == 'n')) {
+                    printf("\x1b[0;31m[ERROR]: Entrada invalida, insira (y/n)\x1b[0;0m\n");
+                    continue;
+                }
 
-            if (!(disciplina_bool_input == 'y' || disciplina_bool_input == 'n')) {
-                printf("\x1b[0;31m[ERROR]: Entrada invalida, insira (y/n)\x1b[0;0m\n");
-                continue;
-            }
-
-            if (disciplina_bool_input == 'y') {
-                OBJ_disciplinas[i] = true;
-            } else {
-                OBJ_disciplinas[i] = false;
+                if (disciplina_bool_input == 'y') {
+                    OBJ_disciplinas[i] = true;
+                } else {
+                    OBJ_disciplinas[i] = false;
+                }
             }
         }
         break;
@@ -337,7 +373,10 @@ void inputDisciplinas(bool EDITAR_DADOS, bool *OBJ_disciplinas, char nome_do_obj
 
 void inputAtivo(bool EDITAR_DADOS, bool *OBJ_ativo, char texto_do_obj[]) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
-        printf("\x1b[0;36m[INPUT]: Insira (y/n) se %s:\x1b[0;0m", texto_do_obj);
+        if (EDITAR_DADOS) {
+            printf("\x1b[0;36m[INFO]: Pressione \"Enter\" para não alterar o valor\x1b[0;0m\n");
+        }
+        printf("\x1b[0;36m[INPUT]: Insira (y/n) se %s: \x1b[0;0m", texto_do_obj);
         char ativo_bool_input = getchar();
         clear();
 
@@ -346,7 +385,7 @@ void inputAtivo(bool EDITAR_DADOS, bool *OBJ_ativo, char texto_do_obj[]) {  // s
                 printf("\x1b[0;31m[ERROR]: Entrada não pode ser vazia\x1b[0;0m\n");
                 continue;
             } else {
-                printf("\x1b[0;36m[INFO]: Atividade não sera modificada\x1b[0;0m\n");
+                printf("\x1b[0;33m[WARNING]: Atividade não sera modificada\x1b[0;0m\n");
                 break;
             }
         }
@@ -373,17 +412,18 @@ int inputID(int MAX_num, char ID_name[]) {
     while (true) {
         printf("\x1b[0;36m[INPUT]: %s: \x1b[0;0m", ID_name);
         int id;
-        scanf(" %d", &id);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
+        int flag = scanf(" %d", &id);  // seria bom uma opção mais limpa que o scanf mas se funciona entao funciona.
         clear();
 
-        if (!((id < MAX_num) && (id >= 0))) {
-            printf("\x1b[0;31m[ERROR]: %s inválida, não existente\x1b[0;0m\n", ID_name);
+        if (flag != 1) {
+            printf("\x1b[0;31m[ERROR]: ENTRADA INVÁLIDA: Entrada apenas pode ser um número\x1b[0;0m\n");
             continue;
         }
 
-        //! verificar se ela é realmente um numero
-
-        printf("\x1b[0;36m[INFO]: Insira os novos valores das variáveis e deixe em branco caso não deseje altera-los\x1b[0;0m\n");
+        if (!((id < MAX_num) && (id >= 0))) {
+            printf("\x1b[0;31m[ERROR]: ENTRADA INVÁLIDA: não existente\x1b[0;0m\n");
+            continue;
+        }
 
         return id;
     }
@@ -407,6 +447,7 @@ int interfaceCadAluno() {
             printf("\x1b[0;32m(i) Inserir dados de uma nova Matricula: (%d)                \x1b[0;0m\n", qtd_aluno);
         }
         printf("\x1b[0;32m(e) Editar dados de uma Matricula                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(d) Deletar dados de uma Matricula                                \x1b[0;0m\n");
         printf("\x1b[0;32m(l) listar matriculas                                            \x1b[0;0m\n");
         printf("\n");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
@@ -447,9 +488,16 @@ int interfaceCadAluno() {
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
+            case 'd':
+                int tmp_matricula_delete = inputID(MAX_num_alunos, "Matricula");
+                startObjAluno(tmp_matricula_delete);
+                printf("\x1b[0;36m[Matricula deletada com sucesso]\x1b[0;0m\n");
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                break;
+
             case 'l':  // listar matriculas
                 // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
-                printAlunosObj();
+                listarAlunos();
                 break;
 
             default:  // erro na operacao escolhida
@@ -477,6 +525,7 @@ int interfaceCadProfessor() {
             printf("\x1b[0;32m(i) Inserir dados de uma nova Matricula: (%d)                \x1b[0;0m\n", qtd_professor);
         }
         printf("\x1b[0;32m(e) Editar dados de uma Matricula                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(d) Deletar dados de uma Matricula                                \x1b[0;0m\n");
         printf("\x1b[0;32m(l) listar matriculas                                            \x1b[0;0m\n");
         printf("\n");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
@@ -517,9 +566,16 @@ int interfaceCadProfessor() {
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
+            case 'd':
+                int tmp_matricula_delete = inputID(MAX_num_professores, "Matricula");
+                startObjProfessor(tmp_matricula_delete);
+                printf("\x1b[0;36m[Matricula deletada com sucesso]\x1b[0;0m\n");
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                break;
+
             case 'l':  // listar matriculas
                 // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
-                printProfessoresObj();
+                listarProfessores();
                 break;
 
             default:  // erro na operacao escolhida
@@ -549,6 +605,7 @@ int interfaceCadDisciplina() {
             printf("\x1b[0;32m(i) Inserir dados de uma nova Disciplina: (%d)                \x1b[0;0m\n", qtd_disciplina);
         }
         printf("\x1b[0;32m(e) Editar dados de uma Disciplina                                \x1b[0;0m\n");
+        printf("\x1b[0;32m(d) Deletar dados de uma Disciplina                                \x1b[0;0m\n");
         printf("\x1b[0;32m(l) listar Disciplinas                                            \x1b[0;0m\n");
         printf("\n");
         printf("\x1b[0;36m[INFO]: Escolha: \x1b[0;0m");  // input de dados do usuário
@@ -581,9 +638,16 @@ int interfaceCadDisciplina() {
                 printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
                 break;
 
+            case 'd':
+                int tmp_matricula_delete = inputID(MAX_num_disciplinas, "Código");
+                startObjDisciplina(tmp_matricula_delete);
+                printf("\x1b[0;36m[Disciplina deletada com sucesso]\x1b[0;0m\n");
+                printf("\x1b[0;32m[CONCLUIDO]\x1b[0;0m\n");
+                break;
+
             case 'l':  // listar matriculas
                 // printf("\x1b[0;36m[INFO]: mostrando os dados dos alunos: \x1b[0;0m\n");
-                printDisciplinasObj();
+                listarDisciplinas();
                 break;
 
             default:  // erro na operacao escolhida

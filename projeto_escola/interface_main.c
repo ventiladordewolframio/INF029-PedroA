@@ -38,7 +38,7 @@ int main(void) {
 
     while (!sair) {
         puts("\x1b[0;36m╔════════════════════════════════════════════════════════════════════════╗           \x1b[0;0m");
-        puts("\x1b[0;36m║ _____      _             __                 _____              _ v1.3.0║           \x1b[0;0m");
+        puts("\x1b[0;36m║ _____      _             __                 _____              _ v1.6.2║           \x1b[0;0m");
         puts("\x1b[0;36m║|_   _|    | |           / _|               |  ___|            | |      ║           \x1b[0;0m");
         puts("\x1b[0;36m║  | | _ __ | |_ ___ _ __| |_ __ _  ___ ___  | |__ ___  ___ ___ | | __ _ ║           \x1b[0;0m");
         puts("\x1b[0;36m║  | || '_ \\| __/ _ \\ '__|  _/ _` |/ __/ _ \\ |  __/ __|/ __/ _ \\| |/ _` |║       \x1b[0;0m");
@@ -150,24 +150,47 @@ void printDisciplinasObj() {
     }
 }
 
+void startObjAluno(int i) {
+    alunos[i].matricula = i;
+    alunos[i].nome[0] = '\0';
+    alunos[i].sexo = ' ';
+    alunos[i].nascimento.ano = 0;
+    alunos[i].nascimento.mes = 0;
+    alunos[i].nascimento.dia = 0;
+    alunos[i].cpf[0] = '\0';
+    alunos[i].ativo = false;
+    for (int j = 0; j < MAX_num_disciplinas; j++) {
+        alunos[i].disciplinas[j] = false;
+    }
+}
+void startObjProfessor(int i) {
+    professores[i].matricula = i;
+    professores[i].nome[0] = '\0';
+    professores[i].sexo = ' ';
+    professores[i].nascimento.ano = 0;
+    professores[i].nascimento.mes = 0;
+    professores[i].nascimento.dia = 0;
+    professores[i].cpf[0] = '\0';
+    professores[i].ativo = false;
+    for (int j = 0; j < MAX_num_disciplinas; j++) {
+        professores[i].disciplinas[j] = false;
+    }
+}
+void startObjDisciplina(int i) {
+    disciplinas[i].id = i;
+    disciplinas[i].nome[0] = '\0';
+    disciplinas[i].vaga_preenchida = 0;
+    disciplinas[i].ativo = false;
+}
+
 void startObjVariables() {
     for (int i = 0; i < MAX_num_alunos; i++) {
-        alunos[i].nascimento.ano = 0;
-        alunos[i].nascimento.mes = 0;
-        alunos[i].nascimento.dia = 0;
-        alunos[i].matricula = i;
-        alunos[i].ativo = false;
+        startObjAluno(i);
     }
     for (int i = 0; i < MAX_num_professores; i++) {
-        professores[i].nascimento.ano = 0;
-        professores[i].nascimento.mes = 0;
-        professores[i].nascimento.dia = 0;
-        professores[i].matricula = i;
-        professores[i].ativo = false;
+        startObjProfessor(i);
     }
     for (int i = 0; i < MAX_num_disciplinas; i++) {
-        disciplinas[i].vaga_preenchida = 0;
-        disciplinas[i].ativo = false;
-        disciplinas[i].id = i;
+        startObjDisciplina(i);
     }
 }

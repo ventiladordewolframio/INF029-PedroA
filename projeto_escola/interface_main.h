@@ -3,15 +3,14 @@
 #ifndef INTERFACE_MAIN_H
 #define INTERFACE_MAIN_H
 
-#define MAX_num_alunos 5
-#define MAX_num_professores 5
-#define MAX_num_disciplinas 5
+#define MAX_num_alunos 256
+#define MAX_num_professores 256
+#define MAX_num_disciplinas 256
 
 #define MAX_char_nome 256
-#define MAX_char_cpf 9
+#define MAX_char_cpf 12
 
 struct data {
-    unsigned long long int timestamp;  //! desnecessário
     int ano;
     int mes;
     int dia;
@@ -60,5 +59,9 @@ void printFormatDisciplinaData(int i);
 void printAlunosObj();  // o mesmo do de cima
 void printProfessoresObj();
 void printDisciplinasObj();
+
+void startObjAluno(int i);
+void startObjProfessor(int i);
+void startObjDisciplina(int i);
 
 #endif

@@ -4,6 +4,9 @@
 #include "interface_main.h"
 
 int interfaceRel();
+void listarAlunos();
+void listarProfessores();
+void listarDisciplinas();
 void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno);
 void listarProfessorPorSexo(struct professor professores[], int qtd_professor);
 int listarAniversariante(struct aluno alunos[], struct professor professores[], int qtd_aluno, int qtd_professor);

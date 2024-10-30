@@ -232,6 +232,9 @@ void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
         if (sexo == 'M') {
             printf("\n--LISTA DE ALUNOS DO SEXO MASCULINO--\n\n");
             for (int i = 0; i < qtd_aluno; i++) {
+                if (!alunos[i].ativo) {
+                    continue;  //! impede de mostrar os alunos que não estao ativos
+                }
                 if (alunos[i].sexo == 'M') {
                     printFormatAlunoData(i);  //! método com formatação unificada dos commandos
                 }
@@ -239,6 +242,9 @@ void listarAlunoPorSexo(struct aluno alunos[], int qtd_aluno) {
         } else if (sexo == 'F') {
             printf("\n--LISTA DE ALUNAS DO SEXO FEMININO--\n\n");
             for (int i = 0; i < qtd_aluno; i++) {
+                if (!alunos[i].ativo) {
+                    continue;  //! impede de mostrar os alunos que não estao ativos
+                }
                 if (alunos[i].sexo == 'F') {
                     printFormatAlunoData(i);
                 }
@@ -271,6 +277,9 @@ void listarAlunosOrdenadosPorNome(struct aluno alunos[], int qtd_aluno) {
 
     printf("\n--LISTA DE ALUNOS ORDENADOS POR NOME--\n\n");
     for (int i = 0; i < qtd_aluno; i++) {
+        if (!alunos[i].ativo) {
+            continue;  //! impede de mostrar os alunos que não estao ativos
+        }
         printFormatAlunoData(i);
     }
 }
@@ -296,6 +305,9 @@ void listarAlunosOrdenadosPorDataNascimento(struct aluno alunos[], int qtd_aluno
 
     printf("\n--LISTA DE ALUNOS ORDENADOS POR DATA DE NASCIMENTO--\n\n");
     for (int i = 0; i < qtd_aluno; i++) {
+        if (!alunos[i].ativo) {
+            continue;  //! impede de mostrar os alunos que não estao ativos
+        }
         printFormatAlunoData(i);
     }
 }
@@ -312,6 +324,9 @@ void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
         if (sexo == 'M') {
             printf("\n--LISTA DE PROF. DO SEXO MASCULINO--\n\n");
             for (int i = 0; i < qtd_professor; i++) {
+                if (!professores[i].ativo) {
+                    continue;  //! impede de mostrar os alunos que não estao ativos
+                }
                 if (alunos[i].sexo == 'M') {
                     printFormatProfessorData(i);
                 }
@@ -319,6 +334,9 @@ void listarProfessorPorSexo(struct professor professores[], int qtd_professor) {
         } else if (sexo == 'F') {
             printf("\n--LISTA DE PROF. DO SEXO FEMININO--\n\n");
             for (int i = 0; i < qtd_professor; i++) {
+                if (!professores[i].ativo) {
+                    continue;  //! impede de mostrar os alunos que não estao ativos
+                }
                 if (professores[i].sexo == 'F') {
                     printFormatProfessorData(i);
                 }
@@ -349,6 +367,9 @@ void listarProfessoresOrdenadosPorNome(struct professor professores[], int qtd_p
 
     printf("\n--LISTA DE PROFESSORES ORDENADOS POR NOME--\n\n");
     for (int i = 0; i < qtd_professor; i++) {
+        if (!professores[i].ativo) {
+            continue;  //! impede de mostrar os professores que não estao ativos
+        }
         printFormatProfessorData(i);
     }
 }
@@ -374,6 +395,9 @@ void listarProfessoresOrdenadosPorDataNascimento(struct professor professores[],
 
     printf("\n--LISTA DE PROFESSORES ORDENADOS POR DATA DE NASCIMENTO--\n\n");
     for (int i = 0; i < qtd_professor; i++) {
+        if (!professores[i].ativo) {
+            continue;  //! impede de mostrar os professores que não estao ativos
+        }
         printFormatProfessorData(i);
     }
 }
@@ -427,6 +451,9 @@ void listarAlunoComMenosDeTresDisciplinas(struct aluno alunos[], int qtd_aluno) 
             }
         }
         if (qtdDisciplinas < 3) {
+            if (!alunos[j].ativo) {
+                continue;  //! impede de mostrar os alunos que não estao ativos
+            }
             printFormatAlunoData(j);
             listados++;
         }
@@ -442,13 +469,13 @@ void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int 
         printf("\x1b[0;33m[WARNING]: Não há disciplinas cadastradas\x1b[0;0m\n");
     } else {
         int disciplinaExtrapolada = false;
-        for (int i = 0; i < MAX_num_disciplinas; i++) {  //! melhor testar para o max e verificar se está ativo depois pq da para editar uma q nao foi oficialmente cadastrada e inserir os dados normalmente(mas talvez seja melhor impedir q isso aconteça?)
+        for (int i = 0; i < qtd_disciplina; i++) {  //! ao fim de tudo vou impedir que de para editar um valor maior q o qtd_aluno, entao não tem pq varrer tudo, errei fui mlk
             if (!disciplinas[i].ativo) {
                 continue;
             }
             //! acho melhor varrer o obj de alunos e contabilizar nas disciplinas localmente aqui do que depender da variavel.vaga_preenchida pq se um aluno for removido teria de re-calcular esse valor. e tbm esse valor so eh útil para listar aqui por enquanto. mas vou manter caso façamos algo q precise depois
             int tmp_vaga_preenchida = 0;
-            for (int a = 0; a < MAX_num_alunos; a++) {
+            for (int a = 0; a < qtd_aluno; a++) {
                 if (!alunos[a].ativo) {
                     continue;
                 }
@@ -457,8 +484,7 @@ void listarDisciplinasQueExtrapolam40Vagas(struct disciplina disciplinas[], int 
                 }
             }
             disciplinas[i].vaga_preenchida = tmp_vaga_preenchida;
-            //! ah no interface_main.c na funcao startObjVariables() não tem nada iniciando as variaveis .vaga_preenchida como = 0; entao causa ficar na memória um numero aleatorio
-            if (disciplinas[i].vaga_preenchida > 40) {  //! ah acho q vc esqueceu as chaves aqui, eu bem q tava me perguntando pq so printava a linha código (pq so essa linha eu ainda nao sei mas eh isso)
+            if (disciplinas[i].vaga_preenchida > 40) {
                 printFormatDisciplinaData(i);
                 disciplinaExtrapolada = true;
             }
@@ -482,6 +508,9 @@ void listarPessoas() {
 
     printf("\n--ALUNOS--\n");
     for (int i = 0; i < MAX_num_alunos; i++) {
+        if (!alunos[i].ativo) {
+            continue;  //! impede de mostrar os alunos que não estao ativos
+        }
         if (strstr(alunos[i].nome, word) != NULL) {
             printFormatAlunoData(i);
         }
@@ -489,6 +518,9 @@ void listarPessoas() {
 
     printf("\n--PROFESSORES--\n");
     for (int i = 0; i < MAX_num_professores; i++) {
+        if (!professores[i].ativo) {
+            continue;  //! impede de mostrar os professores que não estao ativos
+        }
         if (strstr(professores[i].nome, word) != NULL) {
             printFormatProfessorData(i);
         }
