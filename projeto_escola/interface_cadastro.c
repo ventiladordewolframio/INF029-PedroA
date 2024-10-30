@@ -220,6 +220,34 @@ void inputNascimento(bool EDITAR_DADOS, int *OBJ_ano, int *OBJ_mes, int *OBJ_dia
     }
 }
 
+bool validarCpf(const char cpf[MAX_char_cpf]) {
+    int dezenaVerificadora = 0;
+    int unidadeVerificadora = 0;
+
+    // calcular o primeiro dígito verificador (dezena)
+    for (int i = 0, j = 10; i < 9; i++, j--) {
+        dezenaVerificadora += (cpf[i] - '0') * j; // - '0' para transformar char em int
+    }
+    dezenaVerificadora = 11 - (dezenaVerificadora % 11);
+    if (dezenaVerificadora > 9) {
+        dezenaVerificadora = 0;
+    }
+    // calcular o segundo dígito verificador (unidade)
+    for (int i = 0, j = 11; i < 10; i++, j--) {
+        unidadeVerificadora += (cpf[i] - '0') * j;
+    }
+    unidadeVerificadora = 11 - (unidadeVerificadora % 11);
+    if (unidadeVerificadora > 9) {
+        unidadeVerificadora = 0;
+    }
+
+    if (dezenaVerificadora == (cpf[9] - '0') && unidadeVerificadora == (cpf[10] - '0')) {
+        printf("CPF válido\n");
+        return true;
+    } else
+        return false;
+}
+
 void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vazias serão consideradas como "não modificar os dados da variavel"
     while (true) {
         printf("\x1b[0;36m[INPUT]:             CPF: \x1b[0;0m");  //* INSERIR CPF
@@ -252,6 +280,10 @@ void inputCPF(bool EDITAR_DADOS, char *OBJ_cpf) {  // se verdadeiro entradas vaz
         }
 
         // todo ADICIONAR AQUI CÓDIGO VERIFICAÇÃO DE CPF SEGUNDO A NORMA
+        if (!validarCpf(cpf)) {
+            printf("\x1b[0;31m[ERRO]: CPF inválido. CPF não segue as normas da federação! Insira um CPF válido\x1b[0;0m\n");
+            continue;
+        }
 
         strcpy(OBJ_cpf, cpf);  // TODO adicionar algoritimo de verificação de cpf (vamos precisar de templates validos p testar) (sao sei se e melhor interpretar como inteiro ou string, talvez string para poder ignorar o "-" se o usuario botar)
         break;
