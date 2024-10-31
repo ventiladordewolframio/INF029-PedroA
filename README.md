@@ -23,10 +23,15 @@ program.win.exe, program.lin.bin
 - códido do replit absorvido ao github principal
 
 ╔════════════════════════════════╗
+
 ║const char *grupo[3];           ║
+
 ║grupo[0] = "Pedro Avenir";      ║
+
 ║grupo[1] = "Deivisson Vinicius";║
+
 ║grupo[2] = "Leonardo Thawan";   ║
+
 ╚════════════════════════════════╝
 
 ##
