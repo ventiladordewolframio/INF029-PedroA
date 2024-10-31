@@ -25,13 +25,11 @@ program.win.exe, program.lin.bin
 ╔════════════════════════════════╗
 
 ║const char *grupo[3];           ║
-
 ║grupo[0] = "Pedro Avenir";      ║
-
 ║grupo[1] = "Deivisson Vinicius";║
-
 ║grupo[2] = "Leonardo Thawan";   ║
 
 ╚════════════════════════════════╝
+[projeto no replit](https://replit.com/@deivissonvinic1/INF029-deivissonVinicius?v=1#README.md)
 
 ##
