@@ -17,11 +17,11 @@
 #include <stdio.h>
 #include <string.h>
 
-//renomeie o arquivo do include abaixo para PrimeiroUltimoNomeMATRICULA.h
+// renomeie o arquivo do include abaixo para PrimeiroUltimoNomeMATRICULA.h
 #include "pedrosantos20241160040.h"
 
-void testSomar();    //função utilizada para testes
-void testFatorial(); //função utilizada para testes
+void testSomar();     // função utilizada para testes
+void testFatorial();  // função utilizada para testes
 void testQ1();
 void testQ2();
 void testQ3();
@@ -29,11 +29,10 @@ void testQ4();
 void testQ5();
 void testQ6();
 
-int main()
-{
-    //testSomar();
-    //testFatorial();
-    //testQ1();
+int main() {
+    // testSomar();
+    // testFatorial();
+    // testQ1();
     testQ2();
     /*testQ3();
     testQ4();
@@ -41,8 +40,7 @@ int main()
     testQ6();*/
 }
 
-void testSomar()
-{
+void testSomar() {
     printf("%d\n", somar(3, 4) == 7);
     printf("%d\n", somar(-1, -3) == -4);
     printf("%d\n", somar(-6, 6) == 0);
@@ -50,18 +48,15 @@ void testSomar()
     printf("%d\n", somar(30, -9) == 21);
     printf("%d\n", somar(-2, 8) == 6);
     printf("%d\n", somar(1000, 99) == 1099);
-
 }
 
-void testFatorial()
-{
+void testFatorial() {
     printf("%d\n", fatorial(3) == 6);
     printf("%d\n", fatorial(1) == 1);
     printf("%d\n", fatorial(5) == 120);
 }
 
-void testQ1()
-{
+void testQ1() {
     char str[11];
     strcpy(str, "29/02/2015");
     printf("%d\n", q1(str) == 0);
@@ -75,13 +70,12 @@ void testQ1()
     printf("%d\n", q1(str) == 0);
 }
 
-void testQ2()
-{
+void testQ2() {
     char datainicial[11], datafinal[11];
     int qtdDias, qtdMeses, qtdAnos;
     DiasMesesAnos dma;
 
-    //teste 1
+    // teste 1
     qtdDias = -1;
     qtdMeses = -1;
     qtdAnos = -1;
@@ -94,7 +88,7 @@ void testQ2()
     printf("%d\n", dma.qtdMeses == 0);
     printf("%d\n", dma.qtdAnos == 1);
 
-    //teste 2 - retornos
+    // teste 2 - retornos
     qtdDias = -1;
     qtdMeses = -1;
     qtdAnos = -1;
@@ -114,7 +108,7 @@ void testQ2()
     dma = q2(datainicial, datafinal);
     printf("%d\n", dma.retorno == 4);
 
-    //teste 3
+    // teste 3
     qtdDias = -1;
     qtdMeses = -1;
     qtdAnos = -1;
@@ -128,8 +122,7 @@ void testQ2()
     printf("%d\n", dma.qtdAnos == 0);
 }
 
-void testQ3()
-{
+void testQ3() {
     char str[250];
     strcpy(str, "Renato Lima Novais");
     printf("%d\n", q3(str, 'a', 0) == 3);
@@ -139,14 +132,12 @@ void testQ3()
     printf("%d\n", q3(str, 'L', 0) == 1);
 }
 
-void testQ4()
-{
+void testQ4() {
     char strTexto[250];
     char strBusca[50];
     int posicoes[30];
     int i;
-    for (i = 0; i < 30; i++)
-    {
+    for (i = 0; i < 30; i++) {
         posicoes[i] = -1;
     }
     strcpy(strTexto, "Laboratorio de programacao: para ratos de programação");
@@ -157,8 +148,7 @@ void testQ4()
     printf("%d\n", posicoes[2] == 34);
     printf("%d\n", posicoes[3] == 37);
 
-    for (i = 0; i < 30; i++)
-    {
+    for (i = 0; i < 30; i++) {
         posicoes[i] = -1;
     }
     strcpy(strTexto, "Olá, o mundo é muito grande. Tem muitas pessoas, e muitos problemas");
@@ -172,16 +162,14 @@ void testQ4()
     printf("%d\n", posicoes[5] == 54);
 }
 
-void testQ5()
-{
+void testQ5() {
     printf("%d\n", q5(345) == 543);
     printf("%d\n", q5(78) == 87);
     printf("%d\n", q5(3) == 3);
     printf("%d\n", q5(5430) == 345);
 }
 
-void testQ6()
-{
+void testQ6() {
     printf("%d\n", q6(34567368, 3) == 2);
     printf("%d\n", q6(34567368, 4576) == 0);
     printf("%d\n", q6(3539343, 3) == 4);
