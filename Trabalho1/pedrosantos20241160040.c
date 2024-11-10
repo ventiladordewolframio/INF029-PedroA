@@ -23,6 +23,7 @@
 
 #include "pedrosantos20241160040.h"  // Substitua pelo seu arquivo de header renomeado
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -90,15 +91,148 @@ int teste(int a) {
  */
 int q1(char data[]) {
     int datavalida = 1;
+    int datainvalida = 0;
 
     // quebrar a string data em strings sDia, sMes, sAno
 
-    // printf("%s\n", data);
+    int i = 0;
+    const int sDia_size = 2;
+    const int sMes_size = 2;
+    const int sAno_size = 4;
+    char sDia[sDia_size + 1];
+    char sMes[sMes_size + 1];
+    char sAno[sAno_size + 1];
+    for (int d = 0; d < sDia_size + 1; d++) {
+        sDia[d] = '\0';
+    }
+    for (int m = 0; m < sMes_size + 1; m++) {
+        sMes[m] = '\0';
+    }
+    for (int a = 0; a < sAno_size + 1; a++) {
+        sAno[a] = '\0';
+    }
+    int iDia = 0;
+    int iMes = 0;
+    int iAno = 0;
 
-    if (datavalida)
-        return 1;
-    else
-        return 0;
+    for (int d = 0; (data[i] != '\0') && (data[i] != '/') && (d < sDia_size); d++) {
+        sDia[d] = data[i];
+        i++;
+    }
+    i++;
+
+    for (int m = 0; (data[i] != '\0') && (data[i] != '/') && (m < sMes_size); m++) {
+        sMes[m] = data[i];
+        i++;
+    }
+    i++;
+
+    for (int a = 0; (data[i] != '\0') && (data[i] != '/') && (a < sAno_size); a++) {
+        sAno[a] = data[i];
+        i++;
+    }
+
+    // for (int g = 0; g < 3; g++) {
+    //     printf(">");
+    //     printf("|%d=>%c|", sDia[g], sDia[g]);
+    //     printf("<\n");
+    // }
+    // printf("data =|%s|\n", data);
+    // printf("sDia  =|%s|\n", sDia);
+    // printf("sMes  =|%s|\n", sMes);
+    // printf("sAno  =|%s|\n", sAno);
+
+    // verifica se um dos parametros esta vazio
+    if ((sDia[0] == '\0') || (sMes[0] == '\0') || (sMes[0] == '\0')) {
+        // printf("\nDEBUG: data invalida. primeiro char de alguma das variaveis e nulo, parametro vazio\n");
+        return datainvalida;
+    }
+
+    // verifica se todos os caracteres sao numero
+    for (int d = 0; (sDia[d] != '\0') && d < sDia_size; d++) {
+        if (sDia[d] < '0' || sDia[d] > '9') {
+            // printf("\nDEBUG: data invalida. sDia. algum dos char nao representa um digito\n");
+            return datainvalida;
+        }
+    }
+    for (int m = 0; (sMes[m] != '\0') && m < sMes_size; m++) {
+        if (sMes[m] < '0' || sMes[m] > '9') {
+            // printf("\nDEBUG: data invalida. sMes. algum dos char nao representa um digito\n");
+            return datainvalida;
+        }
+    }
+    for (int a = 0; (sAno[a] != '\0') && a < sAno_size; a++) {
+        if (sAno[a] < '0' || sAno[a] > '9') {
+            // printf("\nDEBUG: data invalida. sAno. algum dos char nao representa um digito\n");
+            return datainvalida;
+        }
+    }
+
+    // transforma os characteres em numero para fazer o resto das operações de verificação
+    int pot = 0;
+    for (int d = sDia_size - 1; d >= 0; d--) {
+        if (sDia[d] == '\0') {
+            continue;
+        }
+        iDia = iDia + (sDia[d] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+    pot = 0;
+    for (int m = sMes_size - 1; m >= 0; m--) {
+        if (sMes[m] == '\0') {
+            continue;
+        }
+        iMes = iMes + (sMes[m] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+    pot = 0;
+    for (int a = sAno_size - 1; a >= 0; a--) {
+        if (sAno[a] == '\0') {
+            continue;
+        }
+        iAno = iAno + (sAno[a] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+
+    // printf("iDia  =|%d|\n", iDia);
+    // printf("iMes  =|%d|\n", iMes);
+    // printf("iAno  =|%d|\n", iAno);
+    // printf("\n");
+
+    // verifica se o mes existe no ano
+    if (iMes < 1 || iMes > 12) {
+        // printf("\nDEBUG: data invalida. iMes. valor maior ou menor que a quantidade possivel de meses\n");
+        return datainvalida;
+    }
+
+    int max_dias = 0;
+    // Meses com 30 dias
+    if (iMes == 4 || iMes == 6 || iMes == 9 || iMes == 11) {
+        max_dias = 30;
+    }
+
+    // Meses com 31 dias
+    if (iMes == 1 || iMes == 3 || iMes == 5 || iMes == 7 || iMes == 8 || iMes == 10 || iMes == 12) {
+        max_dias = 31;
+    }
+
+    // Fevereiro
+    if (iMes == 2) {
+        if ((iAno % 4 == 0 && iAno % 100 != 0) || (iAno % 400 == 0)) {
+            max_dias = 29;
+        } else {
+            max_dias = 28;
+        }
+    }
+
+    // verifica se o dia existe no mes
+    if (iDia < 1 || iDia > max_dias) {
+        // printf("\nDEBUG: data invalida. iDia. valor maior ou menor que a quantidade possivel de dias\n");
+        return datainvalida;
+    }
+
+    // se chegou ate aqui sem causar nenhum return de invalido entao ela é valida
+    return datavalida;
 }
 
 /*
