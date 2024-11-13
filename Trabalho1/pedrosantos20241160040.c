@@ -148,6 +148,13 @@ int q1(char data[]) {
         return datainvalida;
     }
 
+    // verifica se o ano tem 3 digitos e retorna como invalido pq eu acredito que os dois unicos formatos seriam aa ou aaaa? ja que so esses foram explicitamente determinados
+    // e anos menores que a data de criacao do calendario gregoriano sao normalmente expressas pelo calendario juliano, mas isso depende demais entao eu considero esses quesitos fora do escopo da questao
+    if ((sAno[3] == '\0') && (sAno[2] != '\0')) {
+        // printf("\nDEBUG: data invalida. sAno. ano tem 3 digitos, apenas aceitavel 2 ou 4 digitos\n");
+        return datainvalida;
+    }
+
     // verifica se todos os caracteres sao numero
     for (int d = 0; (sDia[d] != '\0') && d < sDia_size; d++) {
         if (sDia[d] < '0' || sDia[d] > '9') {
@@ -184,6 +191,21 @@ int q1(char data[]) {
         }
         iMes = iMes + (sMes[m] - 48) * ((int)pow(10, pot));
         pot++;
+    }
+    // condição especial de 2 digitos para o ano, para considerar ele como sendo de 24 = 2024, 25 = 1925
+    // mas para ser sincero eu acho que isso nem era necessario e que todos os resultados seriam os mesmos de qualquer modo
+    if (sAno[2] == '\0') {
+        if ((sAno[0] > '2') && (sAno[1] > '4')) {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '1';
+            sAno[1] = '9';
+        } else {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '2';
+            sAno[1] = '0';
+        }
     }
     pot = 0;
     for (int a = sAno_size - 1; a >= 0; a--) {
