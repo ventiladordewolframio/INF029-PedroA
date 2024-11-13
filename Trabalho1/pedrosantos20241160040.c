@@ -102,6 +102,7 @@ int q1(char data[]) {
     char sDia[sDia_size + 1];
     char sMes[sMes_size + 1];
     char sAno[sAno_size + 1];
+    // escreve NULL em todos os char das strings
     for (int d = 0; d < sDia_size + 1; d++) {
         sDia[d] = '\0';
     }
@@ -115,32 +116,31 @@ int q1(char data[]) {
     int iMes = 0;
     int iAno = 0;
 
+    // faz a leitura dos caracteres segundo a formatação as strings
     for (int d = 0; (data[i] != '\0') && (data[i] != '/') && (d < sDia_size); d++) {
         sDia[d] = data[i];
         i++;
     }
     i++;
-
     for (int m = 0; (data[i] != '\0') && (data[i] != '/') && (m < sMes_size); m++) {
         sMes[m] = data[i];
         i++;
     }
     i++;
-
     for (int a = 0; (data[i] != '\0') && (data[i] != '/') && (a < sAno_size); a++) {
         sAno[a] = data[i];
         i++;
     }
 
-    // for (int g = 0; g < 3; g++) {
-    //     printf(">");
-    //     printf("|%d=>%c|", sDia[g], sDia[g]);
-    //     printf("<\n");
-    // }
-    // printf("data =|%s|\n", data);
-    // printf("sDia  =|%s|\n", sDia);
-    // printf("sMes  =|%s|\n", sMes);
-    // printf("sAno  =|%s|\n", sAno);
+    //// for (int g = 0; g < 3; g++) {
+    ////     printf(">");
+    ////     printf("|%d=>%c|", sDia[g], sDia[g]);
+    ////     printf("<\n");
+    //// }
+    //// printf("data =|%s|\n", data);
+    //// printf("sDia  =|%s|\n", sDia);
+    //// printf("sMes  =|%s|\n", sMes);
+    //// printf("sAno  =|%s|\n", sAno);
 
     // verifica se um dos parametros esta vazio
     if ((sDia[0] == '\0') || (sMes[0] == '\0') || (sMes[0] == '\0')) {
@@ -175,6 +175,22 @@ int q1(char data[]) {
         }
     }
 
+    // condição especial de 2 digitos para o ano, para considerar ele como sendo de 24 = 2024, 25 = 1925
+    // mas para ser sincero eu acho que isso nem era necessario e que todos os resultados seriam os mesmos de qualquer modo
+    if (sAno[2] == '\0') {
+        if ((sAno[0] > '2') && (sAno[1] > '4')) {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '1';
+            sAno[1] = '9';
+        } else {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '2';
+            sAno[1] = '0';
+        }
+    }
+
     // transforma os characteres em numero para fazer o resto das operações de verificação
     int pot = 0;
     for (int d = sDia_size - 1; d >= 0; d--) {
@@ -192,21 +208,6 @@ int q1(char data[]) {
         iMes = iMes + (sMes[m] - 48) * ((int)pow(10, pot));
         pot++;
     }
-    // condição especial de 2 digitos para o ano, para considerar ele como sendo de 24 = 2024, 25 = 1925
-    // mas para ser sincero eu acho que isso nem era necessario e que todos os resultados seriam os mesmos de qualquer modo
-    if (sAno[2] == '\0') {
-        if ((sAno[0] > '2') && (sAno[1] > '4')) {
-            sAno[2] = sAno[0];
-            sAno[3] = sAno[1];
-            sAno[0] = '1';
-            sAno[1] = '9';
-        } else {
-            sAno[2] = sAno[0];
-            sAno[3] = sAno[1];
-            sAno[0] = '2';
-            sAno[1] = '0';
-        }
-    }
     pot = 0;
     for (int a = sAno_size - 1; a >= 0; a--) {
         if (sAno[a] == '\0') {
@@ -216,10 +217,10 @@ int q1(char data[]) {
         pot++;
     }
 
-    // printf("iDia  =|%d|\n", iDia);
-    // printf("iMes  =|%d|\n", iMes);
-    // printf("iAno  =|%d|\n", iAno);
-    // printf("\n");
+    //// printf("iDia  =|%d|\n", iDia);
+    //// printf("iMes  =|%d|\n", iMes);
+    //// printf("iAno  =|%d|\n", iAno);
+    //// printf("\n");
 
     // verifica se o mes existe no ano
     if (iMes < 1 || iMes > 12) {
