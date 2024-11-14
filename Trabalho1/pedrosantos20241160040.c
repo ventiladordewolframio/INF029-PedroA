@@ -76,6 +76,90 @@ int teste(int a) {
     return val;
 }
 
+// parte os dados nas strings enviadas
+void splitData(char data[], char sDia[], char sMes[], char sAno[]) {
+    int i = 0;
+    const int sDia_size = 2;
+    const int sMes_size = 2;
+    const int sAno_size = 4;
+    ////char sDia[sDia_size + 1];
+    ////char sMes[sMes_size + 1];
+    ////char sAno[sAno_size + 1];
+    // escreve NULL em todos os char das strings
+    for (int d = 0; d < sDia_size + 1; d++) {
+        sDia[d] = '\0';
+    }
+    for (int m = 0; m < sMes_size + 1; m++) {
+        sMes[m] = '\0';
+    }
+    for (int a = 0; a < sAno_size + 1; a++) {
+        sAno[a] = '\0';
+    }
+
+    // faz a leitura dos caracteres segundo a formatação as strings
+    for (int d = 0; (data[i] != '\0') && (data[i] != '/') && (d < sDia_size); d++) {
+        sDia[d] = data[i];
+        i++;
+    }
+    i++;
+    for (int m = 0; (data[i] != '\0') && (data[i] != '/') && (m < sMes_size); m++) {
+        sMes[m] = data[i];
+        i++;
+    }
+    i++;
+    for (int a = 0; (data[i] != '\0') && (data[i] != '/') && (a < sAno_size); a++) {
+        sAno[a] = data[i];
+        i++;
+    }
+}
+void dataToInt(char sDia[], char sMes[], char sAno[], int *iDia, int *iMes, int *iAno) {
+    const int sDia_size = 2;
+    const int sMes_size = 2;
+    const int sAno_size = 4;
+
+    // condição especial de 2 digitos para o ano, para considerar ele como sendo de 24 = 2024, 25 = 1925
+    // mas para ser sincero eu acho que isso nem era necessario e que todos os resultados seriam os mesmos de qualquer modo
+    if (sAno[2] == '\0') {
+        if ((sAno[0] > '2') && (sAno[1] > '4')) {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '1';
+            sAno[1] = '9';
+        } else {
+            sAno[2] = sAno[0];
+            sAno[3] = sAno[1];
+            sAno[0] = '2';
+            sAno[1] = '0';
+        }
+    }
+
+    // transforma os characteres em numero para fazer o resto das operações de verificação
+    int pot = 0;
+    for (int d = sDia_size - 1; d >= 0; d--) {
+        if (sDia[d] == '\0') {
+            continue;
+        }
+        *iDia = *iDia + (sDia[d] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+    pot = 0;
+    for (int m = sMes_size - 1; m >= 0; m--) {
+        if (sMes[m] == '\0') {
+            continue;
+        }
+        *iMes = *iMes + (sMes[m] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+    pot = 0;
+    for (int a = sAno_size - 1; a >= 0; a--) {
+        if (sAno[a] == '\0') {
+            continue;
+        }
+        *iAno = *iAno + (sAno[a] - 48) * ((int)pow(10, pot));
+        pot++;
+    }
+}
+
 /*
  Q1 = validar data
 @objetivo
@@ -93,44 +177,18 @@ int q1(char data[]) {
     int datavalida = 1;
     int datainvalida = 0;
 
-    // quebrar a string data em strings sDia, sMes, sAno
-
-    int i = 0;
     const int sDia_size = 2;
     const int sMes_size = 2;
     const int sAno_size = 4;
     char sDia[sDia_size + 1];
     char sMes[sMes_size + 1];
     char sAno[sAno_size + 1];
-    // escreve NULL em todos os char das strings
-    for (int d = 0; d < sDia_size + 1; d++) {
-        sDia[d] = '\0';
-    }
-    for (int m = 0; m < sMes_size + 1; m++) {
-        sMes[m] = '\0';
-    }
-    for (int a = 0; a < sAno_size + 1; a++) {
-        sAno[a] = '\0';
-    }
     int iDia = 0;
     int iMes = 0;
     int iAno = 0;
 
-    // faz a leitura dos caracteres segundo a formatação as strings
-    for (int d = 0; (data[i] != '\0') && (data[i] != '/') && (d < sDia_size); d++) {
-        sDia[d] = data[i];
-        i++;
-    }
-    i++;
-    for (int m = 0; (data[i] != '\0') && (data[i] != '/') && (m < sMes_size); m++) {
-        sMes[m] = data[i];
-        i++;
-    }
-    i++;
-    for (int a = 0; (data[i] != '\0') && (data[i] != '/') && (a < sAno_size); a++) {
-        sAno[a] = data[i];
-        i++;
-    }
+    // quebrar a string data em strings sDia, sMes, sAno
+    splitData(data, sDia, sMes, sAno);
 
     //// for (int g = 0; g < 3; g++) {
     ////     printf(">");
@@ -175,47 +233,7 @@ int q1(char data[]) {
         }
     }
 
-    // condição especial de 2 digitos para o ano, para considerar ele como sendo de 24 = 2024, 25 = 1925
-    // mas para ser sincero eu acho que isso nem era necessario e que todos os resultados seriam os mesmos de qualquer modo
-    if (sAno[2] == '\0') {
-        if ((sAno[0] > '2') && (sAno[1] > '4')) {
-            sAno[2] = sAno[0];
-            sAno[3] = sAno[1];
-            sAno[0] = '1';
-            sAno[1] = '9';
-        } else {
-            sAno[2] = sAno[0];
-            sAno[3] = sAno[1];
-            sAno[0] = '2';
-            sAno[1] = '0';
-        }
-    }
-
-    // transforma os characteres em numero para fazer o resto das operações de verificação
-    int pot = 0;
-    for (int d = sDia_size - 1; d >= 0; d--) {
-        if (sDia[d] == '\0') {
-            continue;
-        }
-        iDia = iDia + (sDia[d] - 48) * ((int)pow(10, pot));
-        pot++;
-    }
-    pot = 0;
-    for (int m = sMes_size - 1; m >= 0; m--) {
-        if (sMes[m] == '\0') {
-            continue;
-        }
-        iMes = iMes + (sMes[m] - 48) * ((int)pow(10, pot));
-        pot++;
-    }
-    pot = 0;
-    for (int a = sAno_size - 1; a >= 0; a--) {
-        if (sAno[a] == '\0') {
-            continue;
-        }
-        iAno = iAno + (sAno[a] - 48) * ((int)pow(10, pot));
-        pot++;
-    }
+    dataToInt(sDia, sMes, sAno, &iDia, &iMes, &iAno);
 
     //// printf("iDia  =|%d|\n", iDia);
     //// printf("iMes  =|%d|\n", iMes);
@@ -276,18 +294,168 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
     // calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
 
+    const int sDia_size = 2;
+    const int sMes_size = 2;
+    const int sAno_size = 4;
+    char sDiaI[sDia_size + 1];
+    char sMesI[sMes_size + 1];
+    char sAnoI[sAno_size + 1];
+    char sDiaF[sDia_size + 1];
+    char sMesF[sMes_size + 1];
+    char sAnoF[sAno_size + 1];
+    int iDiaI = 0;
+    int iMesI = 0;
+    int iAnoI = 0;
+    int iDiaF = 0;
+    int iMesF = 0;
+    int iAnoF = 0;
+
+    splitData(datainicial, sDiaI, sMesI, sAnoI);
+    splitData(datafinal, sDiaF, sMesF, sAnoF);
+
     if (q1(datainicial) == 0) {
+        printf("\nDEBUG: data inicial invalida.\n");
         dma.retorno = 2;
         return dma;
     } else if (q1(datafinal) == 0) {
+        printf("\nDEBUG: data final invalida.\n");
         dma.retorno = 3;
         return dma;
     } else {
+        dataToInt(sDiaI, sMesI, sAnoI, &iDiaI, &iMesI, &iAnoI);
+        dataToInt(sDiaF, sMesF, sAnoF, &iDiaF, &iMesF, &iAnoF);
+
         // verifique se a data final não é menor que a data inicial
 
-        // calcule a distancia entre as datas
+        int bigDataI = (iAnoI * 10000) + (iMesI * 100) + iDiaI;
+        int bigDataF = (iAnoF * 10000) + (iMesF * 100) + iDiaF;
 
+        if (bigDataI > bigDataF) {
+            printf("\nDEBUG: data inicial maior que final.\n");
+            dma.retorno = 4;
+            return dma;
+        }
+
+        // calcule a distancia entre as datas
+        int totalDiasI = 0;
+
+        int anoDiff = 0;
+        for (int i = iAnoF; i > iAnoI; i--) {
+            if ((iAnoI % 4 == 0 && iAnoI % 100 != 0) || (iAnoI % 400 == 0)) {
+                ////max_dias = 29;
+                totalDiasI = totalDiasI + 366;
+            } else {
+                ////max_dias = 28;
+                totalDiasI = totalDiasI + 365;
+            }
+            anoDiff++;
+        }
+
+        int mesDiff = 0;
+        int i = iMesF;
+        // meses finais maiores que iniciais
+        for (; i > iMesI; i--) {
+            int max_dias = 0;
+            // Meses com 30 dias
+            if (i == 4 || i == 6 || i == 9 || i == 11) {
+                max_dias = 30;
+            }
+
+            // Meses com 31 dias
+            if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12) {
+                max_dias = 31;
+            }
+
+            // Fevereiro
+            if (i == 2) {
+                if ((iAnoI % 4 == 0 && iAnoI % 100 != 0) || (iAnoI % 400 == 0)) {
+                    max_dias = 29;
+                } else {
+                    max_dias = 28;
+                }
+            }
+
+            totalDiasI = totalDiasI + max_dias;
+            mesDiff++;
+        }
+
+        // meses iniciais maiores que finais
+        for (; i < iMesI; i++) {
+            int max_dias = 0;
+            // Meses com 30 dias
+            if (i == 4 || i == 6 || i == 9 || i == 11) {
+                max_dias = 30;
+            }
+
+            // Meses com 31 dias
+            if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 10 || i == 12) {
+                max_dias = 31;
+            }
+
+            // Fevereiro
+            if (i == 2) {
+                if ((iAnoI % 4 == 0 && iAnoI % 100 != 0) || (iAnoI % 400 == 0)) {
+                    max_dias = 29;
+                } else {
+                    max_dias = 28;
+                }
+            }
+
+            totalDiasI = totalDiasI - max_dias;
+            mesDiff--;
+            if (mesDiff < 0) {
+                anoDiff--;
+                mesDiff = 11;
+            }
+        }
+
+        // dias finais maiores que iniciais
+        int diaDiff = 0;
+        i = iDiaF;
+        for (; i > iDiaI; i--) {
+            totalDiasI = totalDiasI + 1;
+            diaDiff++;
+        }
+        // dias iniciais maiores que finais
+        for (; i < iDiaI; i++) {
+            totalDiasI = totalDiasI - 1;
+            diaDiff--;
+            if (diaDiff < 0) {
+                int max_dias = 0;
+                int mes_atual = mesDiff + iMesI;
+                // Meses com 30 dias
+                if (mes_atual == 4 || mes_atual == 6 || mes_atual == 9 || mes_atual == 11) {
+                    max_dias = 30;
+                }
+
+                // Meses com 31 dias
+                if (mes_atual == 1 || mes_atual == 3 || mes_atual == 5 || mes_atual == 7 || mes_atual == 8 || mes_atual == 10 || mes_atual == 12) {
+                    max_dias = 31;
+                }
+
+                // Fevereiro
+                if (mes_atual == 2) {
+                    if (((iAnoI + anoDiff) % 4 == 0 && (iAnoI + anoDiff) % 100 != 0) || ((iAnoI + anoDiff) % 400 == 0)) {
+                        max_dias = 29;
+                    } else {
+                        max_dias = 28;
+                    }
+                }
+                printf("mesatual=%d\n",mes_atual);
+                mesDiff--;
+                diaDiff = max_dias - 1;
+            }
+        }
+
+        dma.qtdAnos = anoDiff;
+        dma.qtdMeses = mesDiff;
+        dma.qtdDias = diaDiff;
         // se tudo der certo
+        // printf("\ndia=%d\n",dma.qtdDias);
+        // printf("mes=%d\n",dma.qtdMeses);
+        // printf("ano=%d\n",dma.qtdAnos);
+        printf("\nDEBUG: bigI=%d, bigF=%d", bigDataI, bigDataF);
+        printf("\nDEBUG: operacao sucesso. d=%d,m=%d,a=%d\n", dma.qtdDias, dma.qtdMeses, dma.qtdAnos);
         dma.retorno = 1;
         return dma;
     }
