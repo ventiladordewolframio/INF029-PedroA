@@ -314,11 +314,11 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
     splitData(datafinal, sDiaF, sMesF, sAnoF);
 
     if (q1(datainicial) == 0) {
-        //printf("\nDEBUG: data inicial invalida.\n");
+        // printf("\nDEBUG: data inicial invalida.\n");
         dma.retorno = 2;
         return dma;
     } else if (q1(datafinal) == 0) {
-        //printf("\nDEBUG: data final invalida.\n");
+        // printf("\nDEBUG: data final invalida.\n");
         dma.retorno = 3;
         return dma;
     } else {
@@ -331,7 +331,7 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
         int bigDataF = (iAnoF * 10000) + (iMesF * 100) + iDiaF;
 
         if (bigDataI > bigDataF) {
-            //printf("\nDEBUG: data inicial maior que final.\n");
+            // printf("\nDEBUG: data inicial maior que final.\n");
             dma.retorno = 4;
             return dma;
         }
@@ -409,57 +409,70 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
             }
         }
 
-    // *dias finais maiores que iniciais
-	// dia = 24 , dia = 22
-	// mes -1
-	// mes = 29 , mes = 31
-	// 24/29 , 22/31
-	// 29-24 = 5, 5+22 = 27
-	// diff pode ser no maximo os dias totais do mes inicial, 
-	//
+        // *dias finais maiores que iniciais
+        // dia = 24 , dia = 22
+        // mes -1
+        // mes = 29 , mes = 31
+        // 24/29 , 22/31
+        // 29-24 = 5, 5+22 = 27
+        // diff pode ser no maximo os dias totais do mes inicial,
+        //
         int diaDiff = 0;
         i = iDiaF;
-        for(;i > iDiaI; i--) {
+        for (; i > iDiaI; i--) {
             totalDiasI = totalDiasI + 1;
             diaDiff++;
-	    //printf("dia final maior que inicial↓\n");
+            // printf("dia final maior que inicial↓\n");
         }
         // *dias iniciais maiores que finais
-        if(i < iDiaI) {
-           // totalDiasI = totalDiasI - 1;
-           // diaDiff--;
-	    //printf("dia inicial maior que final↓\n");
-            //if (diaDiff < 0) {
-                int max_dias = 0;
-                int mes_atual = iMesI;
-		int max_diasF = 0;
-		int mes_atualF = iMesF;
-		
-		// DEFIBE O MES ATUAL INICIAL DIAS   
-		//Meses com 30 dias       
-		if (mes_atual == 4 || mes_atual == 6 || mes_atual == 9 || mes_atual == 11) {                                    max_dias = 30;                                     }                                                                                                               // Meses com 31 dias     
-		if (mes_atual== 1 || mes_atual == 3 || mes_atual == 5 || mes_atual == 7 || mes_atual == 8 || mes_atual== 10 || mes_atual == 12) {
-                    max_dias = 31;
-                }                                                       // Fevereiro                    
-		if (mes_atual == 2) {                                      if (((iAnoI + anoDiff) % 4 == 0 && (iAnoI + anoDiff) % 100 != 0) || ((iAnoI + anoDiff) % 400 == 0)) {                                                                      max_dias = 29;                                     } else {                                                    max_dias = 28;                                      }                                                   
-	 	 }
-	 	 ///////////////////////////*
-	 	 		// DEFIBE O MES ATUAL INICIAL DIAS   
-		//Meses com 30 dias       
-		if (mes_atualF == 4 || mes_atualF == 6 || mes_atualF == 9 || mes_atualF == 11) {                                    max_diasF = 30;                                     }                                                                                                               // Meses com 31 dias     
-		if (mes_atualF == 1 || mes_atualF == 3 || mes_atualF == 5 || mes_atualF == 7 || mes_atualF == 8 || mes_atualF == 10 || mes_atualF == 12) {
-                    max_diasF = 31;
-                }                                                       // Fevereiro                    
-		if (mes_atualF == 2) {                                      if (((iAnoI + anoDiff) % 4 == 0 && (iAnoI + anoDiff) % 100 != 0) || ((iAnoI + anoDiff) % 400 == 0)) {                                                                      max_diasF = 29;                                     } else {                                                    max_diasF = 28;                                      }                                                   
-	 	 }
-	 	 
+        if (i < iDiaI) {
+            // totalDiasI = totalDiasI - 1;
+            // diaDiff--;
+            // printf("dia inicial maior que final↓\n");
+            // if (diaDiff < 0) {
+            int max_dias = 0;
+            int mes_atual = iMesI;
+            int max_diasF = 0;
+            int mes_atualF = iMesF;
 
-                // printf("mesatual=%d\n",mes_atual);
-                mesDiff--;
-                diaDiff = max_dias - (iDiaI - iDiaF);
-          //  }
+            // DEFIBE O MES ATUAL INICIAL DIAS
+            // Meses com 30 dias
+            if (mes_atual == 4 || mes_atual == 6 || mes_atual == 9 || mes_atual == 11) {
+                max_dias = 30;
+            }  // Meses com 31 dias
+            if (mes_atual == 1 || mes_atual == 3 || mes_atual == 5 || mes_atual == 7 || mes_atual == 8 || mes_atual == 10 || mes_atual == 12) {
+                max_dias = 31;
+            }  // Fevereiro
+            if (mes_atual == 2) {
+                if (((iAnoI + anoDiff) % 4 == 0 && (iAnoI + anoDiff) % 100 != 0) || ((iAnoI + anoDiff) % 400 == 0)) {
+                    max_dias = 29;
+                } else {
+                    max_dias = 28;
+                }
+            }
+            ///////////////////////////*
+            // DEFIBE O MES ATUAL INICIAL DIAS
+            // Meses com 30 dias
+            if (mes_atualF == 4 || mes_atualF == 6 || mes_atualF == 9 || mes_atualF == 11) {
+                max_diasF = 30;
+            }  // Meses com 31 dias
+            if (mes_atualF == 1 || mes_atualF == 3 || mes_atualF == 5 || mes_atualF == 7 || mes_atualF == 8 || mes_atualF == 10 || mes_atualF == 12) {
+                max_diasF = 31;
+            }  // Fevereiro
+            if (mes_atualF == 2) {
+                if (((iAnoI + anoDiff) % 4 == 0 && (iAnoI + anoDiff) % 100 != 0) || ((iAnoI + anoDiff) % 400 == 0)) {
+                    max_diasF = 29;
+                } else {
+                    max_diasF = 28;
+                }
+            }
+
+            // printf("mesatual=%d\n",mes_atual);
+            mesDiff--;
+            diaDiff = max_dias - (iDiaI - iDiaF);
+            //  }
         }
-    
+
         dma.qtdAnos = anoDiff;
         dma.qtdMeses = mesDiff;
         dma.qtdDias = diaDiff;
@@ -467,8 +480,8 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
         // printf("\ndia=%d\n",dma.qtdDias);
         // printf("mes=%d\n",dma.qtdMeses);
         // printf("ano=%d\n",dma.qtdAnos);
-        //printf("\nDEBUG: bigI=%d, bigF=%d", bigDataI, bigDataF);
-        //printf("\nDEBUG: operacao sucesso. d=%d,m=%d,a=%d\n", dma.qtdDias, dma.qtdMeses, dma.qtdAnos);
+        // printf("\nDEBUG: bigI=%d, bigF=%d", bigDataI, bigDataF);
+        // printf("\nDEBUG: operacao sucesso. d=%d,m=%d,a=%d\n", dma.qtdDias, dma.qtdMeses, dma.qtdAnos);
         dma.retorno = 1;
         return dma;
     }
@@ -487,29 +500,27 @@ DiasMesesAnos q2(char datainicial[], char datafinal[]) {
 int q3(char *texto, char c, int isCaseSensitive) {
     int qtdOcorrencias = 0;
 
-	for(int i = 0; texto[i] != '\0'; i++){
-		if(isCaseSensitive == 1){
-			if(texto[i] == c){
-				qtdOcorrencias++;
-			}
-		}else{
-			// considering c as lowercase and cAlt to be uppercase
-			// in the case insensitive character range
-			char cAlt = '\0';
-			if((c >= 'a') && (c <= 'z')){
-				cAlt = c - 32;
-			}
-			if((c >= 'A') && (c <= 'Z')){                                                                                     			cAlt = c + 32;                                  }
+    for (int i = 0; texto[i] != '\0'; i++) {
+        if (isCaseSensitive == 1) {
+            if (texto[i] == c) {
+                qtdOcorrencias++;
+            }
+        } else {
+            // considering c as lowercase and cAlt to be uppercase
+            // in the case insensitive character range
+            char cAlt = '\0';
+            if ((c >= 'a') && (c <= 'z')) {
+                cAlt = c - 32;
+            }
+            if ((c >= 'A') && (c <= 'Z')) {
+                cAlt = c + 32;
+            }
 
-			if((texto[i] == c) || (texto[i] == cAlt)){
-				qtdOcorrencias++;
-			}		
-		}
-
-
-
-
-	}
+            if ((texto[i] == c) || (texto[i] == cAlt)) {
+                qtdOcorrencias++;
+            }
+        }
+    }
 
     return qtdOcorrencias;
 }
@@ -535,34 +546,34 @@ int q4(char *strTexto, char *strBusca, int posicoes[30]) {
     // encontra a largura da string de busca
     int strBuscaLen = 0;
     int qtdPosicoes = 0;
-    for(int l = 0; strBusca[l] != '\0'; l++){
-	    strBuscaLen++;
+    for (int l = 0; strBusca[l] != '\0'; l++) {
+        strBuscaLen++;
     }
 
-    for(int i = 0; strTexto[i] != '\0'; i++){
-	int palavraEncontrada = 1;
-	int posicaoComeco = i + 1;
-	int posicaoFinal = i + strBuscaLen;
-	int t = i;
-	for(int s = 0; strBusca[s] != '\0'; s++){
-		if(strTexto[t] != strBusca[s]){
-			palavraEncontrada = 0;
-		}	
-		t++;
-	}
-	if(palavraEncontrada == 1){
-		qtdOcorrencias++;
-		i++;
-		//add if > 30
-		posicoes[qtdPosicoes] = posicaoComeco;
-		posicoes[qtdPosicoes + 1] = posicaoFinal;
-		//printf("posicao1=%d\n",posicoes[qtdPosicoes]);
-		//printf("posicao2=%d\n",posicoes[qtdPosicoes+1]);
-		qtdPosicoes = qtdPosicoes + 2;
-	}
+    for (int i = 0; strTexto[i] != '\0'; i++) {
+        int palavraEncontrada = 1;
+        int posicaoComeco = i + 1;
+        int posicaoFinal = i + strBuscaLen;
+        int t = i;
+        for (int s = 0; strBusca[s] != '\0'; s++) {
+            if (strTexto[t] != strBusca[s]) {
+                palavraEncontrada = 0;
+            }
+            t++;
+        }
+        if (palavraEncontrada == 1) {
+            qtdOcorrencias++;
+            i++;
+            // add if > 30
+            posicoes[qtdPosicoes] = posicaoComeco;
+            posicoes[qtdPosicoes + 1] = posicaoFinal;
+            // printf("posicao1=%d\n",posicoes[qtdPosicoes]);
+            // printf("posicao2=%d\n",posicoes[qtdPosicoes+1]);
+            qtdPosicoes = qtdPosicoes + 2;
+        }
     }
 
-    //printf("ocorrencias=%d\n",qtdOcorrencias);
+    // printf("ocorrencias=%d\n",qtdOcorrencias);
     return qtdOcorrencias;
 }
 
@@ -577,17 +588,16 @@ int q4(char *strTexto, char *strBusca, int posicoes[30]) {
  */
 
 int q5(int num) {
-	int result = 0;
-	int numLen = ((int)log10(num) + 1);
-	//printf("len=%d\n",numLen);
+    int result = 0;
+    int numLen = ((int)log10(num) + 1);
+    // printf("len=%d\n",numLen);
 
-	for(int i = 0; i < numLen; i++){
-		int digito = num  / (int)pow(10,numLen - (i + 1)) % 10;
-		result = result + (digito * (int)pow(10,i
-));
-	}
+    for (int i = 0; i < numLen; i++) {
+        int digito = num / (int)pow(10, numLen - (i + 1)) % 10;
+        result = result + (digito * (int)pow(10, i));
+    }
 
-	//printf("num=%d\n",result);
+    // printf("num=%d\n",result);
     return result;
 }
 
@@ -603,31 +613,49 @@ int q5(int num) {
 
 int q6(int numerobase, int numerobusca) {
     int qtdOcorrencias = 0;
-    	int numerobaseLen = ((int)log10(numerobase) + 1);
-	int numerobuscaLen = ((int)log10(numerobusca) + 1);
+    int numerobaseLen = ((int)log10(numerobase) + 1);
+    int numerobuscaLen = ((int)log10(numerobusca) + 1);
+    //printf("base=%d, busca=%d\n", numerobase, numerobusca);
+    //printf("baselen=%d, buscalen=%d\n", numerobaseLen, numerobuscaLen);
 
-	for(int i = 0; i < numerobaseLen; i++){
-		int numeroEncontrado = 1;
-		int n = i;
-		for(int j = 0; j < numerobuscaLen; j++){
-			
-			int digitobase = numerobase  / (int)pow(10,numerobaseLen - (n + 1)) % 10;
-			int digitobusca = numerobusca  / (int)pow(10,numerobuscaLen - (j + 1)) % 10;
+    for (int i = 0; i < numerobaseLen; i++) {
+        int numeroEncontrado = 1;
+        int n = i;
+        for (int j = 0; j < numerobuscaLen; j++) {
+            int tmp = (int)pow(10, numerobaseLen - (n + 1));    //% 10;
+            int tmp2 = (int)pow(10, numerobuscaLen - (j + 1));  //% 10;
+            //printf("tmp=%d, tmp=%d\n", tmp, tmp2);
+            if (tmp < 1) {
+                // printf("operacao valida = %d",tmp);
+                tmp = 1;
+            }
+            if (tmp2 < 1) {
+                // printf("operacao valida = %d",tmp);
+                tmp2 = 1;
+            }
+            int digitobase = numerobase / tmp % 10;
+            int digitobusca = numerobusca / tmp2 % 10;
+            //printf("dgtbase(%d)[%d] = %d / %d \% 10, dgtbusca(%d)[%d] = %d / %d \% 10\n", digitobase, i, numerobase, tmp, digitobusca, j, numerobusca, tmp2);
+            if (digitobase != digitobusca) {
+                numeroEncontrado = 0;
+                n++;
+                break;
+            }
+            if (numerobaseLen-1 == i && j != numerobuscaLen - 1) {
+                numeroEncontrado = 0;
+                n++;
+                break;
+            }
+            n++;
+            // printf("i=%d\n",i);
+        }
+        if (numeroEncontrado == 1) {
+            qtdOcorrencias++;
+            i = i + numerobuscaLen - 1;
+        }
+    }
 
-			if(digitobase != digitobusca){
-				numeroEncontrado = 0;
-			}
-			n++;
-			//printf("i=%d\n",i);
-		}
-		if(numeroEncontrado == 1){
-			qtdOcorrencias++;
-			i = i + numerobuscaLen - 1;
-		}
-	}
-
-
-	//printf("qtd=%d\n",qtdOcorrencias);
+    // printf("qtd=%d\n",qtdOcorrencias);
     return qtdOcorrencias;
 }
 
