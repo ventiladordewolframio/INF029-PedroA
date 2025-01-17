@@ -461,8 +461,8 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
             }
             ptr_No = ptr_No->prox;
         } while (1);
-        //printf("ptr no = |%d|",ptr_No->conteudo);
-        // emenda os ptr no e cria os novos
+        // printf("ptr no = |%d|",ptr_No->conteudo);
+        //  emenda os ptr no e cria os novos
         No *lista_ptr_No[novoTamanho];
         for (int l = 0; l < novoTamanho; l++) {
             lista_ptr_No[l] = NULL;
@@ -486,9 +486,9 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
             if (ultimo_No != NULL) {
                 ultimo_No->prox = novo_ptr_No;
             }
-            //if (ultimo_No == NULL) {
-            //    vetorPrincipal[posicao] = novo_ptr_No;
-            //}
+            // if (ultimo_No == NULL) {
+            //     vetorPrincipal[posicao] = novo_ptr_No;
+            // }
             ultimo_No = novo_ptr_No;
             lista_ptr_No[i] = novo_ptr_No;
         }
@@ -511,27 +511,27 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
         do {
             if (ptr_No->prox == NULL) {
                 deleteList[d] = ptr_No;
-                //printf("marca da morte = |%d|", ptr_No->conteudo);
+                // printf("marca da morte = |%d|", ptr_No->conteudo);
                 d++;
                 break;
             }
             if (i == comecoDelete - 1) {
                 ultimo_ptr = ptr_No;
-                //printf("akill |%d|", ptr_No->conteudo);
+                // printf("akill |%d|", ptr_No->conteudo);
             }
             ////printf("i = |%d|", i);
             if (i >= comecoDelete) {
                 deleteList[d] = ptr_No;
-                //printf("marca da morte = |%d|", ptr_No->conteudo);
+                // printf("marca da morte = |%d|", ptr_No->conteudo);
                 d++;
             }
             i++;
             ptr_No = ptr_No->prox;
         } while (1);
-        
+
         ultimo_ptr->prox = NULL;
-        
-        for (int l = 0; l < d; l++) {//printf("terminou");
+
+        for (int l = 0; l < d; l++) {  // printf("terminou");
             free(deleteList[l]);
         }
     }
@@ -559,9 +559,9 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
     No *ptr_No = vetorPrincipal[posicao];
     int i = 0;
     while (ptr_No != NULL) {
-        if(!(ptr_No->vazio)){
+        if (!(ptr_No->vazio)) {
             i++;
-        }else{
+        } else {
             break;
         }
         ptr_No = ptr_No->prox;
@@ -580,7 +580,54 @@ Retorno (No*)
     No*, ponteiro para o início da lista com cabeçote
 */
 No *montarListaEncadeadaComCabecote() {
-    return NULL;
+    int todasVazias = 1;
+
+    No *ptr_No = vetorPrincipal[0];
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != 0) {
+            ptr_No = vetorPrincipal[i];
+        } else {
+            continue;
+        }
+        do {
+            if (!(ptr_No->vazio)) {
+                // printf("estrutura nao vazia|%d|%d|", i, ptr_No->conteudo);
+                todasVazias = 0;
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (ptr_No->prox != NULL);
+    }
+    if (todasVazias) {
+        return NULL;
+    }
+
+    No *head = malloc(sizeof(No));
+    No *temp = head;
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] == 0) {
+            continue;
+        }
+        No *ptr_No = vetorPrincipal[i];
+        do {
+            // vetorAux[j] = ptr_No->conteudo;
+            No *novo_no = malloc(sizeof(No));
+            temp->prox = novo_no;  // temp (head) -> novo no
+            temp = temp->prox;     // temp = novo no | // novo no->prox == NULL
+            temp->conteudo = ptr_No->conteudo;
+            temp->excluido = 0;
+            temp->vazio = 0;
+            if (ptr_No->prox == NULL) {
+                break;
+            }
+            if (ptr_No->prox->vazio) {
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (1);
+    }
+    // printf("fist no = |%d|", head->prox->conteudo);
+    return head;
 }
 
 /*
@@ -588,6 +635,22 @@ Objetivo: retorna os números da lista enceada com cabeçote armazenando em veto
 Retorno void
 */
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]) {
+    No *ptr_No = inicio->prox;
+    int j = 0;
+    do {
+        vetorAux[j] = ptr_No->conteudo;
+        j++;
+        // printf("c=%d", ptr_No->conteudo);
+        if (ptr_No->prox->prox == NULL) {
+            break;
+        }
+        // if (ptr_No->prox->vazio) {
+        //     break;
+        // }
+
+        ptr_No = ptr_No->prox;
+    } while (1);
+    // printf("vect=%d|",vetorAux[0]);
 }
 
 /*
@@ -598,6 +661,19 @@ Retorno
     void.
 */
 void destruirListaEncadeadaComCabecote(No **inicio) {
+    // printf("RESULT = |%d|",*inicio);
+    No *atual = *inicio;  // Ponteiro para o nó atual
+    No *temp;             // Ponteiro auxiliar para armazenar o próximo nó
+
+    // Itera até que o ponteiro atual seja NULL (fim da lista)
+    while (atual != NULL) {
+        temp = atual;         // Armazena o nó atual
+        atual = atual->prox;  // Avança para o próximo nó
+        free(temp);           // Libera a memória do nó atual
+    }
+
+    // Após liberar todos os nós, ajusta o ponteiro head para NULL
+    *inicio = NULL;
 }
 
 /*
