@@ -178,6 +178,39 @@ Rertono (int)
 
 */
 int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
+    int numeroExiste = 0;
+    if (!(posicao > 0 && posicao < 11)) {
+        return POSICAO_INVALIDA;
+    }
+    if (vetorPrincipal[posicao] == 0) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+    if (vetorPrincipal[posicao]->vazio) {
+        return ESTRUTURA_AUXILIAR_VAZIA;
+    }
+    No *ptr_No = vetorPrincipal[posicao];
+    do {
+        if (ptr_No->conteudo == valor) {
+            ptr_No->conteudo = 0;
+            ptr_No->vazio = 1;
+            numeroExiste = 1;
+            break;
+        }
+        ptr_No = ptr_No->prox;
+    } while (ptr_No->prox != NULL);
+    if (!numeroExiste) {
+        return NUMERO_INEXISTENTE;
+    }
+    ptr_No = vetorPrincipal[posicao];
+    do {
+        if ((ptr_No->vazio) && !(ptr_No->prox->vazio)) {
+            ptr_No->conteudo = ptr_No->prox->conteudo;
+            ptr_No->prox->conteudo = 0;
+            ptr_No->vazio = 0;
+            ptr_No->prox->vazio = 1;
+        }
+        ptr_No = ptr_No->prox;
+    } while (ptr_No->prox != NULL);
     int retorno = SUCESSO;
     return retorno;
 }
@@ -192,6 +225,7 @@ int ehPosicaoValida(int posicao) {
 
     return retorno;
 }
+
 /*
 Objetivo: retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
 os números devem ser armazenados em vetorAux
@@ -203,7 +237,28 @@ Retorno (int)
 */
 int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
     int retorno = 0;
-
+    if (!(posicao > 0 && posicao < 11)) {
+        return POSICAO_INVALIDA;
+    }
+    if (vetorPrincipal[posicao] == 0) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+    No *ptr_No = vetorPrincipal[posicao];
+    int i = 0;
+    do {
+        vetorAux[i] = ptr_No->conteudo;
+        i++;
+        // printf("|%d",vetorAux[0]);
+        // printf("|%d|\n",vetorAux[1]);
+        if (ptr_No->prox == NULL) {
+            return SUCESSO;
+        }
+        if (ptr_No->prox->vazio) {
+            // printf("prox vazio\n");
+            return SUCESSO;
+        }
+        ptr_No = ptr_No->prox;
+    } while (ptr_No->prox != NULL);
     return retorno;
 }
 
@@ -216,10 +271,45 @@ Rertono (int)
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 */
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
 int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
     int retorno = 0;
+    if (!(posicao > 0 && posicao < 11)) {
+        return POSICAO_INVALIDA;
+    }
+    if (vetorPrincipal[posicao] == 0) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+    No *ptr_No = vetorPrincipal[posicao];
+    int i = 0;
+    do {
+        vetorAux[i] = ptr_No->conteudo;
+        i++;
+        // printf("|%d",vetorAux[0]);
+        // printf("|%d|\n",vetorAux[1]);
+        if (ptr_No->prox == NULL) {
+            break;
+        }
+        if (ptr_No->prox->vazio) {
+            // printf("prox vazio\n");
+            break;
+        }
+        ptr_No = ptr_No->prox;
+    } while (ptr_No->prox != NULL);
+    insertionSort(vetorAux, 2);
 
-    return retorno;
+    return SUCESSO;
 }
 
 /*
@@ -232,7 +322,50 @@ Rertono (int)
 */
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
     int retorno = 0;
-    return retorno;
+    int todasVazias = 1;
+
+    No *ptr_No = vetorPrincipal[0];
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != 0) {
+            ptr_No = vetorPrincipal[i];
+        } else {
+            continue;
+        }
+        do {
+            if (!(ptr_No->vazio)) {
+                // printf("estrutura nao vazia|%d|%d|", i, ptr_No->conteudo);
+                todasVazias = 0;
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (ptr_No->prox != NULL);
+    }
+    if (todasVazias) {
+        return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+    }
+    int j = 0;
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] == 0) {
+            continue;
+        }
+        No *ptr_No = vetorPrincipal[i];
+        // printf("new");
+        do {
+            //printf("%d|", ptr_No->conteudo);
+            vetorAux[j] = ptr_No->conteudo;
+            j++;
+            if (ptr_No->prox == NULL) {
+                // printf("cause:null");
+                break;
+            }
+            if (ptr_No->prox->vazio) {
+                // printf("cause:empty");
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (1);
+    }
+    return SUCESSO;
 }
 
 /*
@@ -245,7 +378,51 @@ Rertono (int)
 */
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
     int retorno = 0;
-    return retorno;
+    int todasVazias = 1;
+
+    No *ptr_No = vetorPrincipal[0];
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != 0) {
+            ptr_No = vetorPrincipal[i];
+        } else {
+            continue;
+        }
+        do {
+            if (!(ptr_No->vazio)) {
+                // printf("estrutura nao vazia|%d|%d|", i, ptr_No->conteudo);
+                todasVazias = 0;
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (ptr_No->prox != NULL);
+    }
+    if (todasVazias) {
+        return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+    }
+    int j = 0;
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] == 0) {
+            continue;
+        }
+        No *ptr_No = vetorPrincipal[i];
+        // printf("new");
+        do {
+            //printf("%d|", ptr_No->conteudo);
+            vetorAux[j] = ptr_No->conteudo;
+            j++;
+            if (ptr_No->prox == NULL) {
+                // printf("cause:null");
+                break;
+            }
+            if (ptr_No->prox->vazio) {
+                // printf("cause:empty");
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (1);
+    }
+    insertionSort(vetorAux, j-1);
+    return SUCESSO;
 }
 
 /*
