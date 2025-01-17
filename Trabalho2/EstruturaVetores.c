@@ -351,7 +351,7 @@ int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
         No *ptr_No = vetorPrincipal[i];
         // printf("new");
         do {
-            //printf("%d|", ptr_No->conteudo);
+            // printf("%d|", ptr_No->conteudo);
             vetorAux[j] = ptr_No->conteudo;
             j++;
             if (ptr_No->prox == NULL) {
@@ -407,7 +407,7 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
         No *ptr_No = vetorPrincipal[i];
         // printf("new");
         do {
-            //printf("%d|", ptr_No->conteudo);
+            // printf("%d|", ptr_No->conteudo);
             vetorAux[j] = ptr_No->conteudo;
             j++;
             if (ptr_No->prox == NULL) {
@@ -421,7 +421,7 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
             ptr_No = ptr_No->prox;
         } while (1);
     }
-    insertionSort(vetorAux, j-1);
+    insertionSort(vetorAux, j - 1);
     return SUCESSO;
 }
 
@@ -438,6 +438,65 @@ Rertono (int)
 */
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     int retorno = 0;
+
+    if (!(posicao > 0 && posicao < 11)) {
+        return POSICAO_INVALIDA;
+    }
+    if (vetorPrincipal[posicao] == 0) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+    if (novoTamanho < 0) {
+        return NOVO_TAMANHO_INVALIDO;
+    }
+
+    // pega o ultimo ptr no da posicao
+    No *ptr_No = vetorPrincipal[posicao];
+    int i = 0;
+    do {
+        if (ptr_No->prox == NULL) {
+            break;
+        }
+        ptr_No = ptr_No->prox;
+    } while (1);
+
+    // emenda os ptr no e cria os novos
+    No *lista_ptr_No[novoTamanho];
+    for (int l = 0; l < novoTamanho; l++) {
+        lista_ptr_No[l] = NULL;
+    }
+    No *ultimo_No = NULL;
+    for (int i = 0; i < novoTamanho; i++) {
+        No *novo_ptr_No = malloc(sizeof(No));
+        // indentifica falha de alocar memoria no sistema
+        if (novo_ptr_No == NULL) {
+            retorno = SEM_ESPACO_DE_MEMORIA;
+            break;
+        }
+        novo_ptr_No->prox = NULL;
+        novo_ptr_No->conteudo = 0;
+        novo_ptr_No->excluido = 0;
+        novo_ptr_No->vazio = 1;
+        if (i == 0) {
+            ptr_No->prox = novo_ptr_No;
+        }
+        if (ultimo_No != NULL) {
+            ultimo_No->prox = novo_ptr_No;
+        }
+        if (ultimo_No == NULL) {
+            vetorPrincipal[posicao] = novo_ptr_No;
+        }
+        ultimo_No = novo_ptr_No;
+        lista_ptr_No[i] = novo_ptr_No;
+    }
+
+    // o tamanho ser muito grande
+    if (retorno == SEM_ESPACO_DE_MEMORIA) {
+        for (int l = 0; l < novoTamanho; l++) {
+            free(lista_ptr_No[l]);
+        }
+        return retorno;
+    }
+
     return retorno;
 }
 

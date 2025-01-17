@@ -221,7 +221,7 @@ Rertono (int)
     SUCESSO - foi modificado corretamente o tamanho da estrutura auxiliar
     SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
-    NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
+    NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo <-"tamanho total nao pode ser negativo"
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
 void testeMudarTamanhoEstrutura()
