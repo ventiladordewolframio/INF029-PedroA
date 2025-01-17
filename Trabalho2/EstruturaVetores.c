@@ -445,58 +445,97 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     if (vetorPrincipal[posicao] == 0) {
         return SEM_ESTRUTURA_AUXILIAR;
     }
-    if (novoTamanho < 0) {
+    int tamanhoAux = getQuantidadeElementosEstruturaAuxiliar(posicao);
+    if (!((novoTamanho + tamanhoAux) >= 1)) {
         return NOVO_TAMANHO_INVALIDO;
     }
 
-    // pega o ultimo ptr no da posicao
-    No *ptr_No = vetorPrincipal[posicao];
-    int i = 0;
-    do {
-        if (ptr_No->prox == NULL) {
-            break;
-        }
-        ptr_No = ptr_No->prox;
-    } while (1);
-
-    // emenda os ptr no e cria os novos
-    No *lista_ptr_No[novoTamanho];
-    for (int l = 0; l < novoTamanho; l++) {
-        lista_ptr_No[l] = NULL;
-    }
-    No *ultimo_No = NULL;
-    for (int i = 0; i < novoTamanho; i++) {
-        No *novo_ptr_No = malloc(sizeof(No));
-        // indentifica falha de alocar memoria no sistema
-        if (novo_ptr_No == NULL) {
-            retorno = SEM_ESPACO_DE_MEMORIA;
-            break;
-        }
-        novo_ptr_No->prox = NULL;
-        novo_ptr_No->conteudo = 0;
-        novo_ptr_No->excluido = 0;
-        novo_ptr_No->vazio = 1;
-        if (i == 0) {
-            ptr_No->prox = novo_ptr_No;
-        }
-        if (ultimo_No != NULL) {
-            ultimo_No->prox = novo_ptr_No;
-        }
-        if (ultimo_No == NULL) {
-            vetorPrincipal[posicao] = novo_ptr_No;
-        }
-        ultimo_No = novo_ptr_No;
-        lista_ptr_No[i] = novo_ptr_No;
-    }
-
-    // o tamanho ser muito grande
-    if (retorno == SEM_ESPACO_DE_MEMORIA) {
+    // novo tamanho positivo / negativo
+    if (novoTamanho > 0) {
+        // pega o ultimo ptr no da posicao
+        No *ptr_No = vetorPrincipal[posicao];
+        int i = 0;
+        do {
+            if (ptr_No->prox == NULL) {
+                break;
+            }
+            ptr_No = ptr_No->prox;
+        } while (1);
+        //printf("ptr no = |%d|",ptr_No->conteudo);
+        // emenda os ptr no e cria os novos
+        No *lista_ptr_No[novoTamanho];
         for (int l = 0; l < novoTamanho; l++) {
-            free(lista_ptr_No[l]);
+            lista_ptr_No[l] = NULL;
         }
-        return retorno;
-    }
+        No *ultimo_No = NULL;
+        for (int i = 0; i < novoTamanho; i++) {
+            No *novo_ptr_No = malloc(sizeof(No));
 
+            // indentifica falha de alocar memoria no sistema
+            if (novo_ptr_No == NULL) {
+                retorno = SEM_ESPACO_DE_MEMORIA;
+                break;
+            }
+            novo_ptr_No->prox = NULL;
+            novo_ptr_No->conteudo = 0;
+            novo_ptr_No->excluido = 0;
+            novo_ptr_No->vazio = 1;
+            if (i == 0) {
+                ptr_No->prox = novo_ptr_No;
+            }
+            if (ultimo_No != NULL) {
+                ultimo_No->prox = novo_ptr_No;
+            }
+            //if (ultimo_No == NULL) {
+            //    vetorPrincipal[posicao] = novo_ptr_No;
+            //}
+            ultimo_No = novo_ptr_No;
+            lista_ptr_No[i] = novo_ptr_No;
+        }
+
+        // o tamanho ser muito grande
+        if (retorno == SEM_ESPACO_DE_MEMORIA) {
+            for (int l = 0; l < novoTamanho; l++) {
+                free(lista_ptr_No[l]);
+            }
+            return retorno;
+        }
+    } else {
+        // pega o ultimo ptr no da posicao
+        No *ptr_No = vetorPrincipal[posicao];
+        int i = 0;
+        int comecoDelete = tamanhoAux + novoTamanho;
+        No *ultimo_ptr;
+        No *deleteList[novoTamanho - novoTamanho - novoTamanho];
+        int d = 0;
+        do {
+            if (ptr_No->prox == NULL) {
+                deleteList[d] = ptr_No;
+                //printf("marca da morte = |%d|", ptr_No->conteudo);
+                d++;
+                break;
+            }
+            if (i == comecoDelete - 1) {
+                ultimo_ptr = ptr_No;
+                //printf("akill |%d|", ptr_No->conteudo);
+            }
+            ////printf("i = |%d|", i);
+            if (i >= comecoDelete) {
+                deleteList[d] = ptr_No;
+                //printf("marca da morte = |%d|", ptr_No->conteudo);
+                d++;
+            }
+            i++;
+            ptr_No = ptr_No->prox;
+        } while (1);
+        
+        ultimo_ptr->prox = NULL;
+        
+        for (int l = 0; l < d; l++) {//printf("terminou");
+            free(deleteList[l]);
+        }
+    }
+    retorno = SUCESSO;
     return retorno;
 }
 
@@ -511,8 +550,26 @@ Retorno (int)
 */
 int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
     int retorno = 0;
-
-    return retorno;
+    if (!(posicao > 0 && posicao < 11)) {
+        return POSICAO_INVALIDA;
+    }
+    if (vetorPrincipal[posicao] == 0) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+    No *ptr_No = vetorPrincipal[posicao];
+    int i = 0;
+    while (ptr_No != NULL) {
+        if(!(ptr_No->vazio)){
+            i++;
+        }else{
+            break;
+        }
+        ptr_No = ptr_No->prox;
+    }
+    if (i == 0) {
+        return ESTRUTURA_AUXILIAR_VAZIA;
+    }
+    return i;
 }
 
 /*
