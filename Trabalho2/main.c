@@ -94,7 +94,7 @@ int main()
             break;
         }
 
-        case 10:
+        case 4:
         { //dobrar
             //ler um numero
             int valor;
