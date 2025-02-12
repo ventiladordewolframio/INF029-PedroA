@@ -691,4 +691,5 @@ para poder liberar todos os espaços de memória das estruturas auxiliares.
 */
 
 void finalizar() {
+
 }
